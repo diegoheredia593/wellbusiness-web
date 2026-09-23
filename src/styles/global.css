@@ -31,6 +31,8 @@
 
   --animate-fade-up: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-hero-float: hero-float 9s ease-in-out infinite;
+  --animate-hero-glow: hero-glow 9s ease-in-out infinite;
 
   @keyframes fade-up {
     from {
@@ -55,6 +57,32 @@
     100% {
       transform: scale(1.6);
       opacity: 0;
+    }
+  }
+
+  /*
+    Idle "turntable" motion for the homepage hero's 3D product render
+    (Hero3DRadio.astro). Runs continuously and independently from the
+    interactive hover-tilt the component's own script applies to a nested
+    element, so the two transforms compose instead of fighting each other.
+  */
+  @keyframes hero-float {
+    0%, 100% {
+      transform: rotateY(-11deg) rotateX(3deg) translateY(0);
+    }
+    50% {
+      transform: rotateY(11deg) rotateX(-3deg) translateY(-14px);
+    }
+  }
+
+  @keyframes hero-glow {
+    0%, 100% {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08);
     }
   }
 }

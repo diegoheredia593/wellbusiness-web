@@ -8,6 +8,7 @@ import QuickLinkCard from "../components/QuickLinkCard.astro";
 import SectorCard from "../components/SectorCard.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import MotorolaBadge from "../components/MotorolaBadge.astro";
+import Hero3DRadio from "../components/Hero3DRadio.astro";
 import { SECTORS } from "../data/sectors";
 import { COVERAGE_ZONES } from "../data/coverage";
 ---
@@ -36,15 +37,7 @@ import { COVERAGE_ZONES } from "../data/coverage";
       </div>
 
       <div class="relative" data-reveal style="animation-delay:120ms">
-        <div class="flex aspect-[4/3] items-center justify-center rounded-3xl bg-white p-10 shadow-brand-lg sm:p-14">
-          <img
-            src="/images/products/r5-1.jpg"
-            alt="Radio Motorola MOTOTRBO R5"
-            class="h-full w-full object-contain"
-            width="1000"
-            height="900"
-          />
-        </div>
+        <Hero3DRadio class="aspect-[4/3]" />
         <div class="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white p-5 shadow-brand-lg sm:block">
           <div class="flex items-center gap-3">
             <span class="flex size-10 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">

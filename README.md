@@ -187,6 +187,34 @@ escribas a mano en un componente nuevo, importa esa función.
 - El footer repite WhatsApp/Facebook como íconos y el resto de datos como texto
   enlazado.
 
+## Hero de inicio — render 3D con hover
+
+`src/components/Hero3DRadio.astro` reemplaza la foto simple que tenía el hero
+de `/` por el radio TLK110 Wave PTX flotando directo sobre el fondo azul
+oscuro (sin tarjeta blanca), con un resplandor rojo detrás para dar contraste
+("sombra roja") y una rotación 3D:
+
+- **Imagen**: `public/images/hero/tlk110-hero-3d.png`, un recorte de uno de
+  los renders hiperrealistas de referencia en `images/render 3D Hero/` (el
+  radio ya está en el catálogo real — `tlk110-wave-ptx`). El fondo se quitó
+  con un flood-fill desde los bordes (nunca un umbral de brillo plano), para
+  que un brillo/reflejo claro sobre el propio radio no se confunda con fondo
+  y quede "agujereado"; de paso excluye la franja donde estaba la marca de
+  agua de terceros, igual que en las fotos del catálogo.
+- **"3D rotativo"**: una animación continua y suave (`--animate-hero-float`,
+  `global.css`) hace que el radio oscile en 3D todo el tiempo.
+- **"con hover"**: el script del propio componente añade una inclinación
+  extra que sigue al cursor, en una capa anidada distinta a la de la
+  animación continua — así nunca "saltan" entre sí al mezclarse.
+- Todo se desactiva con `prefers-reduced-motion` (la animación vía
+  `motion-safe:`, el hover vía el mismo chequeo de `matchMedia` que ya usa
+  `ProductGallery.astro`).
+
+Para cambiar de producto en el hero: genera/recorta un PNG con fondo
+transparente equivalente y actualiza la ruta `src` dentro de
+`Hero3DRadio.astro` — el resto (glow, animación, hover) no depende del
+producto específico.
+
 ## Marca — Wellbusiness y Motorola (logos reales)
 
 `public/images/brand/` tiene los 4 archivos reales que enviaste, usados **sin

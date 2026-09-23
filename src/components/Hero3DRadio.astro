@@ -1,0 +1,94 @@
+---
+/**
+ * Homepage hero visual: a hyperrealistic 3D-style render of the Motorola
+ * TLK110 Wave PTX (real product, already in the catalog — see
+ * `src/data/products.ts`, slug "tlk110-wave-ptx"), floating directly on the
+ * dark hero background with a red-tinted glow for contrast against the
+ * black radio, instead of sitting inside a white photo card.
+ *
+ * The image (`public/images/hero/tlk110-hero-3d.png`) is a cutout of one of
+ * the hyperrealistic render references supplied in
+ * `images/render 3D Hero/` — background removed via a border-connected
+ * flood fill (never a flat brightness threshold, so a bright highlight on
+ * the radio itself can't be mistaken for background), cropped to exclude
+ * the same third-party watermark band the original catalog photos had.
+ *
+ * "3D rotativo con hover": a continuous, gentle idle rotation
+ * (`--animate-hero-float`, global.css) runs on the middle `[data-stage]`
+ * layer at all times; the innermost `[data-tilt]` layer adds an extra,
+ * cursor-driven tilt on top via the script below. Because the two
+ * transforms live on different nested elements under `transform-style:
+ * preserve-3d`, they compose instead of fighting over the same property,
+ * so hovering can never cause a visible "jump." Both are skipped under
+ * `prefers-reduced-motion` (the idle animation via `motion-safe:`, the
+ * script via its own `matchMedia` check, same pattern as
+ * `ProductGallery.astro`'s zoom).
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<div class={`group relative ${className}`} style="perspective: 1600px;" data-hero3d>
+  <!-- Ambient red glow behind the radio: the requested contrast against the
+       dark navy hero background. Two layers — a big soft wash, and a
+       tighter, warmer accent low-right, like a colored studio gel light. -->
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+    <div
+      class="size-[62%] rounded-full bg-brand-red/30 blur-[70px] motion-safe:animate-hero-glow transition-opacity duration-500 group-hover:opacity-100"
+    ></div>
+  </div>
+  <div
+    class="pointer-events-none absolute bottom-[8%] right-[14%] size-[42%] rounded-full bg-brand-red/60 blur-[55px] opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 sm:right-[18%]"
+  ></div>
+  <!-- Dark contact shadow for grounding, independent of the red color glow. -->
+  <div
+    class="pointer-events-none absolute bottom-[6%] left-1/2 h-8 w-[46%] -translate-x-1/2 rounded-full bg-black/50 blur-2xl"
+  ></div>
+
+  <div class="relative flex h-full items-center justify-center" style="transform-style: preserve-3d;" data-stage>
+    <div
+      class="motion-safe:animate-hero-float"
+      style="transform-style: preserve-3d;"
+    >
+      <div style="transform-style: preserve-3d; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);" data-tilt>
+        <img
+          src="/images/hero/tlk110-hero-3d.png"
+          alt="Radio Motorola TLK110 Wave PTX"
+          class="h-[280px] w-auto sm:h-[340px] lg:h-[400px]"
+          style="filter: drop-shadow(0 36px 40px rgba(0,0,0,0.5)) drop-shadow(0 0 46px rgba(201,40,54,0.35));"
+          width="348"
+          height="886"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initHero3D() {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll<HTMLElement>("[data-hero3d]").forEach((stage) => {
+      const tilt = stage.querySelector<HTMLElement>("[data-tilt]");
+      if (!tilt || reduceMotion) return;
+
+      stage.addEventListener("mousemove", (e) => {
+        const rect = stage.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5..0.5
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        const rotateY = x * 22;
+        const rotateX = y * -16;
+        tilt.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale(1.04)`;
+      });
+
+      stage.addEventListener("mouseleave", () => {
+        tilt.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initHero3D);
+</script>
