@@ -38,10 +38,10 @@ export const NAV_ITEMS: NavItem[] = [
 export const HEADER_CTA = { label: "Solicitar asesoría", href: "/contacto" };
 
 /**
- * Real contact channels. Every field is `null` until Wellbusiness provides a
- * real value — per the project brief, no channel should ever render with an
- * invented number/address. `ContactChannels.astro` / the footer only render a
- * channel when its value is non-null.
+ * Real contact channels, confirmed by Wellbusiness. A field stays `null`
+ * only for what genuinely hasn't been provided yet (just `hours` today) —
+ * per the project brief, no channel is ever invented. The footer/Contacto
+ * page only render a channel when its value is non-null.
  */
 export const CONTACT_INFO: {
   whatsapp: string | null;
@@ -49,13 +49,22 @@ export const CONTACT_INFO: {
   email: string | null;
   address: string | null;
   hours: string | null;
+  facebook: string | null;
 } = {
-  whatsapp: null, // PENDING: "[número por confirmar]"
-  phone: null, // PENDING: "[número por confirmar]"
-  email: null, // PENDING: "[correo por confirmar]"
-  address: null, // PENDING: "[dirección por confirmar]"
+  whatsapp: "+593 98 161 5096",
+  phone: "+593 98 161 5096",
+  email: "ventasidrocom@hotmail.com",
+  address: "Calle Rumichaca 212 y Manuel Galecio",
   hours: null, // PENDING: "[horario por confirmar]"
+  facebook: "https://www.facebook.com/wellbusiness.gye/",
 };
+
+/** wa.me needs digits only (no "+", spaces, or leading 0). */
+export function whatsappLink(message?: string): string {
+  const digits = (CONTACT_INFO.whatsapp ?? "").replace(/\D/g, "");
+  const text = message ? `?text=${encodeURIComponent(message)}` : "";
+  return `https://wa.me/${digits}${text}`;
+}
 
 export const CONTACT_MOTIVES: ContactMotive[] = [
   "Catálogo Motorola",

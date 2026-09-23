@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
 import { SITE } from "../data/site";
 import "../styles/global.css";
 
@@ -51,6 +52,7 @@ const pageTitle = title === SITE.brandName ? title : `${title} · ${SITE.brandNa
       <slot />
     </main>
     <Footer />
+    <WhatsAppFloatingButton />
 
     <script>
       // Progressive enhancement: [data-reveal] elements are plain, visible

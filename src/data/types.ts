@@ -68,6 +68,12 @@ export interface Product {
   band: string;
   specs: string[];
   applications: string[];
+  /**
+   * Real photos, under `/images/products/`, first = primary card image.
+   * Leave empty (not undefined) when no real photo exists yet — ProductCard
+   * falls back to the elegant ImagePlaceholder, never a broken <img>.
+   */
+  images: string[];
   /** Set to true only for verified, Wellbusiness-approved catalog entries. */
   isPlaceholder: boolean;
 }
@@ -96,7 +102,9 @@ export type IconName =
   | "close"
   | "check"
   | "whatsapp"
+  | "facebook"
   | "phone"
   | "mail"
   | "pin"
+  | "zoom"
   | "clock";

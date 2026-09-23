@@ -221,3 +221,20 @@ const { name, class: className = "size-6" } = Astro.props;
     </svg>
   )
 }
+{
+  name === "facebook" && (
+    <svg viewBox="0 0 24 24" fill="currentColor" class={className} aria-hidden="true">
+      <path d="M14 22v-8h2.7l.4-3.1H14V9c0-.9.2-1.5 1.6-1.5H17V4.7C16.6 4.6 15.5 4.5 14.2 4.5c-2.6 0-4.4 1.6-4.4 4.5v2.4H7v3.1h2.8V22z" />
+    </svg>
+  )
+}
+{
+  name === "zoom" && (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class={className} aria-hidden="true">
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <line x1="15.3" y1="15.3" x2="20.5" y2="20.5" />
+      <line x1="10.5" y1="7.5" x2="10.5" y2="13.5" />
+      <line x1="7.5" y1="10.5" x2="13.5" y2="10.5" />
+    </svg>
+  )
+}

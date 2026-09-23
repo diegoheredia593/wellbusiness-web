@@ -6,6 +6,7 @@ import ProductCard from "../components/ProductCard.astro";
 import CategoryEmptyState from "../components/CategoryEmptyState.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import Button from "../components/Button.astro";
+import MotorolaBadge from "../components/MotorolaBadge.astro";
 import { PRODUCTS, PRODUCT_CATEGORIES } from "../data/products";
 import { contactHref } from "../utils/url";
 
@@ -23,7 +24,9 @@ const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
     eyebrow="Catálogo informativo"
     title="Equipos Motorola para comunicación profesional"
     description="Conoce las opciones de radiocomunicación y accesorios Motorola disponibles para empresas. Revisa sus características y consúltanos cuál se adapta mejor a tu entorno de trabajo."
-  />
+  >
+    <MotorolaBadge variant="chip" />
+  </PageHero>
 
   <div class="mx-auto max-w-7xl px-5 pt-8 sm:px-8">
     <p class="rounded-xl bg-brand-steel-light px-4 py-3 text-center text-sm font-medium text-brand-steel-dark">

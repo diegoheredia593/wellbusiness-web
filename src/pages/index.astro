@@ -7,10 +7,9 @@ import SectionHeading from "../components/SectionHeading.astro";
 import QuickLinkCard from "../components/QuickLinkCard.astro";
 import SectorCard from "../components/SectorCard.astro";
 import CtaBanner from "../components/CtaBanner.astro";
-import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import MotorolaBadge from "../components/MotorolaBadge.astro";
 import { SECTORS } from "../data/sectors";
 import { COVERAGE_ZONES } from "../data/coverage";
-import { MOTOROLA_DEALER_LABEL } from "../data/site";
 ---
 
 <BaseLayout
@@ -22,7 +21,7 @@ import { MOTOROLA_DEALER_LABEL } from "../data/site";
     <div class="absolute inset-0 bg-radio-grid opacity-[0.07]"></div>
     <div class="relative mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-2 lg:items-center lg:gap-8">
       <div data-reveal>
-        <Badge tone="outline" class="border-white/20 text-white/70">{MOTOROLA_DEALER_LABEL}</Badge>
+        <MotorolaBadge variant="chip" />
         <h1 class="mt-6 font-display text-4xl font-bold leading-[1.1] text-white sm:text-5xl lg:text-[3.4rem]">
           Comunicación confiable para operaciones que no pueden detenerse.
         </h1>
@@ -37,7 +36,15 @@ import { MOTOROLA_DEALER_LABEL } from "../data/site";
       </div>
 
       <div class="relative" data-reveal style="animation-delay:120ms">
-        <ImagePlaceholder class="aspect-[4/3] rounded-3xl shadow-brand-lg" icon="signal" note="Equipo de radiocomunicación / operación en campo — hero" />
+        <div class="flex aspect-[4/3] items-center justify-center rounded-3xl bg-white p-10 shadow-brand-lg sm:p-14">
+          <img
+            src="/images/products/r5-1.jpg"
+            alt="Radio Motorola MOTOTRBO R5"
+            class="h-full w-full object-contain"
+            width="1000"
+            height="900"
+          />
+        </div>
         <div class="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white p-5 shadow-brand-lg sm:block">
           <div class="flex items-center gap-3">
             <span class="flex size-10 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">

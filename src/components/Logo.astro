@@ -1,40 +1,41 @@
 ---
 /**
- * TEMPORARY WORDMARK PLACEHOLDER.
+ * Real Wellbusiness logo assets (`public/images/brand/`), used as supplied
+ * — never recolored/redrawn/altered.
  *
- * The real Wellbusiness / Idrocomsolutions logo file was not available when
- * this site was built. Per instructions, do not invent or redraw a logo —
- * this renders a plain text wordmark until the real asset is supplied.
+ * `wellbusiness-logo.png` is the full lockup (icon + "WellBusiness"
+ * wordmark) — its wordmark is dark text, so it only reads on a LIGHT
+ * background (`variant="dark"`, the default: header, white cards, etc.).
  *
- * To swap it in later:
- *   1. Drop the real logo file (svg preferred) into `public/`, e.g.
- *      `public/logo-wellbusiness.svg`.
- *   2. Replace the markup below with an <img>/<svg> pointing at it. Keep the
- *      same wrapping <a href="/"> and roughly the same footprint so the
- *      header/footer layout doesn't need adjustment.
+ * On a DARK background (`variant="light"`: footer, dark hero panels, the
+ * mobile menu) the full lockup's black text would disappear, so this pairs
+ * the real icon-only mark (`wellbusiness-isologo.png`, untouched) with a
+ * plain white text label instead of the bitmap wordmark — same convention
+ * a two-piece lockup (icon mark + adaptable wordmark color) normally uses.
  */
 interface Props {
   variant?: "dark" | "light";
   class?: string;
 }
 const { variant = "dark", class: className = "" } = Astro.props;
-const textColor = variant === "light" ? "text-white" : "text-brand-ink";
-const subColor = variant === "light" ? "text-white/60" : "text-brand-slate";
 ---
 
-<a href="/" class={`group inline-flex items-center gap-2.5 ${className}`} aria-label="Wellbusiness — Inicio">
-  <span class="relative flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-red">
-    <svg viewBox="0 0 24 24" class="size-5 text-white" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-      <line x1="4" y1="19" x2="4" y2="14" />
-      <line x1="9.5" y1="19" x2="9.5" y2="10" />
-      <line x1="15" y1="19" x2="15" y2="6" />
-      <line x1="20.5" y1="19" x2="20.5" y2="3" />
-    </svg>
-  </span>
-  <span class="flex flex-col leading-none">
-    <span class={`font-display text-lg font-bold tracking-tight ${textColor}`}>
-      Well<span class="text-brand-red">business</span>
+{variant === "dark" ? (
+  <a href="/" class={`inline-flex items-center ${className}`} aria-label="Wellbusiness — Inicio">
+    <img
+      src="/images/brand/wellbusiness-logo.png"
+      alt="Wellbusiness"
+      class="h-9 w-auto sm:h-10"
+      width="450"
+      height="100"
+    />
+  </a>
+) : (
+  <a href="/" class={`inline-flex items-center gap-2.5 ${className}`} aria-label="Wellbusiness — Inicio">
+    <img src="/images/brand/wellbusiness-isologo.png" alt="" class="h-9 w-9 shrink-0" width="80" height="80" />
+    <span class="flex flex-col leading-none">
+      <span class="font-display text-lg font-bold tracking-tight text-white">Wellbusiness</span>
+      <span class="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60">Idrocomsolutions</span>
     </span>
-    <span class={`text-[10px] font-semibold uppercase tracking-[0.16em] ${subColor}`}>Idrocomsolutions</span>
-  </span>
-</a>
+  </a>
+)}

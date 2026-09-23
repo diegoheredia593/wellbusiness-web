@@ -23,5 +23,10 @@ const { eyebrow, title, description } = Astro.props;
     )}
     <h1 class="font-display text-4xl font-bold leading-tight text-white sm:text-5xl">{title}</h1>
     {description && <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/70">{description}</p>}
+    {Astro.slots.has("default") && (
+      <div class="mt-6 flex justify-center">
+        <slot />
+      </div>
+    )}
   </div>
 </section>

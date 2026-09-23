@@ -5,6 +5,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import PendingNote from "../components/PendingNote.astro";
 import Icon from "../components/Icon.astro";
 import CtaBanner from "../components/CtaBanner.astro";
+import MotorolaBadge from "../components/MotorolaBadge.astro";
 import { MOTOROLA_DEALER_LABEL, MOTOROLA_DEALER_LABEL_CONFIRMED, SITE } from "../data/site";
 ---
 
@@ -37,13 +38,8 @@ import { MOTOROLA_DEALER_LABEL, MOTOROLA_DEALER_LABEL_CONFIRMED, SITE } from "..
 
     <!-- RESPALDO MOTOROLA -->
     <div class="mt-14 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-red/10 text-brand-red">
-          <Icon name="radio-handheld" class="size-6" />
-        </span>
-        <h2 class="font-display text-xl font-semibold text-brand-ink">{MOTOROLA_DEALER_LABEL}</h2>
-      </div>
-      <p class="mt-4 text-base leading-relaxed text-brand-slate">
+      <MotorolaBadge variant="full" />
+      <p class="mt-5 text-base leading-relaxed text-brand-slate">
         Equipos y accesorios Motorola para uso profesional. Wellbusiness es {MOTOROLA_DEALER_LABEL}.
       </p>
       {!MOTOROLA_DEALER_LABEL_CONFIRMED && (

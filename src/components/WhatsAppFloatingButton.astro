@@ -1,0 +1,19 @@
+---
+import Icon from "./Icon.astro";
+import { CONTACT_INFO, whatsappLink } from "../data/site";
+
+// Renders nothing if no real WhatsApp number is configured yet.
+---
+
+{CONTACT_INFO.whatsapp && (
+  <a
+    href={whatsappLink("Hola, quisiera más información sobre sus equipos.")}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Escribir a Wellbusiness por WhatsApp"
+    class="group fixed bottom-5 right-5 z-30 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-brand-lg transition-transform duration-200 hover:scale-105 sm:bottom-6 sm:right-6"
+  >
+    <span class="absolute inset-0 rounded-full bg-[#25D366]/60 motion-safe:animate-pulse-ring"></span>
+    <Icon name="whatsapp" class="relative size-7" />
+  </a>
+)}

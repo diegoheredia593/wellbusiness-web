@@ -5,17 +5,12 @@ import SectionHeading from "../components/SectionHeading.astro";
 import ContactForm from "../components/ContactForm.astro";
 import Faq from "../components/Faq.astro";
 import Icon from "../components/Icon.astro";
-import { CONTACT_INFO } from "../data/site";
+import { CONTACT_INFO, whatsappLink } from "../data/site";
 
 const hasAnyContact = Object.values(CONTACT_INFO).some(Boolean);
-
-const contactRows = [
-  { key: "whatsapp", icon: "whatsapp" as const, label: "WhatsApp" },
-  { key: "phone", icon: "phone" as const, label: "Teléfono" },
-  { key: "email", icon: "mail" as const, label: "Correo" },
-  { key: "address", icon: "pin" as const, label: "Dirección" },
-  { key: "hours", icon: "clock" as const, label: "Horario de atención" },
-] as const;
+const mapsHref = CONTACT_INFO.address
+  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT_INFO.address)}`
+  : undefined;
 ---
 
 <BaseLayout
@@ -37,29 +32,87 @@ const contactRows = [
       <aside class="space-y-6" data-reveal style="animation-delay:80ms">
         <div class="rounded-3xl border border-brand-mist bg-white p-6">
           <h3 class="font-display text-lg font-semibold text-brand-ink">Contacto directo</h3>
-          <ul class="mt-4 space-y-3">
-            {contactRows.map((row) => {
-              const value = CONTACT_INFO[row.key];
-              return (
-                <li class="flex items-center gap-3 text-sm">
-                  <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
-                    <Icon name={row.icon} class="size-4" />
-                  </span>
-                  {value ? (
-                    <div>
-                      <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">{row.label}</p>
-                      <p class="font-medium text-brand-ink">{value}</p>
-                    </div>
-                  ) : (
-                    <div>
-                      <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">{row.label}</p>
-                      <p class="text-brand-slate/70">Pendiente de confirmación</p>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
+
+          {CONTACT_INFO.whatsapp && (
+            <a
+              href={whatsappLink("Hola, quisiera más información sobre sus equipos.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-4 flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white shadow-brand-sm transition-transform hover:scale-[1.02]"
+            >
+              <Icon name="whatsapp" class="size-4" />
+              Escribir por WhatsApp
+            </a>
+          )}
+
+          <ul class="mt-5 space-y-3">
+            {CONTACT_INFO.phone && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="phone" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Teléfono</p>
+                  <a href={`tel:${CONTACT_INFO.phone.replace(/\s/g, "")}`} class="font-medium text-brand-ink hover:text-brand-steel">
+                    {CONTACT_INFO.phone}
+                  </a>
+                </div>
+              </li>
+            )}
+            {CONTACT_INFO.email && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="mail" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Correo</p>
+                  <a href={`mailto:${CONTACT_INFO.email}`} class="font-medium text-brand-ink hover:text-brand-steel">
+                    {CONTACT_INFO.email}
+                  </a>
+                </div>
+              </li>
+            )}
+            {CONTACT_INFO.address && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="pin" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Dirección</p>
+                  <a href={mapsHref} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-ink hover:text-brand-steel">
+                    {CONTACT_INFO.address}
+                  </a>
+                </div>
+              </li>
+            )}
+            {CONTACT_INFO.facebook && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="facebook" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Facebook</p>
+                  <a href={CONTACT_INFO.facebook} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-ink hover:text-brand-steel">
+                    Wellbusiness
+                  </a>
+                </div>
+              </li>
+            )}
+            <li class="flex items-center gap-3 text-sm">
+              <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                <Icon name="clock" class="size-4" />
+              </span>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Horario de atención</p>
+                {CONTACT_INFO.hours ? (
+                  <p class="font-medium text-brand-ink">{CONTACT_INFO.hours}</p>
+                ) : (
+                  <p class="text-brand-slate/70">Pendiente de confirmación</p>
+                )}
+              </div>
+            </li>
           </ul>
+
           {!hasAnyContact && (
             <p class="mt-5 rounded-xl bg-brand-steel-light px-3.5 py-3 text-xs leading-relaxed text-brand-steel-dark">
               Estos canales se están confirmando con Wellbusiness. Mientras tanto, el formulario es la forma más
