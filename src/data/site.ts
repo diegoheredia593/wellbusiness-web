@@ -38,10 +38,11 @@ export const NAV_ITEMS: NavItem[] = [
 export const HEADER_CTA = { label: "Solicitar asesoría", href: "/contacto" };
 
 /**
- * Real contact channels, confirmed by Wellbusiness. A field stays `null`
- * only for what genuinely hasn't been provided yet (just `hours` today) —
- * per the project brief, no channel is ever invented. The footer/Contacto
- * page only render a channel when its value is non-null.
+ * Real contact channels, confirmed by Wellbusiness. Every field is filled in
+ * with a real, confirmed value — per the project brief, no channel is ever
+ * invented; a field would stay `null` only if it genuinely hadn't been
+ * provided yet. The footer/Contacto page only render a channel when its
+ * value is non-null.
  */
 export const CONTACT_INFO: {
   whatsapp: string | null;
@@ -55,7 +56,7 @@ export const CONTACT_INFO: {
   phone: "+593 98 161 5096",
   email: "ventasidrocom@hotmail.com",
   address: "Calle Rumichaca 212 y Manuel Galecio",
-  hours: null, // PENDING: "[horario por confirmar]"
+  hours: "9:00 am – 6:00 pm",
   facebook: "https://www.facebook.com/wellbusiness.gye/",
 };
 

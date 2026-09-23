@@ -1,0 +1,123 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductGallery from "../../components/ProductGallery.astro";
+import ProductCoverCard from "../../components/ProductCoverCard.astro";
+import Badge from "../../components/Badge.astro";
+import Icon from "../../components/Icon.astro";
+import Button from "../../components/Button.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { PRODUCTS } from "../../data/products";
+import { contactHref } from "../../utils/url";
+import { CONTACT_INFO, whatsappLink } from "../../data/site";
+import type { Product } from "../../data/types";
+
+export function getStaticPaths() {
+  return PRODUCTS.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: Product;
+}
+const { product } = Astro.props;
+
+const related = PRODUCTS.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 4);
+const whatsappMessage = `Quiero más información sobre "${product.name}"`;
+---
+
+<BaseLayout title={product.name} description={product.summary}>
+  <div class="mx-auto max-w-7xl px-5 pt-8 sm:px-8">
+    <nav aria-label="Ruta de navegación" class="flex items-center gap-1.5 text-sm text-brand-slate">
+      <a href="/catalogo" class="font-medium hover:text-brand-steel">Catálogo Motorola</a>
+      <Icon name="chevron-right" class="size-3.5" />
+      <span class="truncate text-brand-ink-soft">{product.category}</span>
+      <Icon name="chevron-right" class="size-3.5" />
+      <span class="truncate font-medium text-brand-ink">{product.name}</span>
+    </nav>
+  </div>
+
+  <section class="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div data-reveal>
+        <ProductGallery images={product.images} name={product.name} />
+      </div>
+
+      <div data-reveal style="animation-delay:80ms">
+        <div class="flex items-start justify-between gap-3">
+          <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-red">{product.category}</p>
+          {product.isPlaceholder && <Badge tone="mist">Ejemplo</Badge>}
+        </div>
+        <h1 class="mt-2 font-display text-3xl font-bold leading-tight text-brand-ink sm:text-4xl">
+          {product.name}
+        </h1>
+        <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-brand-steel">
+          {product.type} · {product.band}
+        </p>
+
+        <p class="mt-6 text-base leading-relaxed text-brand-slate">{product.summary}</p>
+
+        <p class="mt-5 rounded-xl bg-brand-steel-light px-4 py-3 text-sm font-medium text-brand-steel-dark">
+          Catálogo informativo, sin precios públicos. Te confirmamos disponibilidad y cotización según tu operación.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Button
+            href={contactHref({ motive: "Catálogo Motorola", product: product.name })}
+            variant="secondary"
+            size="lg"
+            class="flex-1"
+          >
+            Habla con un asesor
+          </Button>
+          {CONTACT_INFO.whatsapp && (
+            <a
+              href={whatsappLink(whatsappMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-base font-semibold text-white shadow-brand-sm transition-all duration-200 hover:bg-[#20bd5a] hover:shadow-brand-md active:scale-[0.98]"
+            >
+              <Icon name="whatsapp" class="size-5" />
+              Escribir por WhatsApp
+            </a>
+          )}
+        </div>
+
+        {product.specs.length > 0 && (
+          <div class="mt-10 border-t border-brand-mist pt-8">
+            <h2 class="font-display text-lg font-semibold text-brand-ink">Beneficios y especificaciones</h2>
+            <ul class="mt-4 space-y-2.5">
+              {product.specs.map((spec) => (
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed text-brand-ink-soft">
+                  <Icon name="check" class="mt-0.5 size-4 shrink-0 text-brand-steel" />
+                  {spec}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {product.applications.length > 0 && (
+          <div class="mt-8 border-t border-brand-mist pt-8">
+            <h2 class="font-display text-lg font-semibold text-brand-ink">Aplicaciones sugeridas</h2>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {product.applications.map((app) => <Badge tone="steel">{app}</Badge>)}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="bg-white py-16">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8">
+        <SectionHeading title="Productos relacionados" class="mb-8" />
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {related.map((p) => <ProductCoverCard product={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

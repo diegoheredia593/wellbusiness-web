@@ -1,14 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHero from "../components/PageHero.astro";
-import SectionHeading from "../components/SectionHeading.astro";
-import ProductCard from "../components/ProductCard.astro";
-import CategoryEmptyState from "../components/CategoryEmptyState.astro";
-import CtaBanner from "../components/CtaBanner.astro";
-import Button from "../components/Button.astro";
-import MotorolaBadge from "../components/MotorolaBadge.astro";
-import { PRODUCTS, PRODUCT_CATEGORIES } from "../data/products";
-import { contactHref } from "../utils/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import ProductCoverCard from "../../components/ProductCoverCard.astro";
+import CategoryEmptyState from "../../components/CategoryEmptyState.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
+import Button from "../../components/Button.astro";
+import MotorolaBadge from "../../components/MotorolaBadge.astro";
+import { PRODUCTS, PRODUCT_CATEGORIES } from "../../data/products";
+import { contactHref } from "../../utils/url";
 
 const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
   category,
@@ -23,7 +23,7 @@ const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
   <PageHero
     eyebrow="Catálogo informativo"
     title="Equipos Motorola para comunicación profesional"
-    description="Conoce las opciones de radiocomunicación y accesorios Motorola disponibles para empresas. Revisa sus características y consúltanos cuál se adapta mejor a tu entorno de trabajo."
+    description="Conoce las opciones de radiocomunicación y accesorios Motorola disponibles para empresas. Elige un modelo para ver sus fotos, especificaciones completas y consultarnos si se adapta a tu operación."
   >
     <MotorolaBadge variant="chip" />
   </PageHero>
@@ -53,8 +53,8 @@ const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
       <div class="catalog-section mb-16 last:mb-0" data-category={category}>
         <SectionHeading title={category} class="mb-6" />
         {products.length > 0 ? (
-          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => <ProductCard product={product} />)}
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {products.map((product) => <ProductCoverCard product={product} />)}
           </div>
         ) : (
           <CategoryEmptyState category={category} />

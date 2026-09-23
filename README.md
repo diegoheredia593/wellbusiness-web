@@ -50,11 +50,11 @@ mensajes visibles en pantalla — nada de esto se muestra como un hecho confirma
 3. **Relación legal Wellbusiness–Idrocomsolutions** y **Misión/valores** — sección
    `/nosotros`, marcadas explícitamente como pendientes de aprobación. No se
    publicó ningún texto de misión/visión no aprobado.
-4. **Horario de atención** — único dato de contacto aún pendiente
-   (`src/data/site.ts` → `CONTACT_INFO.hours`). WhatsApp, teléfono, correo,
-   dirección y Facebook ya son reales y están enlazados (botón de WhatsApp
-   flotante en todo el sitio + en `/contacto`, `tel:`/`mailto:`/Google Maps en
-   `/contacto`).
+4. **Contacto — todos los datos ya confirmados.** WhatsApp, teléfono, correo,
+   dirección, horario de atención (9:00 am – 6:00 pm) y Facebook son reales y
+   están enlazados (botón de WhatsApp flotante en todo el sitio + en
+   `/contacto`, `tel:`/`mailto:`/Google Maps en `/contacto`).
+   `src/data/site.ts` → `CONTACT_INFO`.
 5. **Catálogo de productos Motorola — 8 fichas reales.** `src/data/products.ts`
    tiene 8 radios reales (RVA50, DEM300, DEM500, MOTOTRBO R5, SL500e, TLK110 Wave
    PTX, MOTOTRBO R2, MagOne X10d), con specs transcritas de
@@ -98,20 +98,34 @@ Edita `src/data/products.ts` y agrega un objeto al array `PRODUCTS` siguiendo el
 En cuanto una categoría tenga al menos un producto real, su estado vacío
 desaparece automáticamente y se muestran las fichas.
 
-## Fotos de producto (zoom + galería)
+## Catálogo: overview + ficha de detalle
 
-Las fotos reales viven en `public/images/products/`. `ProductCard.astro`:
+`/catalogo` (`src/pages/catalogo/index.astro`) es un overview tipo e-commerce:
+`ProductCoverCard.astro` muestra solo la portada (`images[0]`) y el nombre —
+toda la tarjeta enlaza a `/catalogo/<slug>` (`src/pages/catalogo/[slug].astro`,
+ruta estática generada con `getStaticPaths()` a partir de `PRODUCTS`).
 
-- Usa `images[0]` como foto principal, con **zoom al pasar el cursor** sobre la
-  tarjeta (`object-contain` + `scale-110` en hover, sin librería).
-- Si `images` tiene más de una foto, muestra puntos debajo de la imagen — al
-  pasar el cursor o tocar un punto, cambia la foto principal (sin lightbox, sin
-  dependencia nueva).
-- Si `images` está vacío, cae automáticamente al placeholder de marca — nunca
-  a una imagen rota ni inventada.
+En la ficha de detalle:
+
+- **Izquierda** — `ProductGallery.astro`: foto grande, flechas para alternar
+  entre fotos y **zoom al pasar el cursor** (solo escritorio/puntero fino,
+  sin librería — sigue al cursor dentro de la misma imagen, como en un sitio
+  de e-commerce). Si `images` está vacío, cae al placeholder de marca.
+- **Derecha** — nombre, tipo/banda, resumen, especificaciones completas como
+  lista de beneficios, aplicaciones sugeridas (si existen), y los dos CTA:
+  **"Habla con un asesor"** (lleva a `/contacto` con el motivo y el producto
+  precargados) y **WhatsApp** (abre `wa.me` con el mensaje
+  `Quiero más información sobre "<nombre del producto>"`, usando
+  `CONTACT_INFO.whatsapp`/`whatsappLink()`; el botón no se muestra si ese
+  número no está configurado).
+- Abajo, "Productos relacionados" (misma categoría) reutiliza
+  `ProductCoverCard`.
+
+No hay precios, carrito ni checkout en ninguna parte del catálogo.
 
 Para una foto nueva: colócala en `public/images/products/<slug>-N.jpg` (fondo
-blanco, como las actuales) y agrégala al array `images` de ese producto.
+blanco, como las actuales) y agrégala al array `images` de ese producto —
+tanto el overview como la ficha de detalle la recogen automáticamente.
 
 ## Formularios (front-end únicamente por ahora)
 
