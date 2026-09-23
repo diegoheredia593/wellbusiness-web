@@ -8,6 +8,23 @@ Todo el copy viene de `COPY-WELLBUSINESS.md` (en la raíz de este repo — cópi
 desde el brief original si no está). No se inventó ningún dato comercial, modelo,
 especificación, cifra de cobertura/eficacia ni certificación.
 
+## Repositorio y despliegue
+
+Código en GitHub: [diegoheredia593/wellbusiness-web](https://github.com/diegoheredia593/wellbusiness-web).
+Desplegado como Worker de Cloudflare (assets estáticos, sin backend):
+**https://wellbusiness-web.herediadiego963.workers.dev**
+
+Para volver a desplegar tras un cambio:
+
+```sh
+npm run build
+npx wrangler deploy
+```
+
+`wrangler.toml` sirve `./dist` directamente como Worker de Static Assets (no
+hay script de servidor) y usa el `404.html` real que genera Astro para rutas
+no encontradas.
+
 ## Comandos
 
 ```sh
