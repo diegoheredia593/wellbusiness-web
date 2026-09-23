@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout title="Página no encontrada" noindex>
+  <section class="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center px-5 text-center sm:px-8">
+    <span class="mb-6 flex size-16 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+      <Icon name="signal" class="size-8" />
+    </span>
+    <h1 class="font-display text-3xl font-bold text-brand-ink">No encontramos esta página</h1>
+    <p class="mt-4 text-base leading-relaxed text-brand-slate">
+      El contenido que buscas no está disponible o cambió de dirección. Vuelve al inicio o solicita asesoría
+      directamente con nuestro equipo.
+    </p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <Button href="/" variant="secondary">Volver al inicio</Button>
+      <Button href="/contacto" variant="primary">Solicitar asesoría</Button>
+    </div>
+  </section>
+</BaseLayout>

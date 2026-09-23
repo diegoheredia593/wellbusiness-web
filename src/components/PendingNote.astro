@@ -1,0 +1,15 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<p class={`inline-flex items-start gap-2 rounded-lg bg-brand-steel-light px-3 py-2 text-xs leading-relaxed text-brand-steel-dark ${className}`}>
+  <svg viewBox="0 0 24 24" class="mt-0.5 size-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <circle cx="12" cy="12" r="9" />
+    <line x1="12" y1="8" x2="12" y2="13" />
+    <circle cx="12" cy="16.2" r="0.6" fill="currentColor" stroke="none" />
+  </svg>
+  <span><slot /></span>
+</p>

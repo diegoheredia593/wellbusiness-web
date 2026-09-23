@@ -1,0 +1,31 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "../data/types";
+
+interface Props {
+  icon: IconName;
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+  index?: number;
+}
+const { icon, title, description, href, linkLabel, index = 0 } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group flex flex-col rounded-2xl border border-brand-mist bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-steel/40 hover:shadow-brand-md"
+  data-reveal
+  style={`animation-delay:${(index % 4) * 80}ms`}
+>
+  <span class="mb-4 inline-flex size-11 items-center justify-center rounded-xl bg-brand-red/10 text-brand-red transition-colors duration-300 group-hover:bg-brand-red group-hover:text-white">
+    <Icon name={icon} class="size-5" />
+  </span>
+  <h3 class="font-display text-base font-semibold text-brand-ink">{title}</h3>
+  <p class="mt-2 flex-1 text-sm leading-relaxed text-brand-slate">{description}</p>
+  <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-steel transition-colors group-hover:text-brand-red">
+    {linkLabel}
+    <Icon name="chevron-right" class="size-4 transition-transform duration-200 group-hover:translate-x-1" />
+  </span>
+</a>

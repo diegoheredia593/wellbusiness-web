@@ -1,0 +1,72 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { FOOTER_LINKS, CONTACT_INFO, SITE } from "../data/site";
+
+const hasAnyContact = Object.values(CONTACT_INFO).some(Boolean);
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-brand-ink text-white/80">
+  <div class="mx-auto max-w-7xl px-5 py-14 sm:px-8">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="sm:col-span-2 lg:col-span-1">
+        <Logo variant="light" />
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
+          {SITE.legalTagline} Parte de {SITE.parentCompany}.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wide text-white/50">Navegación</h3>
+        <ul class="mt-4 space-y-2.5">
+          {FOOTER_LINKS.map((item) => (
+            <li><a href={item.href} class="text-sm text-white/75 hover:text-white">{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wide text-white/50">Contacto</h3>
+        <ul class="mt-4 space-y-2.5 text-sm text-white/75">
+          {CONTACT_INFO.whatsapp && (
+            <li class="flex items-center gap-2"><Icon name="whatsapp" class="size-4 text-white/50" /> {CONTACT_INFO.whatsapp}</li>
+          )}
+          {CONTACT_INFO.phone && (
+            <li class="flex items-center gap-2"><Icon name="phone" class="size-4 text-white/50" /> {CONTACT_INFO.phone}</li>
+          )}
+          {CONTACT_INFO.email && (
+            <li class="flex items-center gap-2"><Icon name="mail" class="size-4 text-white/50" /> {CONTACT_INFO.email}</li>
+          )}
+          {CONTACT_INFO.address && (
+            <li class="flex items-center gap-2"><Icon name="pin" class="size-4 text-white/50" /> {CONTACT_INFO.address}</li>
+          )}
+          {CONTACT_INFO.hours && (
+            <li class="flex items-center gap-2"><Icon name="clock" class="size-4 text-white/50" /> {CONTACT_INFO.hours}</li>
+          )}
+          {!hasAnyContact && (
+            <li class="rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white/55">
+              Datos de contacto directo pendientes de confirmación. Usa el
+              <a href="/contacto" class="mx-1 underline hover:text-white">formulario de contacto</a>
+              mientras tanto.
+            </li>
+          )}
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wide text-white/50">Wellbusiness</h3>
+        <p class="mt-4 text-sm leading-relaxed text-white/60">
+          Radiocomunicación profesional para empresas: catálogo Motorola, alquiler, servicio técnico e infraestructura.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-xs text-white/45">© {year} Wellbusiness · {SITE.parentCompany}. Todos los derechos reservados.</p>
+      <p class="text-xs text-white/45">
+        Motorola y las marcas relacionadas pertenecen a sus respectivos titulares.
+      </p>
+    </div>
+  </div>
+</footer>

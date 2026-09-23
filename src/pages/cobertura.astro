@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import CoverageZoneCard from "../components/CoverageZoneCard.astro";
+import EvaluationForm from "../components/EvaluationForm.astro";
+import PendingNote from "../components/PendingNote.astro";
+import Icon from "../components/Icon.astro";
+import { COVERAGE_ZONES, COVERAGE_POC_NOTE, COVERAGE_DISCLAIMER } from "../data/coverage";
+---
+
+<BaseLayout
+  title="Cobertura"
+  description="Consulta las zonas y alternativas de cobertura de Wellbusiness. Solicita una evaluación para tu operación o ruta."
+>
+  <PageHero
+    eyebrow="Cobertura"
+    title="Conoce las alternativas de cobertura para tu operación"
+    description="Consulta las zonas de servicio y las opciones de infraestructura disponibles. La cobertura efectiva depende de la ubicación, el terreno, los equipos y la configuración del sistema."
+  />
+
+  <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <div class="mb-10 flex items-start gap-3 rounded-2xl border border-brand-mist bg-white p-5" data-reveal>
+      <Icon name="map" class="mt-0.5 size-5 shrink-0 text-brand-steel" />
+      <p class="text-sm leading-relaxed text-brand-slate">
+        Las siguientes zonas se basan en el material de referencia de Wellbusiness y{" "}
+        <strong class="text-brand-ink">están pendientes de verificación técnica</strong> antes de publicarse como
+        cobertura confirmada. Represéntalas como referenciales, no como garantía de señal.
+      </p>
+    </div>
+
+    <SectionHeading title="Zonas de cobertura" class="mb-8" />
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {COVERAGE_ZONES.map((zone, i) => <CoverageZoneCard zone={zone} index={i} />)}
+    </div>
+
+    <div class="mt-10 rounded-2xl border border-brand-mist bg-white p-6" data-reveal>
+      <h3 class="flex items-center gap-2 font-display text-base font-semibold text-brand-ink">
+        <Icon name="signal" class="size-5 text-brand-steel" /> Radio y comunicación PoC
+      </h3>
+      <p class="mt-2 text-sm leading-relaxed text-brand-slate">{COVERAGE_POC_NOTE}</p>
+    </div>
+
+    <PendingNote class="mt-8 max-w-3xl">{COVERAGE_DISCLAIMER}</PendingNote>
+  </section>
+
+  <!-- FORMULARIO DE EVALUACIÓN -->
+  <section class="bg-white py-16">
+    <div class="mx-auto max-w-3xl px-5 sm:px-8">
+      <SectionHeading align="center" class="mx-auto mb-10" title="¿Dónde necesitas comunicar a tu equipo?"
+        description="Comparte la ciudad, zona o ruta de operación. El equipo de Wellbusiness podrá revisar tu requerimiento y orientarte sobre los siguientes pasos." />
+      <EvaluationForm />
+    </div>
+  </section>
+</BaseLayout>

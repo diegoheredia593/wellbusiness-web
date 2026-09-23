@@ -1,0 +1,32 @@
+---
+import Icon from "./Icon.astro";
+import { contactHref } from "../utils/url";
+import type { ServiceItem } from "../data/types";
+
+interface Props {
+  service: ServiceItem;
+  index?: number;
+}
+const { service, index = 0 } = Astro.props;
+---
+
+<article
+  id={service.slug}
+  class="group flex flex-col rounded-2xl border border-brand-mist bg-white p-7 shadow-brand-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-brand-md"
+  data-reveal
+  style={`animation-delay:${(index % 3) * 90}ms`}
+>
+  <span class="mb-5 inline-flex size-12 items-center justify-center rounded-xl bg-brand-steel-light text-brand-steel-dark transition-colors duration-300 group-hover:bg-brand-red group-hover:text-white">
+    <Icon name={service.icon} class="size-6" />
+  </span>
+  <h3 class="font-display text-xl font-semibold text-brand-ink">{service.title}</h3>
+  <p class="mt-2 text-sm font-medium text-brand-steel-dark">{service.hook}</p>
+  <p class="mt-3 flex-1 text-sm leading-relaxed text-brand-slate">{service.description}</p>
+  <a
+    href={contactHref({ motive: service.motive })}
+    class="group mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-ink transition-colors hover:text-brand-red"
+  >
+    {service.ctaLabel}
+    <Icon name="chevron-right" class="size-4 transition-transform duration-200 group-hover:translate-x-1" />
+  </a>
+</article>

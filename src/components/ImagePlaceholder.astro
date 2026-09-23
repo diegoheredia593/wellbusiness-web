@@ -1,0 +1,32 @@
+---
+/**
+ * Elegant stand-in for real photography that hasn't been supplied yet.
+ * Deliberately abstract (brand-colored gradient + signal-wave motif) so it
+ * never masquerades as an actual photo of Wellbusiness equipment,
+ * operations, or facilities — per the project brief, no invented imagery.
+ * Swap in a real <img>/<picture> wherever this is used once photography is
+ * available; each usage below is commented with what it should depict.
+ */
+import Icon from "./Icon.astro";
+import type { IconName } from "../data/types";
+
+interface Props {
+  class?: string;
+  icon?: IconName;
+  /** Internal note only (rendered as an HTML comment, not visible to users). */
+  note?: string;
+}
+const { class: className = "", icon = "signal", note } = Astro.props;
+---
+
+{note && <Fragment set:html={`<!-- Foto pendiente: ${note} -->`} />}
+<div class={`relative isolate flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-ink via-brand-ink-soft to-brand-steel-dark ${className}`}>
+  <div class="absolute inset-0 bg-radio-grid opacity-20"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-brand-ink/60 via-transparent to-transparent"></div>
+  <div class="relative flex flex-col items-center gap-3 text-white/70">
+    <span class="relative flex size-14 items-center justify-center rounded-full border border-white/25">
+      <Icon name={icon} class="size-6" />
+      <span class="absolute inset-0 -z-10 rounded-full border border-white/20 animate-pulse-ring"></span>
+    </span>
+  </div>
+</div>

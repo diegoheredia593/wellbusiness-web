@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProductCard from "../components/ProductCard.astro";
+import CategoryEmptyState from "../components/CategoryEmptyState.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import Button from "../components/Button.astro";
+import { PRODUCTS, PRODUCT_CATEGORIES } from "../data/products";
+import { contactHref } from "../utils/url";
+
+const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
+  category,
+  products: PRODUCTS.filter((p) => p.category === category),
+}));
+---
+
+<BaseLayout
+  title="Catálogo Motorola"
+  description="Consulta radios, repetidoras y accesorios Motorola para uso profesional. Revisa especificaciones y solicita una cotización."
+>
+  <PageHero
+    eyebrow="Catálogo informativo"
+    title="Equipos Motorola para comunicación profesional"
+    description="Conoce las opciones de radiocomunicación y accesorios Motorola disponibles para empresas. Revisa sus características y consúltanos cuál se adapta mejor a tu entorno de trabajo."
+  />
+
+  <div class="mx-auto max-w-7xl px-5 pt-8 sm:px-8">
+    <p class="rounded-xl bg-brand-steel-light px-4 py-3 text-center text-sm font-medium text-brand-steel-dark">
+      Catálogo informativo. Sin precios, sin carrito. Disponibilidad y configuración sujetas a consulta.
+    </p>
+  </div>
+
+  <section class="mx-auto max-w-7xl px-5 py-14 sm:px-8">
+    <!-- Filter tabs -->
+    <div id="catalog-filters" class="mb-10 flex flex-wrap justify-center gap-2" role="tablist" aria-label="Filtrar catálogo por categoría">
+      <button type="button" data-filter="all" aria-pressed="true"
+        class="filter-tab rounded-full border border-brand-ink bg-brand-ink px-4 py-2 text-sm font-semibold text-white transition-colors">
+        Todas
+      </button>
+      {PRODUCT_CATEGORIES.map((category) => (
+        <button type="button" data-filter={category} aria-pressed="false"
+          class="filter-tab rounded-full border border-brand-mist px-4 py-2 text-sm font-semibold text-brand-ink-soft transition-colors hover:border-brand-steel">
+          {category}
+        </button>
+      ))}
+    </div>
+
+    {categoriesWithCount.map(({ category, products }) => (
+      <div class="catalog-section mb-16 last:mb-0" data-category={category}>
+        <SectionHeading title={category} class="mb-6" />
+        {products.length > 0 ? (
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {products.map((product) => <ProductCard product={product} />)}
+          </div>
+        ) : (
+          <CategoryEmptyState category={category} />
+        )}
+      </div>
+    ))}
+  </section>
+
+  <!-- ASESORÍA DE PRODUCTO -->
+  <section class="bg-white py-16">
+    <div class="mx-auto max-w-3xl px-5 text-center sm:px-8" data-reveal>
+      <SectionHeading align="center" class="mx-auto" title="¿No sabes qué radio elegir?" />
+      <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-brand-slate">
+        La cobertura requerida, el entorno, el número de usuarios y la infraestructura disponible influyen en la
+        elección. Cuéntanos sobre tu operación y te orientaremos.
+      </p>
+      <div class="mt-7">
+        <Button href={contactHref({ motive: "Catálogo Motorola" })} variant="primary" size="lg">
+          Solicitar recomendación
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿Buscas un modelo específico?"
+    description="Escríbenos y confirmamos disponibilidad, especificaciones y compatibilidad con tu sistema actual."
+    ctaLabel="Hablar con un asesor"
+    ctaHref={contactHref({ motive: "Catálogo Motorola" })}
+  />
+</BaseLayout>
+
+<script>
+  function initCatalogFilters() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>(".filter-tab");
+    const sections = document.querySelectorAll<HTMLElement>(".catalog-section");
+    if (!tabs.length) return;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const filter = tab.dataset.filter;
+
+        tabs.forEach((t) => {
+          const active = t === tab;
+          t.setAttribute("aria-pressed", String(active));
+          t.classList.toggle("bg-brand-ink", active);
+          t.classList.toggle("text-white", active);
+          t.classList.toggle("border-brand-ink", active);
+          t.classList.toggle("text-brand-ink-soft", !active);
+          t.classList.toggle("border-brand-mist", !active);
+        });
+
+        sections.forEach((section) => {
+          const show = filter === "all" || section.dataset.category === filter;
+          section.style.display = show ? "" : "none";
+        });
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initCatalogFilters);
+</script>

@@ -1,0 +1,113 @@
+---
+/**
+ * Coverage-evaluation form on `/cobertura`. Same front-end-only pattern as
+ * ContactForm.astro — see that file's header comment / the README for how to
+ * wire it to a real backend.
+ */
+---
+
+<form id="evaluation-form" class="grid gap-5 sm:grid-cols-2" novalidate>
+  <div class="sm:col-span-1">
+    <label for="ef-name" class="mb-1.5 block text-sm font-medium text-brand-ink">Nombre <span class="text-brand-red">*</span></label>
+    <input id="ef-name" name="nombre" type="text" required autocomplete="name"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="ef-company" class="mb-1.5 block text-sm font-medium text-brand-ink">Empresa <span class="text-brand-red">*</span></label>
+    <input id="ef-company" name="empresa" type="text" required autocomplete="organization"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="ef-email" class="mb-1.5 block text-sm font-medium text-brand-ink">Correo electrónico <span class="text-brand-red">*</span></label>
+    <input id="ef-email" name="correo" type="email" required autocomplete="email"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="ef-phone" class="mb-1.5 block text-sm font-medium text-brand-ink">Teléfono / WhatsApp <span class="text-brand-red">*</span></label>
+    <input id="ef-phone" name="telefono" type="tel" required autocomplete="tel"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="ef-zone" class="mb-1.5 block text-sm font-medium text-brand-ink">
+      Ciudad, zonas o rutas de operación <span class="text-brand-red">*</span>
+    </label>
+    <input id="ef-zone" name="zonas" type="text" required
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="ef-operation" class="mb-1.5 block text-sm font-medium text-brand-ink">Tipo de operación <span class="text-brand-red">*</span></label>
+    <input id="ef-operation" name="tipoOperacion" type="text" required
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="ef-users" class="mb-1.5 block text-sm font-medium text-brand-ink">
+      Número aproximado de usuarios <span class="text-brand-red">*</span>
+    </label>
+    <input id="ef-users" name="usuarios" type="number" min="1" required
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="ef-message" class="mb-1.5 block text-sm font-medium text-brand-ink">Cuéntanos qué necesitas <span class="text-brand-red">*</span></label>
+    <textarea id="ef-message" name="mensaje" rows="4" required
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none"></textarea>
+  </div>
+
+  <div class="sm:col-span-2">
+    <button type="submit"
+      class="inline-flex w-full items-center justify-center rounded-full bg-brand-steel px-6 py-3 text-sm font-semibold text-white shadow-brand-sm transition-colors hover:bg-brand-steel-dark sm:w-auto">
+      Solicitar evaluación
+    </button>
+  </div>
+
+  <p id="evaluation-form-error" class="sm:col-span-2 hidden text-sm font-medium text-brand-red" role="alert">
+    Revisa los campos marcados: falta información obligatoria o el correo no es válido.
+  </p>
+</form>
+
+<div id="evaluation-form-success" class="hidden flex-col items-start gap-3 rounded-2xl bg-brand-steel-light p-6" role="status">
+  <span class="flex size-10 items-center justify-center rounded-full bg-brand-steel text-white">
+    <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+  </span>
+  <div>
+    <h3 class="font-display text-lg font-semibold text-brand-ink">Solicitud recibida.</h3>
+    <p class="mt-1 text-sm text-brand-steel-dark">
+      El equipo de Wellbusiness revisará tu requerimiento y te orientará sobre los siguientes pasos.
+    </p>
+  </div>
+</div>
+
+<script>
+  function initEvaluationForm() {
+    const form = document.getElementById("evaluation-form") as HTMLFormElement | null;
+    const success = document.getElementById("evaluation-form-success");
+    const errorMsg = document.getElementById("evaluation-form-error");
+    if (!form || !success || !errorMsg) return;
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.checkValidity()) {
+        errorMsg.classList.remove("hidden");
+        form.reportValidity();
+        return;
+      }
+      errorMsg.classList.add("hidden");
+
+      // TODO (pending backend): same wiring point as ContactForm.astro.
+
+      form.classList.add("hidden");
+      success.classList.remove("hidden");
+      success.classList.add("flex");
+      success.setAttribute("tabindex", "-1");
+      success.focus();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initEvaluationForm);
+</script>

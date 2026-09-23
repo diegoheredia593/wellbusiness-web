@@ -1,0 +1,24 @@
+---
+import Icon from "./Icon.astro";
+import type { SectorItem } from "../data/types";
+
+interface Props {
+  sector: SectorItem;
+  index?: number;
+}
+const { sector, index = 0 } = Astro.props;
+---
+
+<article
+  class="flex gap-5 rounded-2xl border border-brand-mist bg-white p-6 transition-all duration-300 hover:border-brand-steel/40 hover:shadow-brand-md"
+  data-reveal
+  style={`animation-delay:${(index % 3) * 90}ms`}
+>
+  <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-brand-ink text-white">
+    <Icon name={sector.icon} class="size-5" />
+  </span>
+  <div>
+    <h3 class="font-display text-lg font-semibold text-brand-ink">{sector.title}</h3>
+    <p class="mt-1.5 text-sm leading-relaxed text-brand-slate">{sector.description}</p>
+  </div>
+</article>

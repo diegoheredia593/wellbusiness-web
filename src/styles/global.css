@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Self-hosted variable fonts (no external network requests at runtime). */
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/manrope";
+
+/*
+  Brand tokens, derived from the Wellbusiness / Idrocomsolutions logo palette
+  supplied in the project brief. Do not rename these without updating every
+  `brand-*` utility usage across components and pages.
+*/
+@theme {
+  --color-brand-bg: #f7f8fa;
+  --color-brand-surface: #ffffff;
+  --color-brand-mist: #e9edf1;
+  --color-brand-ink: #172434;
+  --color-brand-ink-soft: #26364a;
+  --color-brand-steel: #2867a5;
+  --color-brand-steel-dark: #1f4f82;
+  --color-brand-steel-light: #eaf1f8;
+  --color-brand-red: #c92836;
+  --color-brand-red-dark: #a81f2c;
+  --color-brand-slate: #647181;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Manrope Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --shadow-brand-sm: 0 1px 2px 0 rgb(23 36 52 / 0.06);
+  --shadow-brand-md: 0 8px 24px -8px rgb(23 36 52 / 0.16);
+  --shadow-brand-lg: 0 24px 48px -16px rgb(23 36 52 / 0.22);
+
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.85);
+      opacity: 0.55;
+    }
+    70% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-ink);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    background-color: var(--color-brand-steel);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-steel);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /*
+    Scroll-reveal is progressive enhancement, not a requirement to see
+    content: elements are visible by default. Only once BaseLayout's script
+    confirms it's about to observe an element does it apply `.is-pending`
+    (inline, right before `observe()`) to hide it ahead of the fade-in. If JS
+    never runs/errors/is blocked, nothing here ever hides real content.
+  */
+  [data-reveal].is-pending {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  [data-reveal].is-visible {
+    animation: var(--animate-fade-up);
+  }
+
+  .bg-radio-grid {
+    background-image:
+      radial-gradient(circle at 1px 1px, rgb(23 36 52 / 0.08) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+}

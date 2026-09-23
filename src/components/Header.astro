@@ -1,0 +1,129 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import Button from "./Button.astro";
+import { NAV_ITEMS, HEADER_CTA } from "../data/site";
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) => (href === "/" ? currentPath === "/" : currentPath.startsWith(href));
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-transparent transition-colors duration-300" id="site-header" data-scrolled="false">
+  <div class="absolute inset-0 bg-white/80 backdrop-blur-md transition-opacity duration-300" id="site-header-bg"></div>
+  <nav class="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8" aria-label="Principal">
+    <Logo />
+
+    <ul class="hidden items-center gap-1 lg:flex">
+      {NAV_ITEMS.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+            class={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-150 ${
+              isActive(item.href)
+                ? "bg-brand-steel-light text-brand-steel-dark"
+                : "text-brand-ink-soft hover:bg-brand-mist hover:text-brand-ink"
+            }`}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="hidden lg:block">
+      <Button href={HEADER_CTA.href} variant="primary">{HEADER_CTA.label}</Button>
+    </div>
+
+    <button
+      id="mobile-menu-toggle"
+      type="button"
+      class="inline-flex items-center justify-center rounded-full p-2.5 text-brand-ink hover:bg-brand-mist lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Abrir menú de navegación"
+    >
+      <Icon name="menu" class="size-6" />
+    </button>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 hidden bg-brand-ink lg:hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menú de navegación"
+  >
+    <div class="flex items-center justify-between px-5 py-3.5">
+      <span class="font-display text-lg font-bold text-white">
+        Well<span class="text-brand-red">business</span>
+      </span>
+      <button
+        id="mobile-menu-close"
+        type="button"
+        class="inline-flex items-center justify-center rounded-full p-2.5 text-white hover:bg-white/10"
+        aria-label="Cerrar menú de navegación"
+      >
+        <Icon name="close" class="size-6" />
+      </button>
+    </div>
+    <ul class="flex flex-col gap-1 px-5 pt-6">
+      {NAV_ITEMS.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="block rounded-xl px-4 py-3.5 text-lg font-semibold text-white/90 hover:bg-white/10"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="px-5 pt-6">
+      <Button href={HEADER_CTA.href} variant="primary" size="lg" class="w-full">
+        {HEADER_CTA.label}
+      </Button>
+    </div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    const header = document.getElementById("site-header");
+    const bg = document.getElementById("site-header-bg");
+    const toggle = document.getElementById("mobile-menu-toggle");
+    const closeBtn = document.getElementById("mobile-menu-close");
+    const menu = document.getElementById("mobile-menu");
+    if (!header || !bg || !toggle || !closeBtn || !menu) return;
+
+    const onScroll = () => {
+      const scrolled = window.scrollY > 8;
+      bg.classList.toggle("shadow-brand-sm", scrolled);
+      header.dataset.scrolled = String(scrolled);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const openMenu = () => {
+      menu.classList.remove("hidden");
+      toggle.setAttribute("aria-expanded", "true");
+      document.documentElement.style.overflow = "hidden";
+      closeBtn.focus();
+    };
+    const closeMenu = () => {
+      menu.classList.add("hidden");
+      toggle.setAttribute("aria-expanded", "false");
+      document.documentElement.style.overflow = "";
+      toggle.focus();
+    };
+
+    toggle.addEventListener("click", openMenu);
+    closeBtn.addEventListener("click", closeMenu);
+    menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.classList.contains("hidden")) closeMenu();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initHeader);
+</script>

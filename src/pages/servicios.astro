@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import { SERVICES } from "../data/services";
+import { contactHref } from "../utils/url";
+---
+
+<BaseLayout
+  title="Servicios"
+  description="Venta, alquiler, mantenimiento, reparación, infraestructura y estudios de ingeniería para sistemas de radiocomunicación."
+>
+  <PageHero
+    eyebrow="Servicios"
+    title="Todo lo que tu sistema de radiocomunicación necesita"
+    description="Desde equipos y accesorios hasta soporte, alquiler e infraestructura. Cuéntanos el alcance de tu operación y te ayudaremos a identificar el servicio adecuado."
+  />
+
+  <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {SERVICES.map((service, i) => <ServiceCard service={service} index={i} />)}
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿Tienes un requerimiento específico?"
+    description="Cuéntanos qué necesitas resolver y te pondremos en contacto con el área correspondiente."
+    ctaLabel="Contactar a Wellbusiness"
+    ctaHref={contactHref()}
+  />
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+import Icon from "./Icon.astro";
+import { FAQ_ITEMS } from "../data/faq";
+---
+
+<div class="divide-y divide-brand-mist rounded-2xl border border-brand-mist bg-white">
+  {FAQ_ITEMS.map((item, i) => (
+    <details class="group p-6" data-reveal style={`animation-delay:${(i % 4) * 60}ms`}>
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-semibold text-brand-ink [&::-webkit-details-marker]:hidden">
+        {item.question}
+        <Icon name="chevron-right" class="size-4 shrink-0 text-brand-steel transition-transform duration-300 group-open:rotate-90" />
+      </summary>
+      <p class="mt-3 max-w-3xl text-sm leading-relaxed text-brand-slate">{item.answer}</p>
+    </details>
+  ))}
+</div>

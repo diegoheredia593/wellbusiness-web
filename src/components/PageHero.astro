@@ -1,0 +1,27 @@
+---
+import Badge from "./Badge.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+}
+const { eyebrow, title, description } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-brand-ink py-20 sm:py-24">
+  <div class="absolute inset-0 bg-radio-grid opacity-[0.06]"></div>
+  <div class="absolute -right-24 top-1/2 -translate-y-1/2 opacity-20">
+    <Icon name="signal" class="size-64 text-brand-steel" />
+  </div>
+  <div class="relative mx-auto max-w-4xl px-5 text-center sm:px-8" data-reveal>
+    {eyebrow && (
+      <div class="mb-4 flex justify-center">
+        <Badge tone="outline" class="border-white/20 text-white/70">{eyebrow}</Badge>
+      </div>
+    )}
+    <h1 class="font-display text-4xl font-bold leading-tight text-white sm:text-5xl">{title}</h1>
+    {description && <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/70">{description}</p>}
+  </div>
+</section>

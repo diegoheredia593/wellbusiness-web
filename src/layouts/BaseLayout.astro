@@ -1,0 +1,93 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../data/site";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Set true on pages you don't want indexed while content is unconfirmed. */
+  noindex?: boolean;
+}
+
+const { title, description = SITE.defaultDescription, noindex = false } = Astro.props;
+const pageTitle = title === SITE.brandName ? title : `${title} · ${SITE.brandName}`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.brandName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="theme-color" content="#172434" />
+
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen bg-brand-bg font-sans text-brand-ink antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-brand-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+    >
+      Saltar al contenido
+    </a>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Progressive enhancement: [data-reveal] elements are plain, visible
+      // HTML by default (see global.css). Only once this script actually
+      // runs do individual elements get armed with `.is-pending` (hidden)
+      // right before being observed, so a JS error/block never leaves real
+      // content permanently invisible — worst case, it just skips the
+      // fade-in and stays visible as normal HTML.
+      function initReveal() {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.remove("is-pending");
+                entry.target.classList.add("is-visible");
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+        );
+
+        items.forEach((el, i) => {
+          el.style.animationDelay = `${Math.min(i % 4, 3) * 70}ms`;
+          el.classList.add("is-pending");
+          observer.observe(el);
+        });
+      }
+
+      document.addEventListener("astro:page-load", initReveal);
+    </script>
+  </body>
+</html>

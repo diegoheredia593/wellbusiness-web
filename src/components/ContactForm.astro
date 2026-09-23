@@ -1,0 +1,151 @@
+---
+/**
+ * Main contact form (`/contacto`). Front-end only for now: on submit it
+ * validates and shows a confirmation state, but sends nothing anywhere yet.
+ *
+ * TO CONNECT A REAL BACKEND: see "Formularios" in the project README for
+ * three ready-made options (Formspree, a serverless/API endpoint, or an
+ * email-forwarding service) and the exact lines to change in this file's
+ * inline script below.
+ */
+import { CONTACT_MOTIVES } from "../data/site";
+---
+
+<form id="contact-form" class="grid gap-5 sm:grid-cols-2" novalidate>
+  <div class="sm:col-span-1">
+    <label for="cf-name" class="mb-1.5 block text-sm font-medium text-brand-ink">Nombre y apellido <span class="text-brand-red">*</span></label>
+    <input id="cf-name" name="nombre" type="text" required autocomplete="name"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-slate/60 focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="cf-company" class="mb-1.5 block text-sm font-medium text-brand-ink">Empresa <span class="text-brand-red">*</span></label>
+    <input id="cf-company" name="empresa" type="text" required autocomplete="organization"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-slate/60 focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="cf-email" class="mb-1.5 block text-sm font-medium text-brand-ink">Correo electrónico <span class="text-brand-red">*</span></label>
+    <input id="cf-email" name="correo" type="email" required autocomplete="email"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-slate/60 focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="cf-phone" class="mb-1.5 block text-sm font-medium text-brand-ink">Teléfono / WhatsApp <span class="text-brand-red">*</span></label>
+    <input id="cf-phone" name="telefono" type="tel" required autocomplete="tel"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-slate/60 focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="cf-city" class="mb-1.5 block text-sm font-medium text-brand-ink">Ciudad <span class="text-brand-red">*</span></label>
+    <input id="cf-city" name="ciudad" type="text" required autocomplete="address-level2"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-slate/60 focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="cf-motive" class="mb-1.5 block text-sm font-medium text-brand-ink">Motivo de consulta <span class="text-brand-red">*</span></label>
+    <select id="cf-motive" name="motivo" required
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink focus:border-brand-steel focus:outline-none">
+      <option value="" disabled selected>Selecciona una opción</option>
+      {CONTACT_MOTIVES.map((motive) => <option value={motive}>{motive}</option>)}
+    </select>
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="cf-product" class="mb-1.5 block text-sm font-medium text-brand-ink">
+      Producto o modelo de interés <span class="text-brand-slate">(opcional)</span>
+    </label>
+    <input id="cf-product" name="producto" type="text"
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-slate/60 focus:border-brand-steel focus:outline-none" />
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="cf-message" class="mb-1.5 block text-sm font-medium text-brand-ink">Mensaje <span class="text-brand-red">*</span></label>
+    <textarea id="cf-message" name="mensaje" rows="4" required
+      class="w-full rounded-xl border border-brand-mist bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-slate/60 focus:border-brand-steel focus:outline-none"></textarea>
+  </div>
+
+  <div class="sm:col-span-2 flex items-start gap-3">
+    <input id="cf-consent" name="consentimiento" type="checkbox" required
+      class="mt-0.5 size-4 shrink-0 rounded border-brand-mist text-brand-red focus:ring-brand-steel" />
+    <label for="cf-consent" class="text-sm text-brand-slate">
+      Autorizo el uso de mis datos para responder a esta solicitud, de acuerdo con la política de privacidad.
+    </label>
+  </div>
+
+  <div class="sm:col-span-2">
+    <button type="submit"
+      class="inline-flex w-full items-center justify-center rounded-full bg-brand-red px-6 py-3 text-sm font-semibold text-white shadow-brand-sm transition-colors hover:bg-brand-red-dark sm:w-auto">
+      Enviar consulta
+    </button>
+  </div>
+
+  <p id="contact-form-error" class="sm:col-span-2 hidden text-sm font-medium text-brand-red" role="alert">
+    Revisa los campos marcados: falta información obligatoria o el correo no es válido.
+  </p>
+</form>
+
+<div id="contact-form-success" class="hidden flex-col items-start gap-3 rounded-2xl bg-brand-steel-light p-6" role="status">
+  <span class="flex size-10 items-center justify-center rounded-full bg-brand-steel text-white">
+    <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+  </span>
+  <div>
+    <h3 class="font-display text-lg font-semibold text-brand-ink">Gracias por escribirnos.</h3>
+    <p class="mt-1 text-sm text-brand-steel-dark">Recibimos tu consulta y nos pondremos en contacto contigo.</p>
+  </div>
+</div>
+
+<script>
+  function initContactForm() {
+    const form = document.getElementById("contact-form") as HTMLFormElement | null;
+    const success = document.getElementById("contact-form-success");
+    const errorMsg = document.getElementById("contact-form-error");
+    if (!form || !success || !errorMsg) return;
+
+    // Pre-fill "motivo" / "producto" from ?motivo=&producto= query params, set
+    // by CTAs on the catalog/servicios/cobertura pages (see src/utils/url.ts).
+    const params = new URLSearchParams(window.location.search);
+    const motive = params.get("motivo");
+    const product = params.get("producto");
+    const motiveSelect = form.querySelector<HTMLSelectElement>("#cf-motive");
+    const productInput = form.querySelector<HTMLInputElement>("#cf-product");
+    if (motive && motiveSelect) {
+      const matched = Array.from(motiveSelect.options).some((opt) => opt.value === motive);
+      if (matched) motiveSelect.value = motive;
+    }
+    if (product && productInput) productInput.value = product;
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        errorMsg.classList.remove("hidden");
+        form.reportValidity();
+        return;
+      }
+      errorMsg.classList.add("hidden");
+
+      /*
+       * TODO (pending backend): this is where the real submission call goes.
+       * The form is fully validated at this point. Example with Formspree:
+       *
+       *   await fetch("https://formspree.io/f/XXXXXXX", {
+       *     method: "POST",
+       *     headers: { Accept: "application/json" },
+       *     body: new FormData(form),
+       *   });
+       *
+       * or POST `new FormData(form)` / `Object.fromEntries(new FormData(form))`
+       * to your own API route / serverless function.
+       */
+
+      form.classList.add("hidden");
+      success.classList.remove("hidden");
+      success.classList.add("flex");
+      success.setAttribute("tabindex", "-1");
+      success.focus();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initContactForm);
+</script>

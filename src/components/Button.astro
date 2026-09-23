@@ -1,0 +1,48 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  href?: string;
+  variant?: "primary" | "secondary" | "ghost" | "light";
+  size?: "md" | "lg";
+  class?: string;
+  type?: "button" | "submit";
+  withArrow?: boolean;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  class: className = "",
+  type = "button",
+  withArrow = false,
+} = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2";
+
+const sizes = {
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-7 py-3.5 text-base",
+};
+
+const variants = {
+  primary:
+    "bg-brand-red text-white shadow-brand-sm hover:bg-brand-red-dark hover:shadow-brand-md active:scale-[0.98]",
+  secondary:
+    "bg-brand-ink text-white shadow-brand-sm hover:bg-brand-ink-soft hover:shadow-brand-md active:scale-[0.98]",
+  ghost:
+    "border border-brand-ink/15 text-brand-ink hover:border-brand-steel hover:text-brand-steel bg-transparent",
+  light:
+    "bg-white text-brand-ink border border-brand-mist hover:border-brand-steel hover:text-brand-steel",
+};
+
+const classes = `${base} ${sizes[size]} ${variants[variant]} ${className}`;
+const Tag = href ? "a" : "button";
+---
+
+<Tag class={classes} href={href} type={href ? undefined : type}>
+  <slot />
+  {withArrow && <Icon name="chevron-right" class="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />}
+</Tag>

@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PendingNote from "../components/PendingNote.astro";
+import Icon from "../components/Icon.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import { MOTOROLA_DEALER_LABEL, MOTOROLA_DEALER_LABEL_CONFIRMED, SITE } from "../data/site";
+---
+
+<BaseLayout
+  title="Nosotros"
+  description="Conoce Wellbusiness, sus soluciones de radiocomunicación para empresas y su relación con Idrocomsolutions."
+>
+  <PageHero
+    eyebrow="Nosotros"
+    title="Wellbusiness, soluciones de radiocomunicación para empresas"
+    description={`${SITE.brandName} forma parte de ${SITE.parentCompany} y ofrece productos y servicios de radiocomunicación para empresas en Ecuador. Acompañamos a nuestros clientes en la selección de equipos, el soporte y la evaluación de alternativas para sus operaciones.`}
+  />
+
+  <section class="mx-auto max-w-5xl px-5 py-16 sm:px-8">
+    <!-- FORMA DE TRABAJAR -->
+    <div class="grid gap-6 sm:grid-cols-[auto_1fr]" data-reveal>
+      <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-steel-light text-brand-steel-dark">
+        <Icon name="compass" class="size-6" />
+      </span>
+      <div>
+        <h2 class="font-display text-2xl font-semibold text-brand-ink">
+          Primero entendemos tu operación. Luego exploramos la solución.
+        </h2>
+        <p class="mt-3 text-base leading-relaxed text-brand-slate">
+          Escuchamos qué necesita comunicar tu equipo, dónde trabaja y qué retos enfrenta. Con esa información
+          podemos orientarte sobre equipos, alquiler, servicio técnico o infraestructura.
+        </p>
+      </div>
+    </div>
+
+    <!-- RESPALDO MOTOROLA -->
+    <div class="mt-14 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-red/10 text-brand-red">
+          <Icon name="radio-handheld" class="size-6" />
+        </span>
+        <h2 class="font-display text-xl font-semibold text-brand-ink">{MOTOROLA_DEALER_LABEL}</h2>
+      </div>
+      <p class="mt-4 text-base leading-relaxed text-brand-slate">
+        Equipos y accesorios Motorola para uso profesional. Wellbusiness es {MOTOROLA_DEALER_LABEL}.
+      </p>
+      {!MOTOROLA_DEALER_LABEL_CONFIRMED && (
+        <PendingNote class="mt-4">
+          Denominación transcrita del material de referencia de Wellbusiness; pendiente de confirmar la
+          denominación oficial vigente antes de publicarse como definitiva.
+        </PendingNote>
+      )}
+    </div>
+
+    <!-- IDROCOMSOLUTIONS -->
+    <div class="mt-8 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-steel-light text-brand-steel-dark">
+          <Icon name="building" class="size-6" />
+        </span>
+        <h2 class="font-display text-xl font-semibold text-brand-ink">Relación con {SITE.parentCompany}</h2>
+      </div>
+      <p class="mt-4 text-base leading-relaxed text-brand-slate">
+        Wellbusiness es la marca comercial de radiocomunicación de {SITE.parentCompany}.
+      </p>
+      <PendingNote class="mt-4">
+        Esta descripción legal/comercial está pendiente de confirmación con la empresa antes de publicarse como
+        definitiva.
+      </PendingNote>
+    </div>
+
+    <!-- MISIÓN Y VALORES -->
+    <div class="mt-8 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-steel-light text-brand-steel-dark">
+          <Icon name="shield" class="size-6" />
+        </span>
+        <h2 class="font-display text-xl font-semibold text-brand-ink">Misión y valores</h2>
+      </div>
+      <PendingNote class="mt-4">
+        Los textos de misión, visión y valores del material anterior están en proceso de actualización y
+        aprobación con Wellbusiness. Se publicarán en esta sección una vez confirmados — no se muestran versiones
+        no aprobadas.
+      </PendingNote>
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿Quieres conocer más sobre Wellbusiness?"
+    ctaLabel="Solicitar asesoría"
+    ctaHref="/contacto"
+  />
+</BaseLayout>

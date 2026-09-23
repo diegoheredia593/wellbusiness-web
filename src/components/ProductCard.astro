@@ -1,0 +1,60 @@
+---
+import ImagePlaceholder from "./ImagePlaceholder.astro";
+import Icon from "./Icon.astro";
+import Badge from "./Badge.astro";
+import { contactHref } from "../utils/url";
+import type { Product } from "../data/types";
+
+interface Props {
+  product: Product;
+}
+const { product } = Astro.props;
+---
+
+<article
+  id={product.slug}
+  class="flex flex-col overflow-hidden rounded-2xl border border-brand-mist bg-white shadow-brand-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-brand-md"
+  data-reveal
+  data-category={product.category}
+>
+  <ImagePlaceholder class="aspect-[4/3]" icon="radio-handheld" note={`Fotografía de ${product.name}`} />
+  <div class="flex flex-1 flex-col p-6">
+    <div class="flex items-start justify-between gap-2">
+      <h3 class="font-display text-lg font-semibold text-brand-ink">{product.name}</h3>
+      {product.isPlaceholder && <Badge tone="mist">Ejemplo</Badge>}
+    </div>
+    <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-brand-steel">
+      {product.type} · {product.band}
+    </p>
+    <p class="mt-3 text-sm leading-relaxed text-brand-slate">{product.summary}</p>
+
+    {product.specs.length > 0 && (
+      <ul class="mt-4 space-y-1.5">
+        {product.specs.slice(0, 3).map((spec) => (
+          <li class="flex items-start gap-2 text-sm text-brand-ink-soft">
+            <Icon name="check" class="mt-0.5 size-3.5 shrink-0 text-brand-steel" />
+            {spec}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {product.applications.length > 0 && (
+      <div class="mt-4 flex flex-wrap gap-1.5">
+        {product.applications.map((app) => <Badge tone="steel">{app}</Badge>)}
+      </div>
+    )}
+
+    <div class="mt-6 flex flex-col gap-1.5">
+      <a
+        href={contactHref({ motive: "Catálogo Motorola", product: product.name })}
+        class="inline-flex items-center justify-center gap-1.5 rounded-full bg-brand-ink px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-ink-soft"
+      >
+        Consultar este producto
+      </a>
+      <p class="text-center text-xs text-brand-slate">
+        Te ayudamos a confirmar disponibilidad y compatibilidad con tu sistema.
+      </p>
+    </div>
+  </div>
+</article>
