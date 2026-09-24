@@ -53,6 +53,11 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface MarqueeLogo {
+  src: string;
+  alt: string;
+}
+
 export type ProductCategory =
   | "Radios portátiles"
   | "Radios móviles y estaciones base"

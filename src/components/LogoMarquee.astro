@@ -1,0 +1,69 @@
+---
+/**
+ * Continuous horizontal logo strip ("brands/technology we work with").
+ * Adapted from a React/shadcn/motion reference component into this
+ * project's own stack (Astro + vanilla CSS/JS, no UI framework, no
+ * animation library) — same visual result (infinite marquee, edge fade,
+ * speeds up on hover) via a CSS keyframe + a tiny script, matching every
+ * other interactive component in this codebase (ProductGallery,
+ * Hero3DRadio, WhatsAppFloatingButton).
+ *
+ * Logos are real files supplied in `images/testimonios sin fondo/`,
+ * trimmed to their own bounding box only (never recolored/altered — same
+ * rule this project already follows for the Wellbusiness/Motorola logos),
+ * copied to `public/images/logos/`. Rendered grayscale by default and in
+ * full color on hover, since the source logos carry very different brand
+ * colors that would otherwise visually fight each other in one row.
+ */
+import type { MarqueeLogo } from "../data/types";
+
+interface Props {
+  logos: MarqueeLogo[];
+  class?: string;
+  /** Full-lap duration at rest; the script halves it (roughly) on hover. */
+  duration?: number;
+}
+const { logos, class: className = "", duration = 42 } = Astro.props;
+const track = [...logos, ...logos];
+---
+
+<div class={`relative overflow-hidden mask-fade-x ${className}`} data-logo-marquee>
+  <div
+    class="flex w-max items-center gap-10 motion-safe:animate-logo-marquee sm:gap-14"
+    data-logo-track
+    style={`animation-duration:${duration}s;`}
+  >
+    {track.map((logo, i) => (
+      <img
+        src={logo.src}
+        alt={logo.alt}
+        loading="eager"
+        decoding="async"
+        class="h-8 w-auto shrink-0 object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:h-10"
+      />
+    ))}
+  </div>
+</div>
+
+<script>
+  function initLogoMarquee() {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    document.querySelectorAll<HTMLElement>("[data-logo-marquee]").forEach((el) => {
+      const track = el.querySelector<HTMLElement>("[data-logo-track]");
+      if (!track) return;
+      const restSeconds = parseFloat(track.style.animationDuration) || 42;
+      const fastSeconds = Math.max(10, Math.round(restSeconds * 0.4));
+
+      el.addEventListener("mouseenter", () => {
+        track.style.animationDuration = `${fastSeconds}s`;
+      });
+      el.addEventListener("mouseleave", () => {
+        track.style.animationDuration = `${restSeconds}s`;
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initLogoMarquee);
+</script>

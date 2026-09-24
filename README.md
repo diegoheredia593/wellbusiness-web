@@ -187,6 +187,35 @@ escribas a mano en un componente nuevo, importa esa función.
 - El footer repite WhatsApp/Facebook como íconos y el resto de datos como texto
   enlazado.
 
+## Logo marquee — "Tecnología y marcas con las que trabajamos"
+
+`src/components/LogoMarquee.astro` (usado en `/`, justo debajo del hero) es
+una franja horizontal infinita con 15 logos reales de marcas/tecnología del
+sector (Motorola WAVE PTX, Huawei, Grandstream, PCTEL, Sinclair, RF Elements,
+Zetron, SmartPTT, etc.) — **no es una afirmación de partnership/certificación
+por marca** (eso solo aplica a Motorola, ya manejado aparte en
+`MOTOROLA_DEALER_LABEL`); es una franja de "con qué trabajamos", con texto
+neutro a propósito.
+
+- Adaptado de un componente de referencia en React/shadcn/`motion` al stack
+  real de este proyecto (Astro + CSS/JS vanilla, sin librería de animación) —
+  mismo resultado visual (marquee infinito, difuminado en los bordes,
+  acelera al pasar el cursor) vía un `@keyframes` + un script pequeño.
+- Los logos vienen de `images/testimonios sin fondo/` (originales, ya sin
+  fondo), recortados a su propio bounding box (nunca recoloreados/alterados)
+  en `public/images/logos/`. Dos ajustes al set original: `zetron.png`
+  traía un segundo logo distinto ("DAMM") apilado debajo en el mismo
+  archivo — se usó solo el bloque de Zetron, que es lo que nombra el
+  archivo; y de las dos variantes de L-com suministradas se usó una sola
+  (`l-com_global.png`) para no repetir la misma marca dos veces en la
+  franja.
+- Se muestran en escala de grises y a color al pasar el cursor sobre cada
+  logo — los colores de marca de 15 empresas distintas conviviendo a todo
+  color en una fila se veían visualmente ruidosos.
+- `src/data/logos.ts` es donde se edita la lista (agregar/quitar logos) —
+  igual que el resto del contenido del sitio, no se hardcodea en el
+  componente ni en la página.
+
 ## Hero de inicio — render 3D con hover
 
 `src/components/Hero3DRadio.astro` reemplaza la foto simple que tenía el hero

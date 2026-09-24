@@ -9,8 +9,10 @@ import SectorCard from "../components/SectorCard.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import MotorolaBadge from "../components/MotorolaBadge.astro";
 import Hero3DRadio from "../components/Hero3DRadio.astro";
+import LogoMarquee from "../components/LogoMarquee.astro";
 import { SECTORS } from "../data/sectors";
 import { COVERAGE_ZONES } from "../data/coverage";
+import { PARTNER_LOGOS } from "../data/logos";
 ---
 
 <BaseLayout
@@ -50,6 +52,16 @@ import { COVERAGE_ZONES } from "../data/coverage";
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- MARCAS Y TECNOLOGÍA -->
+  <section class="border-b border-brand-mist bg-white py-10">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8" data-reveal>
+      <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-brand-slate">
+        Tecnología y marcas con las que trabajamos
+      </p>
+      <LogoMarquee logos={PARTNER_LOGOS} />
     </div>
   </section>
 

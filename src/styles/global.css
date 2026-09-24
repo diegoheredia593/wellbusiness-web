@@ -33,6 +33,15 @@
   --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-hero-float: hero-float 9s ease-in-out infinite;
   --animate-hero-glow: hero-glow 9s ease-in-out infinite;
+  /*
+    LogoMarquee.astro overrides just the `animation-duration` longhand via
+    inline style (default speed, and again on hover) — an inline longhand
+    always wins over this class's own shorthand for that one sub-property,
+    so the override is reliable without threading a CSS var through a
+    theme token (a nested var() inside an `@theme` token was tried first
+    and didn't reliably re-time an already-running animation).
+  */
+  --animate-logo-marquee: logo-marquee 42s linear infinite;
 
   @keyframes fade-up {
     from {
@@ -83,6 +92,24 @@
     50% {
       opacity: 1;
       transform: scale(1.08);
+    }
+  }
+
+  /*
+    LogoMarquee.astro: one full lap (0 -> -50%) scrolls exactly one copy of
+    the (duplicated-twice) logo track, so the loop is seamless. The global
+    `prefers-reduced-motion` rule below already forces every animation's
+    duration near-zero and its iteration-count to 1 — for this one that
+    means it settles on the -50% (or, without fill-mode, back to the 0%)
+    frame, which (since the track is the same list twice) looks identical
+    either way, so reduced motion degrades to a clean static row for free.
+  */
+  @keyframes logo-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
     }
   }
 }
@@ -147,5 +174,10 @@
     background-image:
       radial-gradient(circle at 1px 1px, rgb(23 36 52 / 0.08) 1px, transparent 0);
     background-size: 22px 22px;
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   }
 }
