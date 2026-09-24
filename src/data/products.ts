@@ -11,10 +11,12 @@ import type { Product, ProductCategory } from "./types";
  * a general business reader. `applications` is only ever filled in when the
  * source text explicitly names a use case — never inferred/invented.
  *
- * Three entries (DEM500, SL500e, r5-accesorios-originales) have no real
- * photo yet — `images: []` makes ProductCard fall back to the elegant
- * placeholder rather than a broken/fabricated image. Add photos to
- * `public/images/products/` and list them here once available.
+ * One entry (r5-accesorios-originales — the leftover R5 accessories with
+ * no dedicated photo of their own: Bluetooth accessories, auriculares,
+ * antenas, single-unit chargers, fundas) has no real photo yet —
+ * `images: []` makes ProductCard fall back to the elegant placeholder
+ * rather than a broken/fabricated image. Add a photo to
+ * `public/images/products/` and list it here once available.
  */
 export const PRODUCTS: Product[] = [
   {
@@ -74,7 +76,7 @@ export const PRODUCTS: Product[] = [
       "Compatible con la función Transmit Interrupt para priorizar comunicaciones críticas",
     ],
     applications: [],
-    images: [],
+    images: ["/images/products/dem500-1.jpg"],
     isPlaceholder: false,
   },
   {
@@ -120,7 +122,12 @@ export const PRODUCTS: Product[] = [
       "Certificación IP54, resistente al agua y al polvo",
     ],
     applications: [],
-    images: [],
+    images: [
+      "/images/products/sl500e-1.jpg",
+      "/images/products/sl500e-2.jpg",
+      "/images/products/sl500e-3.jpg",
+      "/images/products/sl500e-4.jpg",
+    ],
     isPlaceholder: false,
   },
   {
@@ -381,23 +388,79 @@ export const PRODUCTS: Product[] = [
   {
     slug: "r5-accesorios-originales",
     category: "Accesorios originales",
-    name: "Accesorios originales Motorola MOTOTRBO R5",
+    name: "Otros accesorios originales Motorola MOTOTRBO R5",
     summary:
-      "Personaliza tu MOTOTRBO R5 con los únicos accesorios diseñados, construidos y probados junto con el radio: micrófonos, auriculares, baterías, antenas, cargadores y más.",
+      "Personaliza tu MOTOTRBO R5 con los únicos accesorios diseñados, construidos y probados junto con el radio: audífonos, antenas, fundas y más. El micrófono, la batería IMPRES y el cargador multiunidad tienen su propia ficha.",
     type: "Accesorios",
     band: "Compatibles con MOTOTRBO R5",
     specs: [
-      "Micrófonos con altavoz remoto RM560 (grande, IP67) y RM530 (pequeño, IP67), con supresión de ruido entrenada por IA y cables de Kevlar® ultrarresistentes",
       "Accesorios inalámbricos Bluetooth® para operaciones críticas (WM500, RM730 y RM760)",
       "Auriculares y audífonos: D-Shell ajustable, tubo transparente y kits de bajo ruido (hasta 24 dB de reducción)",
       "Auriculares discretos con micrófono y PTT integrado, para vigilancia y uso encubierto",
-      "Baterías IMPRES IP67: delgada de 2200 mAh, alta capacidad de 3200 mAh y versión con certificación UL",
       "Antenas UHF y VHF en formatos flexible, helicoidal y reducida, con opción de combinación GPS",
-      "Cargadores unitarios y multiunidad (IMPRES) para iones de litio y NiMH, 100–240 VCA",
+      "Cargadores unitarios para carga individual (la versión multiunidad IMPRES tiene su propia ficha)",
       "Fundas de transporte en cuero rígido o nailon, con pasador giratorio o fijo",
     ],
     applications: [],
     images: [],
+    isPlaceholder: false,
+  },
+  {
+    slug: "r5-microfono-rm560",
+    category: "Accesorios originales",
+    name: "Micrófono con altavoz remoto Motorola RM560 / RM530",
+    summary:
+      "Micrófono con altavoz remoto para tu MOTOTRBO R5, con supresión de ruido entrenada por inteligencia artificial y un cable de Kevlar® ultrarresistente, para escucharte claro incluso en exteriores.",
+    type: "Accesorio · Micrófono con altavoz remoto",
+    band: "Compatible con MOTOTRBO R5",
+    specs: [
+      "Dos tamaños disponibles: RM560 (grande) y RM530 (pequeño), ambos con certificación IP67",
+      "Supresión de ruido entrenada por inteligencia artificial, para una voz clara en ambientes ruidosos",
+      "Windporting: reduce el ruido del viento en exteriores",
+      "Cable de Kevlar® ultrarresistente, pensado para uso intensivo",
+      "Tecnología IMPRES de audio y energía",
+      "Opciones de resistencia IP54, IP55 e IP57 (sumergible), según el modelo",
+    ],
+    applications: [],
+    images: ["/images/products/r5-microfono-rm560-1.jpg"],
+    isPlaceholder: false,
+  },
+  {
+    slug: "r5-bateria-impres",
+    category: "Accesorios originales",
+    name: "Batería IMPRES Motorola PMNN4888 / PMNN4889",
+    summary:
+      "Batería de repuesto IMPRES para tu MOTOTRBO R5, con certificación IP67 y dos capacidades disponibles para ajustarse a la duración de tu turno de trabajo.",
+    type: "Accesorio · Batería",
+    band: "Compatible con MOTOTRBO R5",
+    specs: [
+      "PMNN4888: versión delgada, de 2200 mAh",
+      "PMNN4889: versión de alta capacidad, de 3200 mAh",
+      "PMNN4890: versión de 3200 mAh con certificación UL",
+      "Certificación IP67, resistente al agua y al polvo",
+      "Tecnología IMPRES: administración inteligente de carga junto con cargadores y radios compatibles",
+    ],
+    applications: [],
+    images: ["/images/products/r5-bateria-impres-1.jpg"],
+    isPlaceholder: false,
+  },
+  {
+    slug: "r5-cargador-multiunidad",
+    category: "Accesorios originales",
+    name: "Cargador multiunidad IMPRES Motorola PMPN4283",
+    summary:
+      "Cargador multiunidad IMPRES para cargar varios radios o baterías R5 al mismo tiempo, pensado para flotas de equipos que rotan de turno.",
+    type: "Accesorio · Cargador multiunidad",
+    band: "Compatible con MOTOTRBO R5",
+    specs: [
+      "Carga varios radios o baterías al mismo tiempo (PMPN4283)",
+      "Tecnología IMPRES: administración inteligente de carga que prolonga la vida útil de la batería",
+      "Compatible con baterías de ion de litio y NiMH",
+      "Alimentación universal 100–240 VCA",
+      "Indicador de estado de carga por cada unidad",
+    ],
+    applications: [],
+    images: ["/images/products/r5-cargador-multiunidad-1.jpg"],
     isPlaceholder: false,
   },
 ];

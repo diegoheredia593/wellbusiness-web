@@ -278,6 +278,12 @@ El RVA50 está pensado para **construcción, mantenimiento y administración de 
 
 *(El documento recibido corresponde al catálogo de accesorios del R5; no incluye las especificaciones del radio en sí.)*
 
+> Micrófonos con altavoz remoto (RM560/RM530), Baterías IMPRES (PMNN4888/
+> PMNN4889) y Cargadores multiunidad (PMPN4283) ya tienen foto real y su
+> propia ficha individual en el catálogo — el resto de categorías de esta
+> tabla siguen agrupadas en la ficha "Otros accesorios originales R5" hasta
+> que tengan foto propia.
+
 | Categoría | Qué ofrece |
 |---|---|
 | Micrófonos con altavoz remoto | Modelos RM560 (grande, IP67) y RM530 (pequeño, IP67) con supresión de ruido entrenada por IA, windporting, IMPRES y cables de Kevlar® ultrarresistentes. Opciones IP54, IP55 e IP57 (sumergible). |
