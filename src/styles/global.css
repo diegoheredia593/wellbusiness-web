@@ -33,6 +33,7 @@
   --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-hero-float: hero-float 9s ease-in-out infinite;
   --animate-hero-glow: hero-glow 9s ease-in-out infinite;
+  --animate-hero-collage-float: hero-collage-float 8s ease-in-out infinite;
   /*
     LogoMarquee.astro overrides just the `animation-duration` longhand via
     inline style (default speed, and again on hover) — an inline longhand
@@ -70,10 +71,13 @@
   }
 
   /*
-    Idle "turntable" motion for the homepage hero's 3D product render
-    (Hero3DRadio.astro). Runs continuously and independently from the
-    interactive hover-tilt the component's own script applies to a nested
-    element, so the two transforms compose instead of fighting each other.
+    Idle "turntable" motion, originally for the homepage hero's 3D product
+    render (a since-removed component) — kept in case a future hero visual
+    wants the same rotateY/rotateX turntable effect again. Not used by
+    HeroProductCollage.astro (see `hero-collage-float` below): rotating a
+    flat 2D collage this way has no `perspective` ancestor to foreshorten
+    against, so it would just visually squash horizontally instead of
+    looking like a turntable.
   */
   @keyframes hero-float {
     0%, 100% {
@@ -81,6 +85,22 @@
     }
     50% {
       transform: rotateY(11deg) rotateX(-3deg) translateY(-14px);
+    }
+  }
+
+  /*
+    Gentle collective bob for HeroProductCollage.astro's whole cluster —
+    a plain translateY, never a 3D rotation (see `hero-float` above for
+    why that doesn't suit a flat collage). Applied to one wrapper around
+    every product image so the group always moves together and the
+    overlaps between items never drift apart mid-animation.
+  */
+  @keyframes hero-collage-float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
     }
   }
 

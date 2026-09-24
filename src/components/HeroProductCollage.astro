@@ -1,0 +1,159 @@
+---
+/**
+ * Homepage hero visual: an overlapping "collage" of real Motorola products
+ * (R2, DEM300, DEM500, SLR 8000, SL500e, RM560 accessory) that interpose
+ * over each other, replacing the earlier single 3D hero render per request.
+ *
+ * Source cutouts (`images/Hero/`, background already removed by the
+ * client) are trimmed to their own bounding box only — never recolored —
+ * and copied to `public/images/hero/` as `collage-*.png`. The RM560
+ * accessory source was a 3-up front/side/side composite; it was cropped to
+ * just its center/front view before trimming, so it reads as one clean
+ * object like every other item in the collage.
+ *
+ * Contrast: a black-bodied product would otherwise sink straight into the
+ * dark navy hero background (`bg-brand-ink`), so every item gets a soft
+ * light rim via `drop-shadow` (never a recolor of the product itself) plus
+ * a dark contact-shadow for grounding, layered on top of two ambient glow
+ * blobs behind the whole cluster (steel + red — the same contrast
+ * treatment this hero already used for the single-radio render). Idle
+ * motion is a plain collective bob (`--animate-hero-collage-float`,
+ * global.css — a dedicated keyframe, not the older 3D-render turntable
+ * one, which would just squash a flat collage horizontally with no
+ * `perspective` ancestor); already respects `prefers-reduced-motion`
+ * globally. Each item also lifts slightly and comes to the front on
+ * hover, CSS-only.
+ *
+ * Positioning/rotation/size are set via CSS custom properties (`--top`,
+ * `--left`, `--rot`, ...) rather than the `transform`/`z-index`/`width`/
+ * `height` properties directly inline — an earlier draft set those
+ * directly via inline `style`, which meant the `hover:z-50`/
+ * `hover:scale-[1.08]` Tailwind utility classes below could never win
+ * (an inline style always beats a class-based rule for the same property,
+ * :hover or not — confirmed live: hovering visibly changed nothing).
+ * Custom properties don't have that conflict, since the real `transform`/
+ * `z-index` rules live in this file's own scoped `<style>` block instead.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+
+interface CollageItem {
+  src: string;
+  alt: string;
+  top: string;
+  left: string;
+  size: { dimension: "height" | "width"; value: string };
+  rotate: number;
+  z: number;
+}
+
+const items: CollageItem[] = [
+  {
+    src: "/images/hero/collage-sl500e.png",
+    alt: "Radio Motorola SL500e",
+    top: "2%",
+    left: "24%",
+    size: { dimension: "height", value: "50%" },
+    rotate: -11,
+    z: 10,
+  },
+  {
+    src: "/images/hero/collage-slr8000.png",
+    alt: "Repetidor Motorola MOTOTRBO SLR 8000",
+    top: "3%",
+    left: "52%",
+    size: { dimension: "width", value: "34%" },
+    rotate: 7,
+    z: 10,
+  },
+  {
+    src: "/images/hero/collage-dem300.png",
+    alt: "Radio móvil Motorola DEM300",
+    top: "54%",
+    left: "0%",
+    size: { dimension: "width", value: "52%" },
+    rotate: 9,
+    z: 15,
+  },
+  {
+    src: "/images/hero/collage-dem500.png",
+    alt: "Radio móvil Motorola DEM500",
+    top: "50%",
+    left: "44%",
+    size: { dimension: "width", value: "50%" },
+    rotate: -8,
+    z: 15,
+  },
+  {
+    src: "/images/hero/collage-r2.png",
+    alt: "Radio Motorola MOTOTRBO R2",
+    top: "8%",
+    left: "38%",
+    size: { dimension: "height", value: "80%" },
+    rotate: -4,
+    z: 30,
+  },
+  {
+    src: "/images/hero/collage-mic.png",
+    alt: "Micrófono con altavoz remoto Motorola RM560",
+    top: "60%",
+    left: "42%",
+    size: { dimension: "height", value: "34%" },
+    rotate: 15,
+    z: 40,
+  },
+];
+---
+
+<div class={`relative ${className}`} data-collage>
+  <!-- Ambient glow behind the cluster: the requested contrast against the
+       dark navy hero background, same steel + red pairing this hero
+       already used for its single-radio render. -->
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+    <div class="size-[72%] rounded-full bg-brand-steel-light/20 blur-[80px] motion-safe:animate-hero-glow"></div>
+  </div>
+  <div class="pointer-events-none absolute bottom-[8%] right-[16%] size-[42%] rounded-full bg-brand-red/45 blur-[65px] opacity-70"></div>
+
+  <div class="motion-safe:animate-hero-collage-float relative h-full w-full">
+    {items.map((item) => (
+      <img
+        src={item.src}
+        alt={item.alt}
+        loading="eager"
+        decoding="async"
+        class="collage-item"
+        data-dim={item.size.dimension}
+        style={`--top:${item.top}; --left:${item.left}; --size:${item.size.value}; --rot:${item.rotate}deg; --z:${item.z};`}
+      />
+    ))}
+  </div>
+</div>
+
+<style>
+  .collage-item {
+    position: absolute;
+    top: var(--top);
+    left: var(--left);
+    z-index: var(--z);
+    transform: rotate(var(--rot));
+    transition: transform 300ms ease-out, z-index 0s;
+    filter: drop-shadow(0 0 20px rgba(234, 241, 248, 0.45)) drop-shadow(0 22px 26px rgba(0, 0, 0, 0.5));
+  }
+
+  .collage-item[data-dim="height"] {
+    height: var(--size);
+    width: auto;
+  }
+
+  .collage-item[data-dim="width"] {
+    width: var(--size);
+    height: auto;
+  }
+
+  .collage-item:hover {
+    transform: rotate(var(--rot)) scale(1.08);
+    z-index: 50;
+  }
+</style>

@@ -8,7 +8,7 @@ import QuickLinkCard from "../components/QuickLinkCard.astro";
 import SectorCard from "../components/SectorCard.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import MotorolaBadge from "../components/MotorolaBadge.astro";
-import Hero3DRadio from "../components/Hero3DRadio.astro";
+import HeroProductCollage from "../components/HeroProductCollage.astro";
 import LogoMarquee from "../components/LogoMarquee.astro";
 import { SECTORS } from "../data/sectors";
 import { COVERAGE_ZONES } from "../data/coverage";
@@ -39,17 +39,15 @@ import { PARTNER_LOGOS } from "../data/logos";
       </div>
 
       <div class="relative" data-reveal style="animation-delay:120ms">
-        <Hero3DRadio class="aspect-[4/3]" />
-        <div class="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white p-5 shadow-brand-lg sm:block">
-          <div class="flex items-center gap-3">
-            <span class="flex size-10 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
-              <Icon name="radio-handheld" class="size-5" />
-            </span>
-            <div>
-              <p class="text-sm font-semibold text-brand-ink">Asesoría especializada</p>
-              <p class="text-xs text-brand-slate">Equipos, alquiler y cobertura</p>
-            </div>
-          </div>
+        <HeroProductCollage class="aspect-[4/3]" />
+        <div class="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white px-5 py-4 shadow-brand-lg sm:block">
+          <img
+            src="/images/brand/motorola-authorized-dealer.png"
+            alt="Motorola Authorized Two-Way Radio Dealer"
+            class="h-11 w-auto"
+            width="2428"
+            height="791"
+          />
         </div>
       </div>
     </div>
