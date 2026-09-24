@@ -1,7 +1,14 @@
 ---
 /**
  * Real Wellbusiness logo assets (`public/images/brand/`), used as supplied
- * — never recolored/redrawn/altered.
+ * — never recolored/redrawn/altered. `wellbusiness-isologo.png` is trimmed
+ * to its own bounding box only (same rule this project already follows for
+ * every other supplied logo — see LogoMarquee's header comment) — it was
+ * originally a wide, mostly-transparent canvas with a ~3:4 (taller-than-
+ * wide) icon centered inside, which a fixed square box (`h-9 w-9`) forced
+ * into a squished 1:1 shape. Fixed by trimming the file itself and sizing
+ * with a fixed height + `w-auto` (never a forced square) so the icon keeps
+ * its real proportions wherever this component is used.
  *
  * `wellbusiness-logo.png` is the full lockup (icon + "WellBusiness"
  * wordmark) — its wordmark is dark text, so it only reads on a LIGHT
@@ -9,9 +16,9 @@
  *
  * On a DARK background (`variant="light"`: footer, dark hero panels, the
  * mobile menu) the full lockup's black text would disappear, so this pairs
- * the real icon-only mark (`wellbusiness-isologo.png`, untouched) with a
- * plain white text label instead of the bitmap wordmark — same convention
- * a two-piece lockup (icon mark + adaptable wordmark color) normally uses.
+ * the real icon-only mark (`wellbusiness-isologo.png`) with a plain white
+ * text label instead of the bitmap wordmark — same convention a two-piece
+ * lockup (icon mark + adaptable wordmark color) normally uses.
  */
 interface Props {
   variant?: "dark" | "light";
@@ -32,7 +39,13 @@ const { variant = "dark", class: className = "" } = Astro.props;
   </a>
 ) : (
   <a href="/" class={`inline-flex items-center gap-2.5 ${className}`} aria-label="Wellbusiness — Inicio">
-    <img src="/images/brand/wellbusiness-isologo.png" alt="" class="h-9 w-9 shrink-0" width="80" height="80" />
+    <img
+      src="/images/brand/wellbusiness-isologo.png"
+      alt=""
+      class="h-9 w-auto shrink-0 object-contain"
+      width="1000"
+      height="1341"
+    />
     <span class="flex flex-col leading-none">
       <span class="font-display text-lg font-bold tracking-tight text-white">Wellbusiness</span>
       <span class="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60">Idrocomsolutions</span>
