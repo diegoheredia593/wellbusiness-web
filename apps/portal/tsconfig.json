@@ -1,0 +1,14 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "./worker-configuration.d.ts", "**/*", "../../clientes/*/src/**/*", "../../packages/*/src/**/*"],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@cliente": ["../../clientes/wellbusiness/src/index.ts"]
+    },
+    "noUncheckedIndexedAccess": true
+  }
+}

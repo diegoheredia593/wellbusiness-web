@@ -1,0 +1,62 @@
+---
+/**
+ * Crear el primer administrador. Protegida por la clave SETUP_SECRET que se
+ * define en el panel de Cloudflare. Deja de existir en cuanto hay un admin.
+ */
+import { env } from 'cloudflare:workers';
+import Simple from '@/layouts/Simple.astro';
+import FormularioSimple from '@/components/FormularioSimple';
+import { hayAdmin } from '@/lib/servidor/usuarios';
+import { LONGITUD_MINIMA } from '@/lib/servidor/contrasenas';
+
+if (await hayAdmin()) return new Response('No encontrado', { status: 404 });
+const sinClave = !env.SETUP_SECRET || env.SETUP_SECRET.length < 12;
+---
+
+<Simple titulo="Configuración inicial">
+  {
+    sinClave ? (
+      <div class="aviso aviso-advertencia space-y-2">
+        <p>
+          <strong>Falta la clave de configuración.</strong>
+        </p>
+        <p>
+          En el panel de Cloudflare: <strong>Workers &amp; Pages → este Worker → Settings → Variables and Secrets →
+          Add</strong>. Tipo <em>Secret</em>, nombre <code>SETUP_SECRET</code> y una clave de al menos 12 caracteres que
+          solo tú conozcas. Después vuelve a cargar esta página.
+        </p>
+      </div>
+    ) : (
+      <>
+        <p class="mb-5 text-tinta-suave">
+          Crea la cuenta del primer administrador. Esta pantalla desaparece cuando termines.
+        </p>
+        <FormularioSimple
+          client:load
+          endpoint="/api/publico/configuracion-inicial"
+          boton="Crear administrador"
+          destino="/entrar"
+          exito="Listo. Ahora entra con tu correo y contraseña."
+          campos={[
+            {
+              nombre: 'clave',
+              etiqueta: 'Clave de configuración',
+              tipo: 'password',
+              autocomplete: 'off',
+              ayuda: 'La que guardaste como SETUP_SECRET en Cloudflare.',
+            },
+            { nombre: 'nombre', etiqueta: 'Tu nombre', autocomplete: 'name' },
+            { nombre: 'email', etiqueta: 'Tu correo', tipo: 'email', autocomplete: 'email' },
+            {
+              nombre: 'contrasena',
+              etiqueta: 'Contraseña',
+              tipo: 'password',
+              autocomplete: 'new-password',
+              ayuda: `Al menos ${LONGITUD_MINIMA} caracteres. Una frase de varias palabras es fácil de recordar y segura.`,
+            },
+          ]}
+        />
+      </>
+    )
+  }
+</Simple>

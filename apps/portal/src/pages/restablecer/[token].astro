@@ -1,0 +1,40 @@
+---
+import Simple from '@/layouts/Simple.astro';
+import FormularioSimple from '@/components/FormularioSimple';
+import MensajeEnlace from '@/components/MensajeEnlace.astro';
+import { comprobarEnlace } from '@/lib/servidor/enlaces';
+import { LONGITUD_MINIMA } from '@/lib/servidor/contrasenas';
+
+const token = Astro.params.token ?? '';
+const estado = await comprobarEnlace('restablecer', token);
+if (!estado.valido) Astro.response.status = 410;
+---
+
+<Simple titulo="Nueva contraseña">
+  {
+    estado.valido ? (
+      <>
+        <p class="mb-5 text-tinta-suave">Elige una contraseña nueva para {estado.enlace.email}.</p>
+        <FormularioSimple
+          client:load
+          endpoint="/api/publico/restablecer"
+          boton="Guardar contraseña"
+          destino="/entrar"
+          exito="Contraseña guardada. Ahora entra con la nueva."
+          extra={{ token }}
+          campos={[
+            {
+              nombre: 'contrasena',
+              etiqueta: 'Contraseña nueva',
+              tipo: 'password',
+              autocomplete: 'new-password',
+              ayuda: `Al menos ${LONGITUD_MINIMA} caracteres.`,
+            },
+          ]}
+        />
+      </>
+    ) : (
+      <MensajeEnlace motivo={estado.motivo} tipo="restablecer" />
+    )
+  }
+</Simple>

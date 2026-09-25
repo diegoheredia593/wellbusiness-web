@@ -1,0 +1,42 @@
+---
+import Portal from '@/layouts/Portal.astro';
+import FormularioSimple from '@/components/FormularioSimple';
+import { LONGITUD_MINIMA } from '@/lib/servidor/contrasenas';
+
+const u = Astro.locals.usuario!;
+---
+
+<Portal titulo="Mi cuenta">
+  <div class="grid gap-6 lg:grid-cols-2">
+    <section class="tarjeta p-5" aria-labelledby="t-datos">
+      <h2 id="t-datos" class="mb-3 text-xl font-bold">Tus datos</h2>
+      <dl class="space-y-2">
+        <div><dt class="text-sm font-semibold text-tinta-suave">Nombre</dt><dd>{u.nombre}</dd></div>
+        <div><dt class="text-sm font-semibold text-tinta-suave">Correo</dt><dd class="break-all">{u.email}</dd></div>
+        <div><dt class="text-sm font-semibold text-tinta-suave">Rol</dt><dd>{u.rol === 'admin' ? 'Administrador' : 'Editor'}</dd></div>
+      </dl>
+      <p class="ayuda mt-4">Para cambiar tu nombre o correo, pídeselo a un administrador.</p>
+    </section>
+    <section class="tarjeta p-5" aria-labelledby="t-clave">
+      <h2 id="t-clave" class="mb-3 text-xl font-bold">Cambiar contraseña</h2>
+      <FormularioSimple
+        client:load
+        endpoint="/api/auth/change-password"
+        boton="Cambiar contraseña"
+        destino="/cuenta"
+        exito="Contraseña cambiada. Se cerraron tus sesiones en otros dispositivos."
+        extra={{ revokeOtherSessions: true }}
+        campos={[
+          { nombre: 'currentPassword', etiqueta: 'Contraseña actual', tipo: 'password', autocomplete: 'current-password' },
+          {
+            nombre: 'newPassword',
+            etiqueta: 'Contraseña nueva',
+            tipo: 'password',
+            autocomplete: 'new-password',
+            ayuda: `Al menos ${LONGITUD_MINIMA} caracteres.`,
+          },
+        ]}
+      />
+    </section>
+  </div>
+</Portal>

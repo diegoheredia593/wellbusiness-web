@@ -1,0 +1,32 @@
+---
+/** Editor de los campos de una página (contenido o sistema). */
+import cliente from '@cliente';
+import type { NivelBloque } from '@cms/core/schema';
+import Portal from '@/layouts/Portal.astro';
+import EditorBloques from '@/components/EditorBloques';
+import { etiquetaPagina, seccionesDePagina } from '@/lib/servidor/bloques';
+
+interface Props {
+  nivel: NivelBloque;
+  base: string;
+  titulo: string;
+}
+const { nivel, base, titulo } = Astro.props;
+const pagina = Astro.params.pagina ?? '';
+const usuario = Astro.locals.usuario!;
+
+const secciones = await seccionesDePagina(pagina, nivel);
+const enRevision = cliente.portal.requiereAprobacion && usuario.rol !== 'admin';
+---
+
+<Portal titulo={etiquetaPagina(pagina)} antetitulo={titulo} volver={{ href: base, texto: titulo }}>
+  {
+    nivel === 'sistema' && (
+      <p class="aviso aviso-advertencia mb-6">
+        Textos técnicos del sitio (accesibilidad, formularios, mensajes). Cámbialos con cuidado: afectan cómo funciona el
+        sitio.
+      </p>
+    )
+  }
+  <EditorBloques client:load pagina={pagina} secciones={secciones} enRevision={enRevision} esAdmin={usuario.rol === 'admin'} />
+</Portal>

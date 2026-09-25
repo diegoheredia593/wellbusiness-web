@@ -1,0 +1,55 @@
+---
+import cliente from '@cliente';
+import Portal from '@/layouts/Portal.astro';
+import { describirEvento, ultimosEventos } from '@/lib/servidor/auditoria';
+import { formatearFechaHora } from '@/lib/textos';
+
+const POR_PAGINA = 50;
+const antes = Number(Astro.url.searchParams.get('antes')) || undefined;
+const eventos = await ultimosEventos(POR_PAGINA + 1, antes);
+const hayMas = eventos.length > POR_PAGINA;
+const visibles = eventos.slice(0, POR_PAGINA);
+const zona = cliente.portal.zonaHoraria;
+
+// Agrupar por día.
+const dias = new Map<string, typeof visibles>();
+for (const e of visibles) {
+  const dia = new Intl.DateTimeFormat('es-EC', { timeZone: zona, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(
+    new Date(e.creado),
+  );
+  if (!dias.has(dia)) dias.set(dia, []);
+  dias.get(dia)!.push(e);
+}
+const hora = (iso: string) => new Intl.DateTimeFormat('es-EC', { timeZone: zona, hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
+---
+
+<Portal titulo="Historial de cambios">
+  <p class="mb-6 text-tinta-suave">Quién cambió qué y cuándo, del más reciente al más antiguo.</p>
+  {visibles.length === 0 && <p class="tarjeta p-6 text-center text-tinta-suave">Todavía no hay cambios.</p>}
+  <div class="space-y-6">
+    {
+      [...dias].map(([dia, lista]) => (
+        <section aria-label={dia}>
+          <h2 class="mb-2 text-sm font-bold tracking-wide text-tinta-suave uppercase">{dia}</h2>
+          <ol class="tarjeta divide-y divide-borde">
+            {lista.map((e) => (
+              <li class="flex gap-4 p-3">
+                <time datetime={e.creado} title={formatearFechaHora(e.creado, zona)} class="w-14 shrink-0 text-sm text-tinta-suave tabular-nums">
+                  {hora(e.creado)}
+                </time>
+                <p class="min-w-0 break-words">{describirEvento(e)}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+  </div>
+  {
+    hayMas && (
+      <a href={`/historial?antes=${visibles[visibles.length - 1]!.id}`} class="boton boton-secundario mt-6">
+        Ver cambios anteriores
+      </a>
+    )
+  }
+</Portal>

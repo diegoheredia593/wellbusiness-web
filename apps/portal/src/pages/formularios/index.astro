@@ -1,0 +1,67 @@
+---
+import cliente from '@cliente';
+import Portal from '@/layouts/Portal.astro';
+import ListaEnvios from '@/components/ListaEnvios';
+import { contarPorTipo, listarEnvios, valorLegible } from '@/lib/servidor/envios';
+import { formatearFechaHora } from '@/lib/textos';
+
+const tipos = await contarPorTipo();
+const pedido = Astro.url.searchParams.get('tipo');
+const tipo = tipos.find((t) => t.tipo === pedido)?.tipo ?? tipos[0]?.tipo ?? '';
+const def = cliente.formularios[tipo];
+const envios = def
+  ? (await listarEnvios(tipo)).map((e) => ({
+      id: e.id,
+      fecha: formatearFechaHora(e.creado, cliente.portal.zonaHoraria),
+      leido: e.leidoEn !== null,
+      esEjemplo: e.esEjemplo,
+      campos: Object.entries(def.campos).map(([campo, etiqueta]) => ({
+        etiqueta,
+        valor: valorLegible(tipo, campo, e.datos[campo] ?? ''),
+      })),
+    }))
+  : [];
+const hayEjemplos = envios.some((e) => e.esEjemplo);
+---
+
+<Portal titulo="Formularios recibidos">
+  <p class="aviso aviso-info mb-5">
+    El sitio todavía no guarda los formularios: empezará a hacerlo cuando se conecte con la base de datos (fase 3).
+    {hayEjemplos && ' Lo que ves aquí son envíos de ejemplo.'}
+  </p>
+
+  <nav aria-label="Tipo de formulario" class="mb-5">
+    <ul class="flex flex-wrap gap-2">
+      {
+        tipos.map((t) => (
+          <li>
+            <a
+              href={`/formularios?tipo=${t.tipo}`}
+              aria-current={t.tipo === tipo ? 'page' : undefined}
+              class:list={['boton boton-chico', t.tipo === tipo ? 'boton-primario' : 'boton-secundario']}
+            >
+              {t.etiqueta} ({t.total})
+              {t.sinLeer > 0 && <span class="insignia bg-white text-acento-oscuro">{t.sinLeer} sin leer</span>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  {
+    def && (
+      <>
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-xl font-bold">{def.etiqueta}</h2>
+          {envios.length > 0 && (
+            <a href={`/formularios/${tipo}.csv`} class="boton boton-secundario" download>
+              Descargar en Excel (CSV)
+            </a>
+          )}
+        </div>
+        <ListaEnvios client:load envios={envios} esAdmin={Astro.locals.usuario!.rol === 'admin'} />
+      </>
+    )
+  }
+</Portal>

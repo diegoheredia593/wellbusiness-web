@@ -1,0 +1,9 @@
+---
+import PaginaBloques from '@/components/PaginaBloques.astro';
+import { paginasDeNivel } from '@/lib/servidor/bloques';
+
+if (Astro.locals.usuario?.rol !== 'admin') return Astro.redirect('/');
+if (!paginasDeNivel('sistema').includes(Astro.params.pagina ?? '')) return Astro.rewrite('/404');
+---
+
+<PaginaBloques nivel="sistema" base="/sistema" titulo="Textos del sistema" />

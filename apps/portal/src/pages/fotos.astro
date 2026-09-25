@@ -1,0 +1,12 @@
+---
+import Portal from '@/layouts/Portal.astro';
+import GestorFotos from '@/components/fotos/GestorFotos';
+---
+
+<Portal titulo="Fotos">
+  <p class="mb-6 max-w-2xl text-tinta-suave">
+    Todas las fotos subidas al portal. Las puedes reutilizar en cualquier página o publicación. Se reducen y se convierten
+    solas antes de subir, para que el sitio cargue rápido.
+  </p>
+  <GestorFotos client:load esAdmin={Astro.locals.usuario?.rol === 'admin'} />
+</Portal>

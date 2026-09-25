@@ -1,0 +1,33 @@
+---
+import cliente from '@cliente';
+import Portal from '@/layouts/Portal.astro';
+import GestorUsuarios from '@/components/GestorUsuarios';
+import { listarUsuarios } from '@/lib/servidor/usuarios';
+import { invitacionesPendientes } from '@/lib/servidor/enlaces';
+import { haceCuanto } from '@/lib/textos';
+
+const yo = Astro.locals.usuario!;
+if (yo.rol !== 'admin') return Astro.redirect('/');
+const zona = cliente.portal.zonaHoraria;
+
+const usuarios = (await listarUsuarios()).map((u) => ({
+  id: u.id,
+  nombre: u.nombre,
+  email: u.email,
+  rol: (u.rol === 'admin' ? 'admin' : 'editor') as 'admin' | 'editor',
+  activo: !u.banned,
+  ultimaVez: u.ultimaSesion ? `Última vez ${haceCuanto(u.ultimaSesion, zona)}` : 'Todavía no entró',
+  esYo: u.id === yo.id,
+}));
+const invitaciones = (await invitacionesPendientes()).map((i) => ({
+  id: i.id,
+  email: i.email,
+  nombre: i.nombre,
+  rol: i.rol ?? 'editor',
+  vence: i.vence,
+}));
+---
+
+<Portal titulo="Usuarios">
+  <GestorUsuarios client:load usuarios={usuarios} invitaciones={invitaciones} titulo={cliente.portal.titulo} />
+</Portal>

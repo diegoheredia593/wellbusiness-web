@@ -1,0 +1,26 @@
+---
+import cliente from '@cliente';
+import { acentoAccesible, oscurecer } from '@/lib/color';
+import '@/styles/portal.css';
+
+interface Props {
+  titulo: string;
+}
+const { titulo } = Astro.props;
+const acento = acentoAccesible(cliente.portal.colorAcento);
+const estilo = `--acento:${acento};--acento-oscuro:${oscurecer(acento)};--acento-suave:${acento}14`;
+---
+
+<!doctype html>
+<html lang="es" style={estilo}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href={cliente.portal.logo} />
+    <title>{`${titulo} · ${cliente.portal.titulo}`}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

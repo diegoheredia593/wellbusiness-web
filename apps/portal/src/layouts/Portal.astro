@@ -1,0 +1,176 @@
+---
+/** Plantilla del portal con menú. En celular el menú se abre con un botón. */
+import cliente from '@cliente';
+import Base from './Base.astro';
+
+interface Props {
+  titulo: string;
+  /** Texto pequeño sobre el título (p. ej. el grupo o la página). */
+  antetitulo?: string;
+  /** Enlace para volver (p. ej. a la lista). */
+  volver?: { href: string; texto: string };
+}
+const { titulo, antetitulo, volver } = Astro.props;
+const usuario = Astro.locals.usuario!;
+const ruta = Astro.url.pathname;
+
+const grupos = new Map<string, { href: string; texto: string }[]>();
+for (const [nombre, c] of Object.entries(cliente.colecciones)) {
+  const grupo = c.grupo ?? 'Contenido';
+  if (!grupos.has(grupo)) grupos.set(grupo, []);
+  grupos.get(grupo)!.push({ href: `/colecciones/${nombre}`, texto: c.etiqueta });
+}
+
+const principal = [
+  { href: '/', texto: 'Inicio' },
+  { href: '/paginas', texto: 'Páginas del sitio' },
+  { href: '/fotos', texto: 'Fotos' },
+  { href: '/formularios', texto: 'Formularios recibidos' },
+  { href: '/historial', texto: 'Historial de cambios' },
+  { href: '/papelera', texto: 'Papelera' },
+];
+const administracion = [
+  { href: '/usuarios', texto: 'Usuarios' },
+  { href: '/sistema', texto: 'Textos del sistema' },
+  { href: '/carga-inicial', texto: 'Contenido inicial' },
+];
+
+const activo = (href: string) => (href === '/' ? ruta === '/' : ruta === href || ruta.startsWith(`${href}/`));
+---
+
+<Base titulo={titulo}>
+  <a href="#contenido" class="sr-only-foco boton boton-primario absolute top-2 left-2 z-50">Saltar al contenido</a>
+
+  <header class="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-borde bg-white px-4 py-2 lg:hidden">
+    <a href="/" class="flex items-center gap-2 font-bold">
+      <img src={cliente.portal.logo} alt="" width="36" height="36" class="h-9 w-auto" />
+      {cliente.portal.titulo}
+    </a>
+    <button
+      type="button"
+      class="boton boton-secundario boton-chico"
+      aria-expanded="false"
+      aria-controls="menu-portal"
+      data-abrir-menu
+    >
+      Menú
+    </button>
+  </header>
+
+  <div class="lg:flex">
+    <nav
+      id="menu-portal"
+      aria-label="Menú del portal"
+      class="fixed inset-0 top-[3.3rem] z-20 hidden overflow-y-auto border-r border-borde bg-white px-3 pb-10 lg:sticky lg:top-0 lg:block lg:h-dvh lg:w-72 lg:shrink-0 lg:pt-5"
+      data-menu
+    >
+      <a href="/" class="mb-5 hidden items-center gap-3 px-2 font-bold lg:flex">
+        <img src={cliente.portal.logo} alt="" width="40" height="40" class="h-10 w-auto" />
+        {cliente.portal.titulo}
+      </a>
+      <ul class="space-y-0.5">
+        {
+          principal.map((e) => (
+            <li>
+              <a
+                href={e.href}
+                aria-current={activo(e.href) ? 'page' : undefined}
+                class="flex min-h-11 items-center rounded-md px-3 font-medium hover:bg-fondo aria-[current=page]:bg-acento-suave aria-[current=page]:font-bold aria-[current=page]:text-acento-oscuro"
+              >
+                {e.texto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      {
+        [...grupos].map(([grupo, enlaces]) => (
+          <div class="mt-5">
+            <p class="px-3 text-xs font-bold tracking-wide text-tinta-suave uppercase">{grupo}</p>
+            <ul class="mt-1 space-y-0.5">
+              {enlaces.map((e) => (
+                <li>
+                  <a
+                    href={e.href}
+                    aria-current={activo(e.href) ? 'page' : undefined}
+                    class="flex min-h-10 items-center rounded-md px-3 hover:bg-fondo aria-[current=page]:bg-acento-suave aria-[current=page]:font-bold aria-[current=page]:text-acento-oscuro"
+                  >
+                    {e.texto}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+
+      {
+        usuario.rol === 'admin' && (
+          <div class="mt-5">
+            <p class="px-3 text-xs font-bold tracking-wide text-tinta-suave uppercase">Administración</p>
+            <ul class="mt-1 space-y-0.5">
+              {administracion.map((e) => (
+                <li>
+                  <a
+                    href={e.href}
+                    aria-current={activo(e.href) ? 'page' : undefined}
+                    class="flex min-h-10 items-center rounded-md px-3 hover:bg-fondo aria-[current=page]:bg-acento-suave aria-[current=page]:font-bold aria-[current=page]:text-acento-oscuro"
+                  >
+                    {e.texto}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+
+      <div class="mt-6 border-t border-borde px-3 pt-4">
+        <p class="font-semibold">{usuario.nombre}</p>
+        <p class="text-sm break-all text-tinta-suave">{usuario.email}</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <a href="/cuenta" class="boton boton-secundario boton-chico">Mi cuenta</a>
+          <button type="button" class="boton boton-secundario boton-chico" data-salir>Salir</button>
+        </div>
+      </div>
+    </nav>
+
+    <main id="contenido" class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+      <div class="mx-auto max-w-5xl">
+        {
+          volver && (
+            <a href={volver.href} class="enlace mb-3 inline-block text-sm">
+              ← {volver.texto}
+            </a>
+          )
+        }
+        {antetitulo && <p class="text-sm font-semibold text-tinta-suave">{antetitulo}</p>}
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <h1 class="text-2xl font-bold sm:text-3xl">{titulo}</h1>
+          <slot name="acciones" />
+        </div>
+        <slot />
+      </div>
+    </main>
+  </div>
+</Base>
+
+<script>
+  const boton = document.querySelector<HTMLButtonElement>('[data-abrir-menu]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  boton?.addEventListener('click', () => {
+    const abierto = boton.getAttribute('aria-expanded') === 'true';
+    boton.setAttribute('aria-expanded', String(!abierto));
+    boton.textContent = abierto ? 'Menú' : 'Cerrar';
+    menu?.classList.toggle('hidden', abierto);
+    document.body.classList.toggle('overflow-hidden', !abierto);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && boton?.getAttribute('aria-expanded') === 'true') boton.click();
+  });
+  document.querySelector('[data-salir]')?.addEventListener('click', async () => {
+    await fetch('/api/auth/sign-out', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+    location.href = '/entrar';
+  });
+</script>

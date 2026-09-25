@@ -1,0 +1,8 @@
+---
+import PaginaBloques from '@/components/PaginaBloques.astro';
+import { paginasDeNivel } from '@/lib/servidor/bloques';
+
+if (!paginasDeNivel('contenido').includes(Astro.params.pagina ?? '')) return Astro.rewrite('/404');
+---
+
+<PaginaBloques nivel="contenido" base="/paginas" titulo="Páginas del sitio" />

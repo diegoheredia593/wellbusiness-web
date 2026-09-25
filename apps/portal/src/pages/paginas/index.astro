@@ -1,0 +1,12 @@
+---
+import Portal from '@/layouts/Portal.astro';
+import ListaPaginas from '@/components/ListaPaginas.astro';
+---
+
+<Portal titulo="Páginas del sitio">
+  <p class="mb-6 max-w-2xl text-tinta-suave">
+    Elige una página para cambiar sus títulos, textos, botones y fotos. Los campos "sin completar" están vacíos y no se
+    muestran en el sitio hasta que los llenes.
+  </p>
+  <ListaPaginas nivel="contenido" base="/paginas" />
+</Portal>

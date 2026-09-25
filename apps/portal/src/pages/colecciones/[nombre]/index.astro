@@ -1,0 +1,57 @@
+---
+import cliente from '@cliente';
+import Portal from '@/layouts/Portal.astro';
+import ListaColeccion, { type ResumenItem } from '@/components/ListaColeccion';
+import { camposDe, definicion, enRevision, listar, puedeEliminar, tituloDe } from '@/lib/servidor/items';
+import { nuevo } from '@/lib/textos';
+import { formatearFecha } from '@/lib/textos';
+
+const nombre = Astro.params.nombre ?? '';
+const def = definicion(nombre);
+if (!def) return Astro.rewrite('/404');
+const usuario = Astro.locals.usuario!;
+const campos = camposDe(nombre);
+const campoImagen = campos.find((c) => c.control === 'imagen' || c.control === 'galeria');
+const campoFecha = def.ordenarPor && def.ordenarPor !== 'orden' ? def.ordenarPor.campo : null;
+
+function fechaLegible(v: unknown) {
+  if (typeof v !== 'string' || !v) return 'Sin fecha';
+  if (/^\d{4}-\d{2}$/.test(v)) {
+    return new Intl.DateTimeFormat('es-EC', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${v}-01T12:00:00Z`));
+  }
+  return formatearFecha(`${v}T12:00:00Z`, cliente.portal.zonaHoraria);
+}
+
+const items: ResumenItem[] = (await listar(nombre)).map((i) => {
+  const img = campoImagen ? i.datos[campoImagen.nombre] : null;
+  const miniatura = Array.isArray(img) ? ((img[0] as { src?: string } | undefined)?.src ?? null) : ((img as { src?: string } | null)?.src ?? null);
+  const textos = [def.campoTitulo, ...(def.busqueda ?? [])].map((c) => String(i.datos[c] ?? ''));
+  return {
+    id: i.id,
+    titulo: tituloDe(nombre, i.datos),
+    detalle: campoFecha ? fechaLegible(i.datos[campoFecha]) : null,
+    estado: i.estado,
+    miniatura,
+    actualizado: i.actualizado,
+    pendiente: i.datosBorrador !== null,
+    busqueda: textos.join(' '),
+  };
+});
+
+const aviso = Astro.url.searchParams.has('eliminado') ? 'Se mandó a la papelera.' : undefined;
+---
+
+<Portal titulo={def.etiqueta} antetitulo={def.grupo}>
+  <a slot="acciones" href={`/colecciones/${nombre}/nuevo`} class="boton boton-primario">+ {nuevo(def)}</a>
+  <p class="mb-5 text-tinta-suave">{def.descripcion}</p>
+  <ListaColeccion
+    client:load
+    coleccion={nombre}
+    nombres={{ singular: def.singular, genero: def.genero, etiqueta: def.etiqueta }}
+    items={items}
+    ordenManual={!def.ordenarPor || def.ordenarPor === 'orden'}
+    puedeEliminar={puedeEliminar(usuario)}
+    enRevision={enRevision(usuario)}
+    aviso={aviso}
+  />
+</Portal>

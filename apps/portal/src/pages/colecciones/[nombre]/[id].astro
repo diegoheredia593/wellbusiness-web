@@ -1,0 +1,37 @@
+---
+import Portal from '@/layouts/Portal.astro';
+import FormularioItem from '@/components/FormularioItem';
+import { camposDe, definicion, enRevision, obtener, opcionesRelacion, puedeEliminar, tituloDe } from '@/lib/servidor/items';
+import { valorInicial } from '@cms/core/campos';
+
+const nombre = Astro.params.nombre ?? '';
+const def = definicion(nombre);
+if (!def) return Astro.rewrite('/404');
+const item = await obtener(nombre, Astro.params.id ?? '');
+if (!item || item.eliminadoEn) return Astro.rewrite('/404');
+
+const usuario = Astro.locals.usuario!;
+const campos = camposDe(nombre);
+// Campos que se agregaron al esquema después de crear el ítem: valor inicial.
+const valores = Object.fromEntries(campos.map((c) => [c.nombre, item.datos[c.nombre] ?? valorInicial(c)]));
+const relaciones = await opcionesRelacion(campos);
+const creado = Astro.url.searchParams.has('creado');
+---
+
+<Portal titulo={tituloDe(nombre, item.datos)} antetitulo={def.etiqueta} volver={{ href: `/colecciones/${nombre}`, texto: def.etiqueta }}>
+  {creado && <p class="aviso aviso-exito mb-5">Guardado.</p>}
+  <FormularioItem
+    client:load
+    coleccion={nombre}
+    nombres={{ singular: def.singular, genero: def.genero, etiqueta: def.etiqueta }}
+    campos={campos}
+    valores={valores}
+    pendientes={item.datosBorrador}
+    id={item.id}
+    estado={item.estado}
+    relaciones={relaciones}
+    esAdmin={usuario.rol === 'admin'}
+    enRevision={enRevision(usuario)}
+    puedeEliminar={puedeEliminar(usuario)}
+  />
+</Portal>

@@ -1,0 +1,35 @@
+---
+/** Lista de páginas del sitio con cuántos campos tienen y cuántos están vacíos. */
+import type { NivelBloque } from '@cms/core/schema';
+import { resumenPaginas } from '@/lib/servidor/bloques';
+
+interface Props {
+  nivel: NivelBloque;
+  base: string;
+}
+const { nivel, base } = Astro.props;
+const paginas = await resumenPaginas(nivel);
+---
+
+<ul class="grid gap-3 sm:grid-cols-2">
+  {
+    paginas.map((p) => (
+      <li>
+        <a href={`${base}/${p.pagina}`} class="tarjeta flex min-h-24 flex-col justify-between gap-2 p-4 hover:border-borde-campo">
+          <span class="text-lg font-bold text-acento underline-offset-4 hover:underline">{p.etiqueta}</span>
+          <span class="flex flex-wrap gap-2 text-sm">
+            <span class="text-tinta-suave">
+              {p.campos} {p.campos === 1 ? 'campo' : 'campos'}
+            </span>
+            {p.vacios > 0 && (
+              <span class="insignia bg-aviso-suave text-aviso">
+                {p.vacios} sin completar
+              </span>
+            )}
+            {p.pendientes > 0 && <span class="insignia bg-info-suave">{p.pendientes} en revisión</span>}
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

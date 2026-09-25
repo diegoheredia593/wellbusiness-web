@@ -1,0 +1,23 @@
+---
+/** Páginas sin menú: entrar, configuración inicial, invitación, restablecer. */
+import cliente from '@cliente';
+import Base from './Base.astro';
+
+interface Props {
+  titulo: string;
+}
+const { titulo } = Astro.props;
+---
+
+<Base titulo={titulo}>
+  <main class="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-4 py-10">
+    <div class="mb-6 flex items-center gap-3">
+      <img src={cliente.portal.logo} alt="" width="48" height="48" class="h-12 w-auto rounded-lg bg-white p-1 shadow-sm" />
+      <p class="text-lg font-bold">{cliente.portal.titulo}</p>
+    </div>
+    <div class="tarjeta p-6 sm:p-8">
+      <h1 class="mb-5 text-2xl font-bold">{titulo}</h1>
+      <slot />
+    </div>
+  </main>
+</Base>

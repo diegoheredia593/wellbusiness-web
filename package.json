@@ -1,24 +1,29 @@
 {
-  "name": "wellbusiness-web",
+  "name": "wellbusiness",
+  "private": true,
   "type": "module",
-  "version": "0.0.1",
   "engines": {
     "node": ">=22.12.0"
   },
+  "workspaces": [
+    "packages/*",
+    "clientes/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@fontsource-variable/inter": "^5.3.0",
-    "@fontsource-variable/manrope": "^5.3.0",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.4",
-    "tailwindcss": "^4.3.3"
+    "build:web": "npm run build -w apps/web",
+    "deploy:web": "cd apps/web && npx wrangler deploy",
+    "dev:web": "npm run dev -w apps/web",
+    "check:web": "npm run check -w apps/web",
+    "build:portal": "npm run build -w apps/portal",
+    "deploy:portal": "cd apps/portal && npx wrangler deploy",
+    "dev:portal": "npm run dev -w apps/portal",
+    "check:portal": "npm run check -w apps/portal",
+    "version:web": "cd apps/web && npx wrangler versions upload",
+    "version:portal": "cd apps/portal && npx wrangler versions upload"
   },
   "allowScripts": {
-    "esbuild": true
+    "esbuild": true,
+    "workerd": true
   }
 }

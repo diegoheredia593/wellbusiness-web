@@ -1,0 +1,20 @@
+---
+interface Props {
+  motivo: 'no-existe' | 'usado' | 'vencido';
+  tipo: 'invitacion' | 'restablecer';
+}
+const { motivo, tipo } = Astro.props;
+const textos = {
+  'no-existe': 'Este enlace no es válido. Revisa que lo hayas copiado completo.',
+  usado: 'Este enlace ya se usó. Cada enlace sirve una sola vez.',
+  vencido: 'Este enlace venció.',
+};
+---
+
+<div class="space-y-3">
+  <p class="aviso aviso-advertencia">{textos[motivo]}</p>
+  <p class="text-tinta-suave">
+    Pídele al administrador del portal un enlace nuevo{tipo === 'invitacion' ? ' de invitación' : ' para crear tu contraseña'}.
+  </p>
+  {tipo === 'restablecer' && <a class="enlace" href="/entrar">Ir a entrar</a>}
+</div>

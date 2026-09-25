@@ -1,0 +1,9 @@
+---
+import Simple from '@/layouts/Simple.astro';
+Astro.response.status = 404;
+---
+
+<Simple titulo="No encontramos esta página">
+  <p class="mb-5 text-tinta-suave">Puede que la dirección esté mal escrita o que la página ya no exista.</p>
+  <a href="/" class="boton boton-primario">Ir al inicio del portal</a>
+</Simple>

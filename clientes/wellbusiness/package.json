@@ -1,0 +1,19 @@
+{
+  "name": "@clientes/wellbusiness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Configuración y contenido de Wellbusiness: bloques, esquemas de colecciones, contenido inicial y ajustes del portal.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./bloques": "./src/bloques.ts",
+    "./esquemas": "./src/esquemas.ts",
+    "./colecciones": "./src/colecciones.ts"
+  },
+  "dependencies": {
+    "@cms/core": "*"
+  },
+  "peerDependencies": {
+    "zod": "^4.6.5"
+  }
+}

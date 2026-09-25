@@ -1,0 +1,144 @@
+---
+import { env } from 'cloudflare:workers';
+import cliente from '@cliente';
+import Portal from '@/layouts/Portal.astro';
+import { describirEvento, ultimosEventos } from '@/lib/servidor/auditoria';
+import { definicion, purgarPapelera, tituloDe } from '@/lib/servidor/items';
+import { contarPorTipo } from '@/lib/servidor/envios';
+import { haceCuanto, nuevo } from '@/lib/textos';
+
+const usuario = Astro.locals.usuario!;
+const zona = cliente.portal.zonaHoraria;
+await purgarPapelera();
+
+// La primera colección de la configuración es la de acceso rápido (en Fluvida, noticias).
+const [primera] = Object.keys(cliente.colecciones);
+const defPrimera = primera ? definicion(primera) : null;
+
+const { results: recientes } = await env.DB.prepare(
+  `SELECT id, coleccion, estado, datos, actualizado, datos_borrador IS NOT NULL AS pendiente
+   FROM items WHERE eliminado_en IS NULL ORDER BY actualizado DESC LIMIT 6`,
+).all<{ id: string; coleccion: string; estado: string; datos: string; actualizado: string; pendiente: number }>();
+
+const eventos = await ultimosEventos(8);
+const formularios = await contarPorTipo();
+const sinLeer = formularios.reduce((n, f) => n + f.sinLeer, 0);
+
+const pendientes =
+  usuario.rol === 'admin' && cliente.portal.requiereAprobacion
+    ? ((await env.DB.prepare(
+        `SELECT (SELECT count(*) FROM items WHERE datos_borrador IS NOT NULL AND eliminado_en IS NULL)
+              + (SELECT count(*) FROM bloques WHERE valor_borrador IS NOT NULL) AS n`,
+      ).first<{ n: number }>())?.n ?? 0)
+    : 0;
+
+const vacio = (await env.DB.prepare('SELECT count(*) AS n FROM items').first<{ n: number }>())?.n === 0;
+
+const ESTADO: Record<string, string> = { publicado: 'Publicado', borrador: 'Borrador', archivado: 'Archivado' };
+const saludo = usuario.nombre.split(' ')[0];
+---
+
+<Portal titulo={`Hola, ${saludo}`}>
+  <p class="aviso aviso-info mb-6">
+    <strong>Portal en período de prueba.</strong> Lo que guardas aquí queda en la base de datos, pero el sitio público
+    todavía no lo muestra: se conectará en la siguiente fase.
+  </p>
+
+  {
+    vacio && usuario.rol === 'admin' && (
+      <p class="aviso aviso-advertencia mb-6">
+        Todavía no hay contenido cargado. Ve a <a class="enlace" href="/carga-inicial">Contenido inicial</a> para pasar el
+        contenido actual del sitio al portal.
+      </p>
+    )
+  }
+
+  <section aria-labelledby="t-accesos" class="mb-8">
+    <h2 id="t-accesos" class="sr-only">Accesos rápidos</h2>
+    <ul class="grid gap-3 sm:grid-cols-3">
+      {
+        defPrimera && (
+          <li>
+            <a href={`/colecciones/${primera}/nuevo`} class="tarjeta flex min-h-24 flex-col justify-center gap-1 p-4 hover:border-acento">
+              <span class="text-lg font-bold text-acento">+ {nuevo(defPrimera)}</span>
+              <span class="text-sm text-tinta-suave">Con fotos y texto</span>
+            </a>
+          </li>
+        )
+      }
+      <li>
+        <a href="/fotos" class="tarjeta flex min-h-24 flex-col justify-center gap-1 p-4 hover:border-acento">
+          <span class="text-lg font-bold text-acento">Subir fotos</span>
+          <span class="text-sm text-tinta-suave">A la biblioteca</span>
+        </a>
+      </li>
+      <li>
+        <a href="/paginas" class="tarjeta flex min-h-24 flex-col justify-center gap-1 p-4 hover:border-acento">
+          <span class="text-lg font-bold text-acento">Editar textos</span>
+          <span class="text-sm text-tinta-suave">De las páginas del sitio</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  {
+    (sinLeer > 0 || pendientes > 0) && (
+      <ul class="mb-8 space-y-2">
+        {sinLeer > 0 && (
+          <li class="aviso aviso-advertencia">
+            Hay {sinLeer} {sinLeer === 1 ? 'formulario nuevo' : 'formularios nuevos'} sin leer.{' '}
+            <a class="enlace" href="/formularios">Verlos</a>
+          </li>
+        )}
+        {pendientes > 0 && (
+          <li class="aviso aviso-advertencia">
+            Hay {pendientes} {pendientes === 1 ? 'cambio' : 'cambios'} de editores esperando tu aprobación.
+          </li>
+        )}
+      </ul>
+    )
+  }
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <section aria-labelledby="t-recientes" class="tarjeta p-5">
+      <h2 id="t-recientes" class="mb-3 text-xl font-bold">Últimas publicaciones y cambios</h2>
+      {recientes.length === 0 && <p class="text-tinta-suave">Todavía no hay nada.</p>}
+      <ul class="divide-y divide-borde">
+        {
+          recientes.map((r) => {
+            const def = definicion(r.coleccion);
+            return (
+              <li class="py-2">
+                <a href={`/colecciones/${r.coleccion}/${r.id}`} class="enlace">
+                  {tituloDe(r.coleccion, JSON.parse(r.datos))}
+                </a>
+                <p class="text-sm text-tinta-suave">
+                  {def?.etiqueta} · {ESTADO[r.estado]}
+                  {r.pendiente ? ' · en revisión' : ''} · {haceCuanto(r.actualizado, zona)}
+                </p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+
+    <section aria-labelledby="t-cambios" class="tarjeta p-5">
+      <div class="mb-3 flex items-center justify-between gap-3">
+        <h2 id="t-cambios" class="text-xl font-bold">Últimos cambios</h2>
+        <a href="/historial" class="enlace text-sm">Ver todo</a>
+      </div>
+      {eventos.length === 0 && <p class="text-tinta-suave">Todavía no hay cambios.</p>}
+      <ul class="divide-y divide-borde">
+        {
+          eventos.map((e) => (
+            <li class="py-2">
+              <p>{describirEvento(e)}</p>
+              <p class="text-sm text-tinta-suave">{haceCuanto(e.creado, zona)}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</Portal>

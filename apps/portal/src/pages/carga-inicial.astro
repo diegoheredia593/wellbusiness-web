@@ -1,0 +1,16 @@
+---
+import Portal from '@/layouts/Portal.astro';
+import AccionesCarga from '@/components/AccionesCarga';
+import { estadoCarga } from '@/lib/servidor/carga';
+
+if (Astro.locals.usuario?.rol !== 'admin') return Astro.redirect('/');
+const estado = await estadoCarga();
+---
+
+<Portal titulo="Contenido inicial">
+  <p class="mb-6 max-w-2xl text-tinta-suave">
+    Pasa a la base de datos el contenido que el sitio tenía en sus archivos. Los textos de las páginas ({estado.bloques})
+    ya se cargaron solos. Las fotos de relleno no se copian: cuando subas las fotos reales, elígelas en cada campo.
+  </p>
+  <AccionesCarga client:load items={estado.items} disponibles={estado.disponibles} enviosEjemplo={estado.enviosEjemplo} />
+</Portal>

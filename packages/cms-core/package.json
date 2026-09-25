@@ -1,0 +1,33 @@
+{
+  "name": "@cms/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Núcleo genérico del CMS: tipos, esquemas, bloques, colecciones, texto enriquecido y base de datos. No sabe nada de ningún cliente.",
+  "exports": {
+    "./schema": "./src/schema.ts",
+    "./bloques": "./src/bloques.ts",
+    "./campos": "./src/campos.ts",
+    "./rico": "./src/rico.ts",
+    "./slug": "./src/slug.ts",
+    "./db": "./src/db/esquema.ts",
+    "./migraciones": "./src/db/migraciones.ts",
+    "./cliente": "./src/cliente.ts",
+    "./fuente": "./src/fuente.ts",
+    "./validacion": "./src/validacion.ts",
+    "./almacen": "./src/almacen.ts",
+    "./youtube": "./src/youtube.ts"
+  },
+  "peerDependencies": {
+    "zod": "^4.6.5"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.11"
+  },
+  "scripts": {
+    "db:generar": "drizzle-kit generate"
+  }
+}

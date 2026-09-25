@@ -23,5 +23,11 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# Wrangler local state (Cloudflare deploy config itself, wrangler.toml, is committed)
+# Wrangler local state (Cloudflare deploy config itself, wrangler.toml/.jsonc, is committed)
 .wrangler/
+
+# Better Auth / portal secrets for local dev (never commit real secrets)
+.dev.vars*
+
+# scratch space for one-off scripts (e.g. the photo-import script's temp output)
+.tmp/

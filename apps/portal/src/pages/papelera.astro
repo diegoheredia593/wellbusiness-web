@@ -1,0 +1,29 @@
+---
+import cliente from '@cliente';
+import Portal from '@/layouts/Portal.astro';
+import Papelera from '@/components/Papelera';
+import { definicion, papelera, tituloDe } from '@/lib/servidor/items';
+import { formatearFecha } from '@/lib/textos';
+
+const usuario = Astro.locals.usuario!;
+const dias = cliente.portal.diasPapelera;
+const items = (await papelera()).map((i) => {
+  const def = definicion(i.coleccion);
+  const vence = new Date(new Date(i.eliminadoEn!).getTime() + dias * 86400_000);
+  return {
+    id: i.id,
+    titulo: tituloDe(i.coleccion, i.datos),
+    coleccion: def?.etiqueta ?? i.coleccion,
+    eliminado: formatearFecha(i.eliminadoEn!, cliente.portal.zonaHoraria),
+    vence: formatearFecha(vence, cliente.portal.zonaHoraria),
+  };
+});
+---
+
+<Portal titulo="Papelera">
+  <p class="mb-6 max-w-2xl text-tinta-suave">
+    Lo que se elimina queda aquí {dias} días y después se borra para siempre. Al recuperar algo vuelve como borrador:
+    revísalo y publícalo cuando esté listo.
+  </p>
+  <Papelera client:load items={items} esAdmin={usuario.rol === 'admin'} />
+</Portal>

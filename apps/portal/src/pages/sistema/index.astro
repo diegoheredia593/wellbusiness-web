@@ -1,0 +1,14 @@
+---
+import Portal from '@/layouts/Portal.astro';
+import ListaPaginas from '@/components/ListaPaginas.astro';
+
+if (Astro.locals.usuario?.rol !== 'admin') return Astro.redirect('/');
+---
+
+<Portal titulo="Textos del sistema">
+  <p class="mb-6 max-w-2xl text-tinta-suave">
+    Textos de accesibilidad, etiquetas y mensajes de los formularios, textos de interfaz y enlaces internos de los botones.
+    Solo los ven los administradores.
+  </p>
+  <ListaPaginas nivel="sistema" base="/sistema" />
+</Portal>
