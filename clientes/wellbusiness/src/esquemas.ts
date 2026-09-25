@@ -122,7 +122,7 @@ export const productoSchema = definirColeccion({
     .max(600)
     .meta({ etiqueta: 'Resumen', control: 'textoLargo' }),
   tipo: z.string().min(1).max(40).meta({ etiqueta: 'Tipo (p. ej. "Portátil")' }),
-  banda: z.string().min(1).max(80).meta({ etiqueta: 'Banda de frecuencia' }),
+  banda: z.string().min(1).max(100).meta({ etiqueta: 'Banda de frecuencia' }),
   specs: z.array(z.string().max(160)).meta({ etiqueta: 'Especificaciones y beneficios' }),
   aplicaciones: z.array(z.string().max(60)).meta({ etiqueta: 'Aplicaciones sugeridas' }),
   fotos: galeriaFotos,
