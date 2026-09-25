@@ -6,13 +6,14 @@
  * viene de un archivo fuente real, confirmado línea por línea antes de
  * transcribirlo aquí.
  *
- * Las fotos (`./fotos.ts`) apuntan directo a los archivos que ya existen en
- * `apps/web/public/images/{products,logos}` — igual que Fluvida, nunca
- * pasan por la biblioteca de medios del portal (KV); solo se necesita su
- * ancho/alto real para reservar el espacio, medido con la misma lógica que
- * usa el portal internamente (ver el comentario en `./fotos.ts`).
+ * Las fotos (productos y marcas) viven en la biblioteca de medios del
+ * portal, no como archivos estáticos de `apps/web` — el portal vive en
+ * otro dominio y una ruta relativa como `/images/...` no resuelve ahí
+ * (verificado en local: redirige a `/entrar`). `scripts/importar-fotos.ts`
+ * las sube una sola vez y `./medios.ts`/`./medios-generados.ts` guardan el
+ * id/ancho/alto/alt real de cada una.
  */
-import { foto } from './fotos';
+import { medio } from './medios';
 
 const CREADO = '2026-09-25T00:00:00.000Z';
 
@@ -67,9 +68,9 @@ export const productos = [
     ],
     aplicaciones: ['Construcción', 'Mantenimiento de edificios', 'Administración de edificios'],
     fotos: [
-      foto('products/rva50-1.jpg', 'Motorola RVA50 — foto 1'),
-      foto('products/rva50-2.jpg', 'Motorola RVA50 — foto 2'),
-      foto('products/rva50-3.jpg', 'Motorola RVA50 — foto 3'),
+      medio('products/rva50-1.jpg'),
+      medio('products/rva50-2.jpg'),
+      medio('products/rva50-3.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -89,7 +90,7 @@ export const productos = [
       'Disponible también con pantalla alfanumérica',
     ],
     aplicaciones: ['Transporte de carga', 'Transporte escolar', 'Despacho de flotas'],
-    fotos: [foto('products/dem300-1.jpg', 'Motorola DEM300 — foto 1')],
+    fotos: [medio('products/dem300-1.jpg')],
     esPlaceholder: 'no',
   }),
   item('prod-dem500', 3, {
@@ -108,7 +109,7 @@ export const productos = [
       'Compatible con la función Transmit Interrupt para priorizar comunicaciones críticas',
     ],
     aplicaciones: [],
-    fotos: [foto('products/dem500-1.jpg', 'Motorola DEM500 — foto 1')],
+    fotos: [medio('products/dem500-1.jpg')],
     esPlaceholder: 'no',
   }),
   item('prod-r5-mototrbo', 4, {
@@ -131,10 +132,10 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/r5-1.jpg', 'Motorola MOTOTRBO R5 — foto 1'),
-      foto('products/r5-2.jpg', 'Motorola MOTOTRBO R5 — foto 2'),
-      foto('products/r5-3.jpg', 'Motorola MOTOTRBO R5 — foto 3'),
-      foto('products/r5-4.jpg', 'Motorola MOTOTRBO R5 — foto 4'),
+      medio('products/r5-1.jpg'),
+      medio('products/r5-2.jpg'),
+      medio('products/r5-3.jpg'),
+      medio('products/r5-4.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -155,10 +156,10 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/sl500e-1.jpg', 'Motorola SL500e — foto 1'),
-      foto('products/sl500e-2.jpg', 'Motorola SL500e — foto 2'),
-      foto('products/sl500e-3.jpg', 'Motorola SL500e — foto 3'),
-      foto('products/sl500e-4.jpg', 'Motorola SL500e — foto 4'),
+      medio('products/sl500e-1.jpg'),
+      medio('products/sl500e-2.jpg'),
+      medio('products/sl500e-3.jpg'),
+      medio('products/sl500e-4.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -178,10 +179,10 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/tlk110-1.jpg', 'Motorola TLK110 Wave PTX — foto 1'),
-      foto('products/tlk110-2.jpg', 'Motorola TLK110 Wave PTX — foto 2'),
-      foto('products/tlk110-3.jpg', 'Motorola TLK110 Wave PTX — foto 3'),
-      foto('products/tlk110-4.jpg', 'Motorola TLK110 Wave PTX — foto 4'),
+      medio('products/tlk110-1.jpg'),
+      medio('products/tlk110-2.jpg'),
+      medio('products/tlk110-3.jpg'),
+      medio('products/tlk110-4.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -205,10 +206,10 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/r2-1.jpg', 'Motorola MOTOTRBO R2 — foto 1'),
-      foto('products/r2-2.jpg', 'Motorola MOTOTRBO R2 — foto 2'),
-      foto('products/r2-3.jpg', 'Motorola MOTOTRBO R2 — foto 3'),
-      foto('products/r2-4.jpg', 'Motorola MOTOTRBO R2 — foto 4'),
+      medio('products/r2-1.jpg'),
+      medio('products/r2-2.jpg'),
+      medio('products/r2-3.jpg'),
+      medio('products/r2-4.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -232,10 +233,10 @@ export const productos = [
     ],
     aplicaciones: ['Tiendas', 'Eventos', 'Colegios'],
     fotos: [
-      foto('products/magone-x10d-1.jpg', 'Motorola MagOne X10d — foto 1'),
-      foto('products/magone-x10d-2.jpg', 'Motorola MagOne X10d — foto 2'),
-      foto('products/magone-x10d-3.jpg', 'Motorola MagOne X10d — foto 3'),
-      foto('products/magone-x10d-4.jpg', 'Motorola MagOne X10d — foto 4'),
+      medio('products/magone-x10d-1.jpg'),
+      medio('products/magone-x10d-2.jpg'),
+      medio('products/magone-x10d-3.jpg'),
+      medio('products/magone-x10d-4.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -260,10 +261,10 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/dep570e-1.png', 'Motorola MOTOTRBO DEP 570e — foto 1'),
-      foto('products/dep570e-2.png', 'Motorola MOTOTRBO DEP 570e — foto 2'),
-      foto('products/dep570e-3.png', 'Motorola MOTOTRBO DEP 570e — foto 3'),
-      foto('products/dep570e-4.png', 'Motorola MOTOTRBO DEP 570e — foto 4'),
+      medio('products/dep570e-1.png'),
+      medio('products/dep570e-2.png'),
+      medio('products/dep570e-3.png'),
+      medio('products/dep570e-4.png'),
     ],
     esPlaceholder: 'no',
   }),
@@ -287,7 +288,7 @@ export const productos = [
       'Compatible con IP Site Connect, Capacity Plus (un sitio y multisitio) y Modo directo de capacidad dual',
     ],
     aplicaciones: [],
-    fotos: [foto('products/dep550e-1.jpg', 'Motorola MOTOTRBO DEP 550e — foto 1')],
+    fotos: [medio('products/dep550e-1.jpg')],
     esPlaceholder: 'no',
   }),
   item('prod-dep450', 11, {
@@ -310,9 +311,9 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/dep450-1.jpg', 'Motorola MOTOTRBO DEP 450 — foto 1'),
-      foto('products/dep450-2.jpg', 'Motorola MOTOTRBO DEP 450 — foto 2'),
-      foto('products/dep450-3.jpg', 'Motorola MOTOTRBO DEP 450 — foto 3'),
+      medio('products/dep450-1.jpg'),
+      medio('products/dep450-2.jpg'),
+      medio('products/dep450-3.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -335,7 +336,7 @@ export const productos = [
       'Hecho para durar: IP54 y pruebas de caída, choque térmico, vibración y polvo',
     ],
     aplicaciones: ['Hotelería', 'Industria ligera', 'Administración de eventos'],
-    fotos: [foto('products/dep250-1.png', 'Motorola MOTOTRBO DEP 250 — foto 1')],
+    fotos: [medio('products/dep250-1.png')],
     esPlaceholder: 'no',
   }),
   item('prod-slr1000', 13, {
@@ -357,11 +358,11 @@ export const productos = [
     ],
     aplicaciones: ['Comercios', 'Colegios', 'Hoteles', 'Edificios'],
     fotos: [
-      foto('products/slr1000-1.jpg', 'Motorola MOTOTRBO SLR1000 — foto 1'),
-      foto('products/slr1000-2.jpg', 'Motorola MOTOTRBO SLR1000 — foto 2'),
-      foto('products/slr1000-3.jpg', 'Motorola MOTOTRBO SLR1000 — foto 3'),
-      foto('products/slr1000-4.jpg', 'Motorola MOTOTRBO SLR1000 — foto 4'),
-      foto('products/slr1000-5.jpg', 'Motorola MOTOTRBO SLR1000 — foto 5'),
+      medio('products/slr1000-1.jpg'),
+      medio('products/slr1000-2.jpg'),
+      medio('products/slr1000-3.jpg'),
+      medio('products/slr1000-4.jpg'),
+      medio('products/slr1000-5.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -386,11 +387,11 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/slr5100-1.jpg', 'Motorola MOTOTRBO SLR5100 — foto 1'),
-      foto('products/slr5100-2.jpg', 'Motorola MOTOTRBO SLR5100 — foto 2'),
-      foto('products/slr5100-3.jpg', 'Motorola MOTOTRBO SLR5100 — foto 3'),
-      foto('products/slr5100-4.jpg', 'Motorola MOTOTRBO SLR5100 — foto 4'),
-      foto('products/slr5100-5.jpg', 'Motorola MOTOTRBO SLR5100 — foto 5'),
+      medio('products/slr5100-1.jpg'),
+      medio('products/slr5100-2.jpg'),
+      medio('products/slr5100-3.jpg'),
+      medio('products/slr5100-4.jpg'),
+      medio('products/slr5100-5.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -414,11 +415,11 @@ export const productos = [
     ],
     aplicaciones: [],
     fotos: [
-      foto('products/slr8000-1.jpg', 'Motorola MOTOTRBO SLR 8000 — foto 1'),
-      foto('products/slr8000-2.jpg', 'Motorola MOTOTRBO SLR 8000 — foto 2'),
-      foto('products/slr8000-3.jpg', 'Motorola MOTOTRBO SLR 8000 — foto 3'),
-      foto('products/slr8000-4.jpg', 'Motorola MOTOTRBO SLR 8000 — foto 4'),
-      foto('products/slr8000-5.jpg', 'Motorola MOTOTRBO SLR 8000 — foto 5'),
+      medio('products/slr8000-1.jpg'),
+      medio('products/slr8000-2.jpg'),
+      medio('products/slr8000-3.jpg'),
+      medio('products/slr8000-4.jpg'),
+      medio('products/slr8000-5.jpg'),
     ],
     esPlaceholder: 'no',
   }),
@@ -459,7 +460,7 @@ export const productos = [
       'Opciones de resistencia IP54, IP55 e IP57 (sumergible), según el modelo',
     ],
     aplicaciones: [],
-    fotos: [foto('products/r5-microfono-rm560-1.jpg', 'Micrófono con altavoz remoto Motorola RM560 / RM530 — foto 1')],
+    fotos: [medio('products/r5-microfono-rm560-1.jpg')],
     esPlaceholder: 'no',
   }),
   item('prod-r5-bateria-impres', 18, {
@@ -478,7 +479,7 @@ export const productos = [
       'Tecnología IMPRES: administración inteligente de carga junto con cargadores y radios compatibles',
     ],
     aplicaciones: [],
-    fotos: [foto('products/r5-bateria-impres-1.jpg', 'Batería IMPRES Motorola PMNN4888 / PMNN4889 — foto 1')],
+    fotos: [medio('products/r5-bateria-impres-1.jpg')],
     esPlaceholder: 'no',
   }),
   item('prod-r5-cargador-multiunidad', 19, {
@@ -497,7 +498,7 @@ export const productos = [
       'Indicador de estado de carga por cada unidad',
     ],
     aplicaciones: [],
-    fotos: [foto('products/r5-cargador-multiunidad-1.jpg', 'Cargador multiunidad IMPRES Motorola PMPN4283 — foto 1')],
+    fotos: [medio('products/r5-cargador-multiunidad-1.jpg')],
     esPlaceholder: 'no',
   }),
 ];
@@ -693,24 +694,24 @@ export const preguntas = [
 // ─── Marcas / logos ──────────────────────────────────────────────────────
 
 export const marcas = [
-  item('marca-claro', 1, { nombre: 'Claro', logo: foto('logos/claro.png', 'Claro') }),
-  item('marca-grandstream', 2, { nombre: 'Grandstream', logo: foto('logos/grandstream.png', 'Grandstream') }),
-  item('marca-huawei', 3, { nombre: 'Huawei', logo: foto('logos/huawei.png', 'Huawei') }),
-  item('marca-hustler', 4, { nombre: 'Hustler', logo: foto('logos/hustler.png', 'Hustler') }),
-  item('marca-l-com', 5, { nombre: 'L-com', logo: foto('logos/l-com-global.png', 'L-com') }),
+  item('marca-claro', 1, { nombre: 'Claro', logo: medio('logos/claro.png') }),
+  item('marca-grandstream', 2, { nombre: 'Grandstream', logo: medio('logos/grandstream.png') }),
+  item('marca-huawei', 3, { nombre: 'Huawei', logo: medio('logos/huawei.png') }),
+  item('marca-hustler', 4, { nombre: 'Hustler', logo: medio('logos/hustler.png') }),
+  item('marca-l-com', 5, { nombre: 'L-com', logo: medio('logos/l-com-global.png') }),
   item('marca-motorola-waveptx', 6, {
     nombre: 'Motorola WAVE PTX',
-    logo: foto('logos/motorola-waveptx.png', 'Motorola WAVE PTX'),
+    logo: medio('logos/motorola-waveptx.png'),
   }),
-  item('marca-pctel', 7, { nombre: 'PCTEL', logo: foto('logos/pctel.png', 'PCTEL') }),
-  item('marca-rf-elements', 8, { nombre: 'RF Elements', logo: foto('logos/rf-elements.png', 'RF Elements') }),
-  item('marca-sinclair', 9, { nombre: 'Sinclair', logo: foto('logos/sinclair.png', 'Sinclair') }),
-  item('marca-smartptt', 10, { nombre: 'SmartPTT', logo: foto('logos/smartptt.png', 'SmartPTT') }),
-  item('marca-tassta', 11, { nombre: 'Tassta', logo: foto('logos/tassta.png', 'Tassta') }),
-  item('marca-telosystems', 12, { nombre: 'TeloSystems', logo: foto('logos/telosystems.png', 'TeloSystems') }),
-  item('marca-telox', 13, { nombre: 'Telox', logo: foto('logos/telox.png', 'Telox') }),
-  item('marca-tram-browning', 14, { nombre: 'Tram Browning', logo: foto('logos/tram-browning.png', 'Tram Browning') }),
-  item('marca-zetron', 15, { nombre: 'Zetron', logo: foto('logos/zetron.png', 'Zetron') }),
+  item('marca-pctel', 7, { nombre: 'PCTEL', logo: medio('logos/pctel.png') }),
+  item('marca-rf-elements', 8, { nombre: 'RF Elements', logo: medio('logos/rf-elements.png') }),
+  item('marca-sinclair', 9, { nombre: 'Sinclair', logo: medio('logos/sinclair.png') }),
+  item('marca-smartptt', 10, { nombre: 'SmartPTT', logo: medio('logos/smartptt.png') }),
+  item('marca-tassta', 11, { nombre: 'Tassta', logo: medio('logos/tassta.png') }),
+  item('marca-telosystems', 12, { nombre: 'TeloSystems', logo: medio('logos/telosystems.png') }),
+  item('marca-telox', 13, { nombre: 'Telox', logo: medio('logos/telox.png') }),
+  item('marca-tram-browning', 14, { nombre: 'Tram Browning', logo: medio('logos/tram-browning.png') }),
+  item('marca-zetron', 15, { nombre: 'Zetron', logo: medio('logos/zetron.png') }),
 ];
 
 // ─── Accesos rápidos (home) ──────────────────────────────────────────────
