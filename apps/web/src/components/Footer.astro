@@ -2,9 +2,17 @@
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
 import MotorolaBadge from "./MotorolaBadge.astro";
-import { FOOTER_LINKS, CONTACT_INFO, SITE, whatsappLink } from "../data/site";
+import { FOOTER_LINKS } from "../data/site";
+import { whatsappLink } from "../utils/whatsapp";
+import type { Contacto, Marca } from "../lib/content";
 
-const hasAnyContact = Object.values(CONTACT_INFO).some(Boolean);
+interface Props {
+  marca: Marca;
+  contacto: Contacto;
+}
+const { marca, contacto } = Astro.props;
+
+const hasAnyContact = Object.values(contacto).some(Boolean);
 const year = new Date().getFullYear();
 ---
 
@@ -14,11 +22,11 @@ const year = new Date().getFullYear();
       <div class="sm:col-span-2 lg:col-span-1">
         <Logo variant="light" />
         <p class="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-          {SITE.legalTagline} Parte de {SITE.parentCompany}.
+          {marca.tagline} Parte de {marca.empresaMadre}.
         </p>
         <div class="mt-5 flex items-center gap-3">
           <a
-            href={CONTACT_INFO.facebook ?? undefined}
+            href={contacto.facebook ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Wellbusiness en Facebook"
@@ -27,7 +35,7 @@ const year = new Date().getFullYear();
             <Icon name="facebook" class="size-4" />
           </a>
           <a
-            href={whatsappLink("Hola, quisiera más información sobre sus equipos.")}
+            href={contacto.whatsapp ? whatsappLink(contacto.whatsapp, "Hola, quisiera más información sobre sus equipos.") : undefined}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Escribir a Wellbusiness por WhatsApp"
@@ -50,27 +58,27 @@ const year = new Date().getFullYear();
       <div>
         <h3 class="text-sm font-semibold uppercase tracking-wide text-white/50">Contacto</h3>
         <ul class="mt-4 space-y-2.5 text-sm text-white/75">
-          {CONTACT_INFO.whatsapp && (
+          {contacto.whatsapp && (
             <li class="flex items-center gap-2">
               <Icon name="whatsapp" class="size-4 shrink-0 text-white/50" />
-              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" class="hover:text-white">
-                {CONTACT_INFO.whatsapp}
+              <a href={whatsappLink(contacto.whatsapp)} target="_blank" rel="noopener noreferrer" class="hover:text-white">
+                {contacto.whatsapp}
               </a>
             </li>
           )}
-          {CONTACT_INFO.email && (
+          {contacto.correo && (
             <li class="flex items-center gap-2">
               <Icon name="mail" class="size-4 shrink-0 text-white/50" />
-              <a href={`mailto:${CONTACT_INFO.email}`} class="hover:text-white">{CONTACT_INFO.email}</a>
+              <a href={`mailto:${contacto.correo}`} class="hover:text-white">{contacto.correo}</a>
             </li>
           )}
-          {CONTACT_INFO.address && (
+          {contacto.direccion && (
             <li class="flex items-start gap-2">
-              <Icon name="pin" class="mt-0.5 size-4 shrink-0 text-white/50" /> {CONTACT_INFO.address}
+              <Icon name="pin" class="mt-0.5 size-4 shrink-0 text-white/50" /> {contacto.direccion}
             </li>
           )}
-          {CONTACT_INFO.hours && (
-            <li class="flex items-center gap-2"><Icon name="clock" class="size-4 shrink-0 text-white/50" /> {CONTACT_INFO.hours}</li>
+          {contacto.horario && (
+            <li class="flex items-center gap-2"><Icon name="clock" class="size-4 shrink-0 text-white/50" /> {contacto.horario}</li>
           )}
           {!hasAnyContact && (
             <li class="rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white/55">
@@ -87,12 +95,12 @@ const year = new Date().getFullYear();
         <p class="mt-4 text-sm leading-relaxed text-white/60">
           Radiocomunicación profesional para empresas: catálogo Motorola, alquiler, servicio técnico e infraestructura.
         </p>
-        <MotorolaBadge variant="chip" class="mt-4" />
+        <MotorolaBadge label={marca.dealerMotorola} variant="chip" class="mt-4" />
       </div>
     </div>
 
     <div class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-      <p class="text-xs text-white/45">© {year} Wellbusiness · {SITE.parentCompany}. Todos los derechos reservados.</p>
+      <p class="text-xs text-white/45">© {year} Wellbusiness · {marca.empresaMadre}. Todos los derechos reservados.</p>
       <p class="text-xs text-white/45">
         Motorola y las marcas relacionadas pertenecen a sus respectivos titulares.
       </p>

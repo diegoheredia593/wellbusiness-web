@@ -8,12 +8,13 @@
  * other interactive component in this codebase (ProductGallery,
  * HeroProductCollage, WhatsAppFloatingButton).
  *
- * Logos are real files supplied in `images/testimonios sin fondo/`,
- * trimmed to their own bounding box only (never recolored/altered — same
- * rule this project already follows for the Wellbusiness/Motorola logos),
- * copied to `public/images/logos/`. Rendered grayscale by default and in
- * full color on hover, since the source logos carry very different brand
- * colors that would otherwise visually fight each other in one row.
+ * Logos (Fase 4: `src/lib/content` → colección `marcas`, served from the
+ * portal's media library — no longer static files under `public/images/`)
+ * were trimmed to their own bounding box only (never recolored/altered —
+ * same rule this project already follows for the Wellbusiness/Motorola
+ * logos). Rendered grayscale by default and in full color on hover, since
+ * the source logos carry very different brand colors that would otherwise
+ * visually fight each other in one row.
  */
 import type { MarqueeLogo } from "../data/types";
 
@@ -33,7 +34,7 @@ const track = [...logos, ...logos];
     data-logo-track
     style={`animation-duration:${duration}s;`}
   >
-    {track.map((logo, i) => (
+    {track.map((logo) => (
       <img
         src={logo.src}
         alt={logo.alt}

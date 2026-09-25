@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
@@ -7,30 +8,37 @@ import CategoryEmptyState from "../../components/CategoryEmptyState.astro";
 import CtaBanner from "../../components/CtaBanner.astro";
 import Button from "../../components/Button.astro";
 import MotorolaBadge from "../../components/MotorolaBadge.astro";
-import { PRODUCTS, PRODUCT_CATEGORIES } from "../../data/products";
+import { getBlocks, marcaDe, contactoDe, getProductos, getCategorias } from "../../lib/content";
 import { contactHref } from "../../utils/url";
 
-const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
+const b = await getBlocks();
+const marca = marcaDe(b);
+const contacto = contactoDe(b);
+const [productos, categorias] = await Promise.all([getProductos(), getCategorias()]);
+
+const categoriesWithCount = categorias.map((category) => ({
   category,
-  products: PRODUCTS.filter((p) => p.category === category),
+  products: productos.filter((p) => p.category === category),
 }));
 ---
 
 <BaseLayout
   title="Catálogo Motorola"
-  description="Consulta radios, repetidoras y accesorios Motorola para uso profesional. Revisa especificaciones y solicita una cotización."
+  description={b.t('catalogo.meta.descripcion')}
+  marca={marca}
+  contacto={contacto}
 >
   <PageHero
-    eyebrow="Catálogo informativo"
-    title="Equipos Motorola para comunicación profesional"
-    description="Conoce las opciones de radiocomunicación y accesorios Motorola disponibles para empresas. Elige un modelo para ver sus fotos, especificaciones completas y consultarnos si se adapta a tu operación."
+    eyebrow={b.t('catalogo.hero.eyebrow')}
+    title={b.t('catalogo.hero.titulo')}
+    description={b.t('catalogo.hero.descripcion')}
   >
-    <MotorolaBadge variant="chip" />
+    <MotorolaBadge label={marca.dealerMotorola} variant="chip" />
   </PageHero>
 
   <div class="mx-auto max-w-7xl px-5 pt-8 sm:px-8">
     <p class="rounded-xl bg-brand-steel-light px-4 py-3 text-center text-sm font-medium text-brand-steel-dark">
-      Catálogo informativo. Sin precios, sin carrito. Disponibilidad y configuración sujetas a consulta.
+      {b.t('catalogo.aviso.texto')}
     </p>
   </div>
 
@@ -41,7 +49,7 @@ const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
         class="filter-tab rounded-full border border-brand-ink bg-brand-ink px-4 py-2 text-sm font-semibold text-white transition-colors">
         Todas
       </button>
-      {PRODUCT_CATEGORIES.map((category) => (
+      {categorias.map((category) => (
         <button type="button" data-filter={category} aria-pressed="false"
           class="filter-tab rounded-full border border-brand-mist px-4 py-2 text-sm font-semibold text-brand-ink-soft transition-colors hover:border-brand-steel">
           {category}
@@ -66,23 +74,22 @@ const categoriesWithCount = PRODUCT_CATEGORIES.map((category) => ({
   <!-- ASESORÍA DE PRODUCTO -->
   <section class="bg-white py-16">
     <div class="mx-auto max-w-3xl px-5 text-center sm:px-8" data-reveal>
-      <SectionHeading align="center" class="mx-auto" title="¿No sabes qué radio elegir?" />
+      <SectionHeading align="center" class="mx-auto" title={b.t('catalogo.asesoria.titulo')} />
       <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-brand-slate">
-        La cobertura requerida, el entorno, el número de usuarios y la infraestructura disponible influyen en la
-        elección. Cuéntanos sobre tu operación y te orientaremos.
+        {b.t('catalogo.asesoria.descripcion')}
       </p>
       <div class="mt-7">
         <Button href={contactHref({ motive: "Catálogo Motorola" })} variant="primary" size="lg">
-          Solicitar recomendación
+          {b.t('catalogo.asesoria.ctaLabel')}
         </Button>
       </div>
     </div>
   </section>
 
   <CtaBanner
-    title="¿Buscas un modelo específico?"
-    description="Escríbenos y confirmamos disponibilidad, especificaciones y compatibilidad con tu sistema actual."
-    ctaLabel="Hablar con un asesor"
+    title={b.t('catalogo.cta.titulo')}
+    description={b.t('catalogo.cta.descripcion')}
+    ctaLabel={b.t('catalogo.cta.ctaLabel')}
     ctaHref={contactHref({ motive: "Catálogo Motorola" })}
   />
 </BaseLayout>

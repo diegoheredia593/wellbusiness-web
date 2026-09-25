@@ -1,24 +1,29 @@
 ---
+export const prerender = false;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
-import SectionHeading from "../components/SectionHeading.astro";
 import Icon from "../components/Icon.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import MotorolaBadge from "../components/MotorolaBadge.astro";
 import LogoMarquee from "../components/LogoMarquee.astro";
-import { MOTOROLA_DEALER_LABEL, SITE } from "../data/site";
-import { MISSION, VISION, COMPANY_VALUES, COMPANY_TRAJECTORY } from "../data/about";
-import { PARTNER_LOGOS } from "../data/logos";
+import { getBlocks, marcaDe, contactoDe, getMarcas, getValores } from "../lib/content";
+
+const b = await getBlocks();
+const marca = marcaDe(b);
+const contacto = contactoDe(b);
+const [marcas, valores] = await Promise.all([getMarcas(), getValores()]);
 ---
 
 <BaseLayout
   title="Nosotros"
-  description="Conoce Wellbusiness, sus soluciones de radiocomunicación para empresas y su relación con Idrocomsolutions."
+  description={b.t('nosotros.meta.descripcion')}
+  marca={marca}
+  contacto={contacto}
 >
   <PageHero
-    eyebrow="Nosotros"
-    title="Wellbusiness, soluciones de radiocomunicación para empresas"
-    description={`${SITE.brandName} forma parte de ${SITE.parentCompany} y ofrece productos y servicios de radiocomunicación para empresas en Ecuador. Acompañamos a nuestros clientes en la selección de equipos, el soporte y la evaluación de alternativas para sus operaciones.`}
+    eyebrow={b.t('nosotros.hero.eyebrow')}
+    title={b.t('nosotros.hero.titulo')}
+    description={b.t('nosotros.hero.descripcion')}
   />
 
   <section class="mx-auto max-w-5xl px-5 py-16 sm:px-8">
@@ -29,20 +34,19 @@ import { PARTNER_LOGOS } from "../data/logos";
       </span>
       <div>
         <h2 class="font-display text-2xl font-semibold text-brand-ink">
-          Primero entendemos tu operación. Luego exploramos la solución.
+          {b.t('nosotros.trabajo.titulo')}
         </h2>
         <p class="mt-3 text-base leading-relaxed text-brand-slate">
-          Escuchamos qué necesita comunicar tu equipo, dónde trabaja y qué retos enfrenta. Con esa información
-          podemos orientarte sobre equipos, alquiler, servicio técnico o infraestructura.
+          {b.t('nosotros.trabajo.descripcion')}
         </p>
       </div>
     </div>
 
     <!-- RESPALDO MOTOROLA -->
     <div class="mt-14 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
-      <MotorolaBadge variant="full" />
+      <MotorolaBadge label={marca.dealerMotorola} variant="full" />
       <p class="mt-5 text-base leading-relaxed text-brand-slate">
-        Equipos y accesorios Motorola para uso profesional. Wellbusiness es {MOTOROLA_DEALER_LABEL}.
+        {b.t('nosotros.motorola.parrafo')}
       </p>
     </div>
 
@@ -52,33 +56,33 @@ import { PARTNER_LOGOS } from "../data/logos";
         <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-steel-light text-brand-steel-dark">
           <Icon name="building" class="size-6" />
         </span>
-        <h2 class="font-display text-xl font-semibold text-brand-ink">Relación con {SITE.parentCompany}</h2>
+        <h2 class="font-display text-xl font-semibold text-brand-ink">Relación con {marca.empresaMadre}</h2>
       </div>
       <p class="mt-4 text-base leading-relaxed text-brand-slate">
-        Wellbusiness es la marca comercial de radiocomunicación de {SITE.parentCompany}.
+        {b.t('nosotros.idrocom.parrafo')}
       </p>
     </div>
 
     <!-- MISIÓN Y VISIÓN -->
     <div class="mt-8 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.1em] text-brand-steel">{COMPANY_TRAJECTORY}</p>
+      <p class="text-sm font-semibold uppercase tracking-[0.1em] text-brand-steel">{b.t('nosotros.trayectoria.texto')}</p>
       <div class="mt-6 grid gap-8 sm:grid-cols-2">
         <div>
           <h2 class="font-display text-lg font-semibold text-brand-ink">Misión</h2>
-          <p class="mt-3 text-base leading-relaxed text-brand-slate">{MISSION}</p>
+          <p class="mt-3 text-base leading-relaxed text-brand-slate">{b.t('nosotros.mision.texto')}</p>
         </div>
         <div>
           <h2 class="font-display text-lg font-semibold text-brand-ink">Visión</h2>
-          <p class="mt-3 text-base leading-relaxed text-brand-slate">{VISION}</p>
+          <p class="mt-3 text-base leading-relaxed text-brand-slate">{b.t('nosotros.vision.texto')}</p>
         </div>
       </div>
     </div>
 
     <!-- VALORES -->
     <div class="mt-8 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
-      <h2 class="font-display text-xl font-semibold text-brand-ink">Nuestros valores</h2>
+      <h2 class="font-display text-xl font-semibold text-brand-ink">{b.t('nosotros.valores.titulo')}</h2>
       <div class="mt-6 grid gap-5 sm:grid-cols-2">
-        {COMPANY_VALUES.map((value) => (
+        {valores.map((value) => (
           <div class="flex items-start gap-3">
             <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-steel-light text-brand-steel-dark">
               <Icon name={value.icon} class="size-5" />
@@ -97,15 +101,15 @@ import { PARTNER_LOGOS } from "../data/logos";
   <section class="border-y border-brand-mist bg-white py-14">
     <div class="mx-auto max-w-7xl px-5 sm:px-8" data-reveal>
       <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-brand-slate">
-        Marcas que han confiado en nosotros
+        {b.t('nosotros.marcas.etiqueta')}
       </p>
-      <LogoMarquee logos={PARTNER_LOGOS} />
+      <LogoMarquee logos={marcas} />
     </div>
   </section>
 
   <CtaBanner
-    title="¿Quieres conocer más sobre Wellbusiness?"
-    ctaLabel="Solicitar asesoría"
+    title={b.t('nosotros.cta.titulo')}
+    ctaLabel={b.t('nosotros.cta.ctaLabel')}
     ctaHref="/contacto"
   />
 </BaseLayout>

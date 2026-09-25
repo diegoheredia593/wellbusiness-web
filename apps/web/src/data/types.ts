@@ -1,12 +1,12 @@
 /**
  * Shared content types for the Wellbusiness site.
  *
- * All copy in this file's sibling data modules is transcribed from
- * `COPY-WELLBUSINESS.md` (the approved content brief). Nothing here should be
- * invented — new real content should be added by editing the arrays in
- * `services.ts`, `sectors.ts`, `coverageZones.ts`, `faq.ts`, `products.ts` and
- * `site.ts`, not by hardcoding strings into components/pages.
+ * As of Fase 4 this is the shape the content layer (`src/lib/content/index.ts`)
+ * maps D1 rows into — components/pages only ever see these English field
+ * names, never the CMS's own Spanish field names (`nombre`, `resumen`, ...),
+ * so components didn't need to change when the data source did.
  */
+import type { Imagen } from '@cms/core/schema';
 
 export type ContactMotive =
   | "Catálogo Motorola"
@@ -44,8 +44,8 @@ export interface CoverageZone {
   title: string;
   description: string;
   interestNote?: string;
-  /** true = described directly in the approved copy; still pending technical validation before publishing. */
-  pendingValidation: true;
+  /** Editable in the portal (`pendienteValidacion`) — true while the zone's figures haven't been technically confirmed yet. */
+  pendingValidation: boolean;
 }
 
 export interface FaqItem {
@@ -58,11 +58,8 @@ export interface MarqueeLogo {
   alt: string;
 }
 
-export type ProductCategory =
-  | "Radios portátiles"
-  | "Radios móviles y estaciones base"
-  | "Repetidoras"
-  | "Accesorios originales";
+/** Editable in the portal (colección `categorias`) — no longer a fixed set. */
+export type ProductCategory = string;
 
 export interface Product {
   slug: string;
@@ -74,13 +71,29 @@ export interface Product {
   specs: string[];
   applications: string[];
   /**
-   * Real photos, under `/images/products/`, first = primary card image.
-   * Leave empty (not undefined) when no real photo exists yet — ProductCard
-   * falls back to the elegant ImagePlaceholder, never a broken <img>.
+   * Fotos reales de la biblioteca de medios del portal, primera = portada.
+   * Vacío (no `undefined`) cuando no hay foto real todavía — los
+   * componentes caen al `ImagePlaceholder`, nunca a un `<img>` roto.
    */
-  images: string[];
+  fotos: Imagen[];
   /** Set to true only for verified, Wellbusiness-approved catalog entries. */
   isPlaceholder: boolean;
+}
+
+/** Tarjetas de "Acceso rápido a soluciones" (Inicio) — colección `accesosRapidos`. */
+export interface QuickLink {
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+  icon: IconName;
+}
+
+/** Tarjetas de "Nuestros valores" (Nosotros) — colección `valores`. */
+export interface CompanyValue {
+  title: string;
+  description: string;
+  icon: IconName;
 }
 
 /**

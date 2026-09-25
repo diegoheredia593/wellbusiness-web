@@ -1,7 +1,11 @@
 name = "wellbusiness-web"
 compatibility_date = "2026-09-23"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 account_id = "84ffa5d2db10e557297317693d5ae3bf"
 workers_dev = true
+# Fase 4: el sitio pasa de "solo assets estáticos" a un Worker real (el
+# adaptador de Astro) porque la mayoría de páginas ahora lee de D1.
+main = "@astrojs/cloudflare/entrypoints/server"
 
 [[routes]]
 pattern = "idrocomsolutions.com"
@@ -13,4 +17,23 @@ custom_domain = true
 
 [assets]
 directory = "./dist"
-not_found_handling = "404-page"
+# `404.astro` es ahora `prerender = false` (ya no genera un `404.html`
+# estático — Astro no permite un rewrite hacia una ruta prerenderizada
+# desde `/catalogo/[slug]`, confirmado en vivo). Un 404 real ahora lo
+# resuelve siempre el Worker (`main`), nunca el fallback estático de
+# assets, así que `not_found_handling` no aplica.
+binding = "ASSETS"
+
+# Misma base D1 y el mismo namespace KV que wellbusiness-portal (ver
+# clientes/wellbusiness/wrangler.portal.jsonc, en la raíz del repo) — el
+# sitio solo lee (colecciones/bloques publicados y fotos), nunca escribe.
+[[d1_databases]]
+binding = "DB"
+database_name = "wellbusiness-db"
+# PENDIENTE: mismo id real que clientes/wellbusiness/wrangler.portal.jsonc, se llena en la Fase 6.
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[[kv_namespaces]]
+binding = "MEDIOS"
+# PENDIENTE: mismo id real que clientes/wellbusiness/wrangler.portal.jsonc, se llena en la Fase 6.
+id = "0000000000000000000000000000000"

@@ -1,30 +1,38 @@
 ---
+export const prerender = false;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectorCard from "../components/SectorCard.astro";
 import CtaBanner from "../components/CtaBanner.astro";
-import { SECTORS } from "../data/sectors";
+import { getBlocks, marcaDe, contactoDe, getSectores } from "../lib/content";
+
+const b = await getBlocks();
+const marca = marcaDe(b);
+const contacto = contactoDe(b);
+const sectores = await getSectores();
 ---
 
 <BaseLayout
   title="Sectores"
-  description="Conoce los sectores atendidos por Wellbusiness: seguridad, transporte, industria, agricultura e instituciones públicas."
+  description={b.t('sectores.meta.descripcion')}
+  marca={marca}
+  contacto={contacto}
 >
   <PageHero
-    eyebrow="Sectores"
-    title="Comunicación para equipos que trabajan en movimiento"
-    description="Cada sector tiene condiciones y retos distintos. En Wellbusiness escuchamos cómo opera tu equipo para orientarte hacia una solución de radiocomunicación apropiada."
+    eyebrow={b.t('sectores.hero.eyebrow')}
+    title={b.t('sectores.hero.titulo')}
+    description={b.t('sectores.hero.descripcion')}
   />
 
   <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
     <div class="grid gap-6 sm:grid-cols-2">
-      {SECTORS.map((sector, i) => <SectorCard sector={sector} index={i} />)}
+      {sectores.map((sector, i) => <SectorCard sector={sector} index={i} />)}
     </div>
   </section>
 
   <CtaBanner
-    title="Cuéntanos sobre tu operación."
-    ctaLabel="Solicitar asesoría"
+    title={b.t('sectores.cta.titulo')}
+    ctaLabel={b.t('sectores.cta.ctaLabel')}
     ctaHref="/contacto"
   />
 </BaseLayout>

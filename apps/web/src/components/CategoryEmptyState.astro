@@ -2,19 +2,23 @@
 import Icon from "./Icon.astro";
 import Button from "./Button.astro";
 import { contactHref } from "../utils/url";
-import type { ProductCategory } from "../data/types";
+import type { IconName, ProductCategory } from "../data/types";
 
 interface Props {
   category: ProductCategory;
 }
 const { category } = Astro.props;
 
-const icons = {
+// Las categorías ahora son editables desde el portal — a diferencia de las
+// 4 fijas de antes, una nueva categoría sin ícono mapeado aquí no debe
+// romper la página, solo cae al ícono genérico.
+const icons: Record<string, IconName> = {
   "Radios portátiles": "radio-handheld",
   "Radios móviles y estaciones base": "radio-mobile",
   Repetidoras: "tower",
   "Accesorios originales": "accessory",
-} as const;
+};
+const icon = icons[category] ?? "radio-handheld";
 ---
 
 <div
@@ -23,7 +27,7 @@ const icons = {
   data-reveal
 >
   <span class="flex size-14 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
-    <Icon name={icons[category]} class="size-6" />
+    <Icon name={icon} class="size-6" />
   </span>
   <div class="max-w-sm">
     <h3 class="font-display text-lg font-semibold text-brand-ink">Ficha en preparación</h3>

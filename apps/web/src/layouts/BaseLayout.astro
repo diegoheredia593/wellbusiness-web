@@ -3,18 +3,48 @@ import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
-import { SITE } from "../data/site";
+import type { Contacto, Marca } from "../lib/content";
 import "../styles/global.css";
+
+/**
+ * `marca`/`contacto` vienen del bloque global (Fase 4) — cada página
+ * dinámica pide `getBlocks()` una vez y pasa `marcaDe(b)`/`contactoDe(b)`
+ * aquí. Son opcionales solo por `404.astro`, la única página que se queda
+ * estática (nunca depende de que D1 esté disponible): sin ellos, este
+ * layout cae al valor real de hoy, fijo en código, únicamente para esa
+ * página — si Wellbusiness cambia estos datos en el portal, el 404 queda
+ * desactualizado hasta el próximo despliegue, un costo aceptable para una
+ * página de error que debe funcionar siempre.
+ */
+const MARCA_FALLBACK: Marca = {
+  nombre: "Wellbusiness",
+  empresaMadre: "Idrocomsolutions",
+  tagline: "Soluciones de radiocomunicación para empresas en Ecuador.",
+  descripcionPorDefecto:
+    "Radios Motorola, alquiler, servicio técnico y soluciones de cobertura para empresas en Ecuador. Solicita asesoría para tu operación.",
+  dealerMotorola: "Dealer Autorizado Motorola en Ecuador",
+};
+const CONTACTO_FALLBACK: Contacto = {
+  whatsapp: "+593 98 161 5096",
+  telefono: "+593 98 161 5096",
+  correo: "ventasidrocom@hotmail.com",
+  direccion: "Calle Rumichaca 212 y Manuel Galecio",
+  horario: "9:00 am – 6:00 pm",
+  facebook: "https://www.facebook.com/wellbusiness.gye/",
+};
 
 interface Props {
   title: string;
   description?: string;
   /** Set true on pages you don't want indexed while content is unconfirmed. */
   noindex?: boolean;
+  marca?: Marca;
+  contacto?: Contacto;
 }
 
-const { title, description = SITE.defaultDescription, noindex = false } = Astro.props;
-const pageTitle = title === SITE.brandName ? title : `${title} · ${SITE.brandName}`;
+const { title, description, noindex = false, marca = MARCA_FALLBACK, contacto = CONTACTO_FALLBACK } = Astro.props;
+const pageDescription = description ?? marca.descripcionPorDefecto;
+const pageTitle = title === marca.nombre ? title : `${title} · ${marca.nombre}`;
 ---
 
 <!doctype html>
@@ -28,16 +58,16 @@ const pageTitle = title === SITE.brandName ? title : `${title} · ${SITE.brandNa
     <meta name="generator" content={Astro.generator} />
 
     <title>{pageTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={SITE.brandName} />
+    <meta property="og:site_name" content={marca.nombre} />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={pageDescription} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={pageDescription} />
     <meta name="theme-color" content="#172434" />
 
     <ClientRouter />
@@ -53,8 +83,8 @@ const pageTitle = title === SITE.brandName ? title : `${title} · ${SITE.brandNa
     <main id="main-content">
       <slot />
     </main>
-    <Footer />
-    <WhatsAppFloatingButton />
+    <Footer marca={marca} contacto={contacto} />
+    <WhatsAppFloatingButton whatsapp={contacto.whatsapp} />
 
     <script>
       // Progressive enhancement: [data-reveal] elements are plain, visible

@@ -1,4 +1,15 @@
 ---
+/**
+ * Astro no permite `Astro.rewrite()` hacia una ruta prerenderizada desde
+ * una ruta dinámica (p. ej. `/catalogo/[slug]` cuando el producto no
+ * existe) — error real, confirmado en vivo ("ForbiddenRewrite"). Por eso
+ * esta página es `prerender = false` a pesar de que su contenido sigue
+ * siendo 100% fijo en código (nunca llama a `getBlocks()`/D1) — el 404
+ * debe seguir funcionando aunque D1 no esté disponible, eso no cambió,
+ * solo cambió CÓMO se renderiza (en cada request, no en el build), para
+ * poder ser el destino de un rewrite real.
+ */
+export const prerender = false;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import Icon from "../components/Icon.astro";

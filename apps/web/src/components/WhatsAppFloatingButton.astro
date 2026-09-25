@@ -1,13 +1,17 @@
 ---
 import Icon from "./Icon.astro";
-import { CONTACT_INFO, whatsappLink } from "../data/site";
+import { whatsappLink } from "../utils/whatsapp";
 
-// Renders nothing if no real WhatsApp number is configured yet.
+interface Props {
+  /** Bloque `global.contacto.whatsapp` (Fase 4) — `null` = canal sin configurar, no se muestra nada. */
+  whatsapp: string | null;
+}
+const { whatsapp } = Astro.props;
 ---
 
-{CONTACT_INFO.whatsapp && (
+{whatsapp && (
   <a
-    href={whatsappLink("Hola, quisiera más información sobre sus equipos.")}
+    href={whatsappLink(whatsapp, "Hola, quisiera más información sobre sus equipos.")}
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Escribir a Wellbusiness por WhatsApp"

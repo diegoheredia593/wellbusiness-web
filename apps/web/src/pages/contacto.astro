@@ -1,26 +1,35 @@
 ---
+export const prerender = false;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import ContactForm from "../components/ContactForm.astro";
 import Faq from "../components/Faq.astro";
 import Icon from "../components/Icon.astro";
-import { CONTACT_INFO, whatsappLink } from "../data/site";
+import { getBlocks, marcaDe, contactoDe, getFaq } from "../lib/content";
+import { whatsappLink } from "../utils/whatsapp";
 
-const hasAnyContact = Object.values(CONTACT_INFO).some(Boolean);
-const mapsHref = CONTACT_INFO.address
-  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT_INFO.address)}`
+const b = await getBlocks();
+const marca = marcaDe(b);
+const contacto = contactoDe(b);
+const faq = await getFaq();
+
+const hasAnyContact = Object.values(contacto).some(Boolean);
+const mapsHref = contacto.direccion
+  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contacto.direccion)}`
   : undefined;
 ---
 
 <BaseLayout
   title="Contacto"
-  description="Consulta radios Motorola, alquiler, soporte técnico, cobertura e infraestructura para tu empresa."
+  description={b.t('contacto.meta.descripcion')}
+  marca={marca}
+  contacto={contacto}
 >
   <PageHero
-    eyebrow="Contacto"
-    title="Hablemos de lo que tu operación necesita"
-    description="Déjanos tus datos y cuéntanos si buscas radios, alquiler, servicio técnico, cobertura o asesoría de ingeniería. El equipo de Wellbusiness se pondrá en contacto contigo."
+    eyebrow={b.t('contacto.hero.eyebrow')}
+    title={b.t('contacto.hero.titulo')}
+    description={b.t('contacto.hero.descripcion')}
   />
 
   <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
@@ -33,9 +42,9 @@ const mapsHref = CONTACT_INFO.address
         <div class="rounded-3xl border border-brand-mist bg-white p-6">
           <h3 class="font-display text-lg font-semibold text-brand-ink">Contacto directo</h3>
 
-          {CONTACT_INFO.whatsapp && (
+          {contacto.whatsapp && (
             <a
-              href={whatsappLink("Hola, quisiera más información sobre sus equipos.")}
+              href={whatsappLink(contacto.whatsapp, "Hola, quisiera más información sobre sus equipos.")}
               target="_blank"
               rel="noopener noreferrer"
               class="mt-4 flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white shadow-brand-sm transition-transform hover:scale-[1.02]"
@@ -46,33 +55,33 @@ const mapsHref = CONTACT_INFO.address
           )}
 
           <ul class="mt-5 space-y-3">
-            {CONTACT_INFO.phone && (
+            {contacto.telefono && (
               <li class="flex items-center gap-3 text-sm">
                 <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
                   <Icon name="phone" class="size-4" />
                 </span>
                 <div>
                   <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Teléfono</p>
-                  <a href={`tel:${CONTACT_INFO.phone.replace(/\s/g, "")}`} class="font-medium text-brand-ink hover:text-brand-steel">
-                    {CONTACT_INFO.phone}
+                  <a href={`tel:${contacto.telefono.replace(/\s/g, "")}`} class="font-medium text-brand-ink hover:text-brand-steel">
+                    {contacto.telefono}
                   </a>
                 </div>
               </li>
             )}
-            {CONTACT_INFO.email && (
+            {contacto.correo && (
               <li class="flex items-center gap-3 text-sm">
                 <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
                   <Icon name="mail" class="size-4" />
                 </span>
                 <div>
                   <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Correo</p>
-                  <a href={`mailto:${CONTACT_INFO.email}`} class="font-medium text-brand-ink hover:text-brand-steel">
-                    {CONTACT_INFO.email}
+                  <a href={`mailto:${contacto.correo}`} class="font-medium text-brand-ink hover:text-brand-steel">
+                    {contacto.correo}
                   </a>
                 </div>
               </li>
             )}
-            {CONTACT_INFO.address && (
+            {contacto.direccion && (
               <li class="flex items-center gap-3 text-sm">
                 <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
                   <Icon name="pin" class="size-4" />
@@ -80,19 +89,19 @@ const mapsHref = CONTACT_INFO.address
                 <div>
                   <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Dirección</p>
                   <a href={mapsHref} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-ink hover:text-brand-steel">
-                    {CONTACT_INFO.address}
+                    {contacto.direccion}
                   </a>
                 </div>
               </li>
             )}
-            {CONTACT_INFO.facebook && (
+            {contacto.facebook && (
               <li class="flex items-center gap-3 text-sm">
                 <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
                   <Icon name="facebook" class="size-4" />
                 </span>
                 <div>
                   <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Facebook</p>
-                  <a href={CONTACT_INFO.facebook} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-ink hover:text-brand-steel">
+                  <a href={contacto.facebook} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-ink hover:text-brand-steel">
                     Wellbusiness
                   </a>
                 </div>
@@ -104,8 +113,8 @@ const mapsHref = CONTACT_INFO.address
               </span>
               <div>
                 <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Horario de atención</p>
-                {CONTACT_INFO.hours ? (
-                  <p class="font-medium text-brand-ink">{CONTACT_INFO.hours}</p>
+                {contacto.horario ? (
+                  <p class="font-medium text-brand-ink">{contacto.horario}</p>
                 ) : (
                   <p class="text-brand-slate/70">Pendiente de confirmación</p>
                 )}
@@ -135,7 +144,7 @@ const mapsHref = CONTACT_INFO.address
   <section class="bg-white py-16">
     <div class="mx-auto max-w-3xl px-5 sm:px-8">
       <SectionHeading align="center" class="mx-auto mb-10" title="Preguntas frecuentes" />
-      <Faq />
+      <Faq items={faq} />
     </div>
   </section>
 </BaseLayout>

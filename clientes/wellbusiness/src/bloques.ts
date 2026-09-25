@@ -152,6 +152,13 @@ export const bloques = [
     'Cada operación tiene un terreno, un ritmo y una necesidad de comunicación distintos. En Wellbusiness te asesoramos para elegir equipos y servicios que respondan a tu entorno: desde la adquisición de radios hasta el alquiler, mantenimiento y soluciones de cobertura.',
     { max: 320 },
   ),
+  // Los 4 bullets de "cómo trabajamos": el ícono se queda fijo en código
+  // (index.astro) porque un bloque no tiene un control de selección de
+  // ícono como el de las colecciones — solo el texto es editable.
+  texto('inicio.trabajo.item1', 'Punto 1', 'Asesoría personalizada por operación', { max: 60 }),
+  texto('inicio.trabajo.item2', 'Punto 2', 'Alternativas de cobertura evaluadas por zona', { max: 60 }),
+  texto('inicio.trabajo.item3', 'Punto 3', 'Servicio técnico y mantenimiento', { max: 60 }),
+  texto('inicio.trabajo.item4', 'Punto 4', 'Parte de Idrocomsolutions', { max: 60 }),
 
   texto('inicio.marcas.etiqueta', 'Etiqueta de la franja de logos', 'Tecnología y marcas con las que trabajamos', {
     max: 60,

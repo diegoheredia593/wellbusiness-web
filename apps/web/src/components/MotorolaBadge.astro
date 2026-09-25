@@ -7,24 +7,24 @@
  * dark background, so the mark itself is never altered to "make it work"
  * there.
  */
-import { MOTOROLA_DEALER_LABEL } from "../data/site";
-
 interface Props {
+  /** Denominación real de dealer (bloque `global.marca.dealerMotorola`, Fase 4). */
+  label: string;
   variant?: "chip" | "full";
   class?: string;
 }
-const { variant = "chip", class: className = "" } = Astro.props;
+const { label, variant = "chip", class: className = "" } = Astro.props;
 ---
 
 {variant === "chip" ? (
   <span class={`inline-flex items-center gap-2.5 rounded-full bg-white px-4 py-2 shadow-brand-sm ${className}`}>
     <img src="/images/brand/motorola-isotipo.svg" alt="" class="size-5 shrink-0" width="42" height="40" />
-    <span class="text-sm font-semibold text-brand-ink">{MOTOROLA_DEALER_LABEL}</span>
+    <span class="text-sm font-semibold text-brand-ink">{label}</span>
   </span>
 ) : (
   <div class={`inline-flex items-center gap-3 ${className}`}>
     <img src="/images/brand/motorola-logo.svg" alt="Motorola" class="h-8 w-auto" width="157" height="36" />
     <span class="h-6 w-px bg-brand-ink/15" aria-hidden="true"></span>
-    <span class="text-sm font-medium text-brand-slate">{MOTOROLA_DEALER_LABEL}</span>
+    <span class="text-sm font-medium text-brand-slate">{label}</span>
   </div>
 )}

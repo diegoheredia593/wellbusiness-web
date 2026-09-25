@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import Badge from "../components/Badge.astro";
@@ -10,31 +11,35 @@ import CtaBanner from "../components/CtaBanner.astro";
 import MotorolaBadge from "../components/MotorolaBadge.astro";
 import HeroProductCollage from "../components/HeroProductCollage.astro";
 import LogoMarquee from "../components/LogoMarquee.astro";
-import { SECTORS } from "../data/sectors";
-import { COVERAGE_ZONES } from "../data/coverage";
-import { PARTNER_LOGOS } from "../data/logos";
+import { getBlocks, marcaDe, contactoDe, getSectores, getZonasCobertura, getMarcas, getAccesosRapidos } from "../lib/content";
+
+const b = await getBlocks();
+const marca = marcaDe(b);
+const contacto = contactoDe(b);
+const [sectores, zonas, marcas, accesos] = await Promise.all([
+  getSectores(),
+  getZonasCobertura(),
+  getMarcas(),
+  getAccesosRapidos(),
+]);
 ---
 
-<BaseLayout
-  title="Wellbusiness"
-  description="Radios Motorola, alquiler, servicio técnico y soluciones de cobertura para empresas en Ecuador. Solicita asesoría para tu operación."
->
+<BaseLayout title="Wellbusiness" description={b.t('inicio.meta.descripcion')} marca={marca} contacto={contacto}>
   <!-- HERO -->
   <section class="relative overflow-hidden bg-brand-ink">
     <div class="absolute inset-0 bg-radio-grid opacity-[0.07]"></div>
     <div class="relative mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-2 lg:items-center lg:gap-8">
       <div data-reveal>
-        <MotorolaBadge variant="chip" />
+        <MotorolaBadge label={marca.dealerMotorola} variant="chip" />
         <h1 class="mt-6 font-display text-4xl font-bold leading-[1.1] text-white sm:text-5xl lg:text-[3.4rem]">
-          Comunicación confiable para operaciones que no pueden detenerse.
+          {b.t('inicio.hero.titulo')}
         </h1>
         <p class="mt-6 max-w-lg text-lg leading-relaxed text-white/70">
-          Radios Motorola, alquiler, soporte técnico e infraestructura de radiocomunicación para empresas en
-          Ecuador. Te ayudamos a encontrar la solución adecuada para mantener a tu equipo coordinado.
+          {b.t('inicio.hero.descripcion')}
         </p>
         <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <Button href="/contacto" variant="primary" size="lg">Solicitar asesoría</Button>
-          <Button href="/catalogo" variant="light" size="lg">Explorar catálogo Motorola</Button>
+          <Button href="/contacto" variant="primary" size="lg">{b.t('inicio.hero.ctaPrincipal')}</Button>
+          <Button href="/catalogo" variant="light" size="lg">{b.t('inicio.hero.ctaSecundaria')}</Button>
         </div>
       </div>
 
@@ -57,9 +62,9 @@ import { PARTNER_LOGOS } from "../data/logos";
   <section class="border-b border-brand-mist bg-white py-10">
     <div class="mx-auto max-w-7xl px-5 sm:px-8" data-reveal>
       <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-brand-slate">
-        Tecnología y marcas con las que trabajamos
+        {b.t('inicio.marcas.etiqueta')}
       </p>
-      <LogoMarquee logos={PARTNER_LOGOS} />
+      <LogoMarquee logos={marcas} />
     </div>
   </section>
 
@@ -67,16 +72,16 @@ import { PARTNER_LOGOS } from "../data/logos";
   <section class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
     <div class="grid gap-12 lg:grid-cols-2 lg:items-start">
       <SectionHeading
-        eyebrow="Cómo trabajamos"
-        title="Tu operación necesita estar conectada. Nosotros te ayudamos a lograrlo."
-        description="Cada operación tiene un terreno, un ritmo y una necesidad de comunicación distintos. En Wellbusiness te asesoramos para elegir equipos y servicios que respondan a tu entorno: desde la adquisición de radios hasta el alquiler, mantenimiento y soluciones de cobertura."
+        eyebrow={b.t('inicio.trabajo.eyebrow')}
+        title={b.t('inicio.trabajo.titulo')}
+        description={b.t('inicio.trabajo.descripcion')}
       />
       <div class="grid gap-4 sm:grid-cols-2" data-reveal style="animation-delay:80ms">
         {[
-          { icon: "radio-handheld" as const, label: "Asesoría personalizada por operación" },
-          { icon: "map" as const, label: "Alternativas de cobertura evaluadas por zona" },
-          { icon: "wrench" as const, label: "Servicio técnico y mantenimiento" },
-          { icon: "compass" as const, label: "Parte de Idrocomsolutions" },
+          { icon: "radio-handheld" as const, label: b.t('inicio.trabajo.item1') },
+          { icon: "map" as const, label: b.t('inicio.trabajo.item2') },
+          { icon: "wrench" as const, label: b.t('inicio.trabajo.item3') },
+          { icon: "compass" as const, label: b.t('inicio.trabajo.item4') },
         ].map((item) => (
           <div class="flex items-start gap-3 rounded-2xl border border-brand-mist bg-white p-5">
             <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-steel-light text-brand-steel-dark">
@@ -92,40 +97,18 @@ import { PARTNER_LOGOS } from "../data/logos";
   <!-- ACCESO RÁPIDO A SOLUCIONES -->
   <section class="bg-white py-20">
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
-      <SectionHeading title="Acceso rápido a soluciones" align="center" class="mx-auto" />
+      <SectionHeading title={b.t('inicio.accesos.titulo')} align="center" class="mx-auto" />
       <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <QuickLinkCard
-          index={0}
-          icon="radio-handheld"
-          title="Radios Motorola"
-          description="Explora radios profesionales y accesorios originales para las necesidades de tu empresa."
-          href="/catalogo"
-          linkLabel="Ver catálogo"
-        />
-        <QuickLinkCard
-          index={1}
-          icon="radio-mobile"
-          title="Alquiler de radios"
-          description="Equipa operaciones temporales o consulta alternativas de alquiler para tu proyecto."
-          href="/servicios#alquiler-radios"
-          linkLabel="Consultar alquiler"
-        />
-        <QuickLinkCard
-          index={2}
-          icon="wrench"
-          title="Servicio técnico"
-          description="Solicita mantenimiento, diagnóstico o reparación para tus equipos de radiocomunicación."
-          href="/servicios#mantenimiento"
-          linkLabel="Solicitar servicio técnico"
-        />
-        <QuickLinkCard
-          index={3}
-          icon="tower"
-          title="Cobertura e infraestructura"
-          description="Consulta las zonas, sitios de repetición y alternativas disponibles para tu operación."
-          href="/cobertura"
-          linkLabel="Explorar cobertura"
-        />
+        {accesos.map((acceso, i) => (
+          <QuickLinkCard
+            index={i}
+            icon={acceso.icon}
+            title={acceso.title}
+            description={acceso.description}
+            href={acceso.href}
+            linkLabel={acceso.linkLabel}
+          />
+        ))}
       </div>
     </div>
   </section>
@@ -133,15 +116,15 @@ import { PARTNER_LOGOS } from "../data/logos";
   <!-- SECTORES -->
   <section class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
     <SectionHeading
-      eyebrow="A quién ayudamos"
-      title="Soluciones pensadas para el trabajo en campo"
-      description="Apoyamos a organizaciones que necesitan coordinación ágil entre equipos, instalaciones y personal operativo. Conversamos contigo para entender la operación y recomendar una alternativa adecuada."
+      eyebrow={b.t('inicio.sectores.eyebrow')}
+      title={b.t('inicio.sectores.titulo')}
+      description={b.t('inicio.sectores.descripcion')}
     />
     <div class="mt-10 grid gap-5 sm:grid-cols-2">
-      {SECTORS.map((sector, i) => <SectorCard sector={sector} index={i} />)}
+      {sectores.map((sector, i) => <SectorCard sector={sector} index={i} />)}
     </div>
     <div class="mt-8">
-      <Button href="/sectores" variant="ghost" withArrow class="group">Ver todos los sectores</Button>
+      <Button href="/sectores" variant="ghost" withArrow class="group">{b.t('inicio.sectores.ctaLabel')}</Button>
     </div>
   </section>
 
@@ -150,26 +133,26 @@ import { PARTNER_LOGOS } from "../data/logos";
     <div class="mx-auto max-w-7xl px-5 sm:px-8">
       <div class="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <SectionHeading
-          eyebrow="Cobertura"
-          title="Alternativas de cobertura en distintas zonas del país"
-          description="Consulta las zonas de servicio referenciales y las opciones de infraestructura disponibles. La cobertura efectiva depende de la ubicación, el terreno, los equipos y la configuración del sistema."
+          eyebrow={b.t('inicio.cobertura.eyebrow')}
+          title={b.t('inicio.cobertura.titulo')}
+          description={b.t('inicio.cobertura.descripcion')}
         />
         <div class="flex flex-wrap gap-2.5" data-reveal>
-          {COVERAGE_ZONES.map((zone) => (
+          {zonas.map((zone) => (
             <Badge tone="steel">{zone.title.split("·")[1]?.trim() ?? zone.title}</Badge>
           ))}
         </div>
       </div>
       <div class="mt-8">
-        <Button href="/cobertura" variant="secondary" withArrow class="group">Explorar cobertura</Button>
+        <Button href="/cobertura" variant="secondary" withArrow class="group">{b.t('inicio.cobertura.ctaLabel')}</Button>
       </div>
     </div>
   </section>
 
   <CtaBanner
-    title="Cuéntanos cómo trabaja tu equipo."
-    description="Con esa información podemos orientarte sobre radios, alquiler, soporte o cobertura para tu operación."
-    ctaLabel="Hablar con un asesor"
+    title={b.t('inicio.cta.titulo')}
+    description={b.t('inicio.cta.descripcion')}
+    ctaLabel={b.t('inicio.cta.ctaLabel')}
     ctaHref="/contacto"
   />
 </BaseLayout>

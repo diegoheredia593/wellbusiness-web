@@ -91,16 +91,25 @@ el editor.
 
 ## Estructura
 
+> **Fase 4:** todo el contenido de negocio (productos, servicios, sectores,
+> zonas de cobertura, FAQ, marcas, accesos rápidos, valores, y los textos de
+> hero/SEO/CTA de cada página) ya no vive en `src/data/*.ts` — se edita en el
+> **portal** (`apps/portal`) y el sitio lo lee de D1 vía `src/lib/content/`.
+> El resto de esta sección (y de este README, hasta que se actualice
+> completo en la Fase 6) todavía describe la estructura previa a esa
+> migración; no edites `src/data/products.ts` ni similares para cambiar
+> contenido — ya no existen.
+
 ```
 src/
   components/   Piezas de UI reutilizables (Header, Footer, cards, formularios, Icon, ...)
-  data/         Contenido y configuración editable (services.ts, sectors.ts, coverage.ts,
-                faq.ts, products.ts, site.ts, types.ts) — edita estos archivos para
-                actualizar copy/datos, no los componentes ni las páginas.
+  data/         Solo lo que se quedó en código: site.ts (navegación/motivos de
+                contacto, taxonomía fija) y types.ts (tipos que usa src/lib/content).
+  lib/content/  Capa de acceso a contenido (Fase 4) — bloques + colecciones desde D1.
   layouts/      BaseLayout.astro (head, header, footer, transición de página, reveal-on-scroll)
-  pages/        Las 7 páginas + 404
+  pages/        Las 7 páginas + 404 (todas dinámicas salvo 404, ver astro.config.mjs)
   styles/       global.css (tokens de marca, Tailwind, animaciones)
-  utils/        url.ts (helper para prellenar el formulario de contacto vía query params)
+  utils/        url.ts (query params del formulario de contacto), whatsapp.ts
 ```
 
 ## ⚠️ Pendientes de validación (no publicar sin confirmar)

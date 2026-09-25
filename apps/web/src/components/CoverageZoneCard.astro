@@ -16,7 +16,7 @@ const { zone, index = 0 } = Astro.props;
 >
   <div class="flex items-start justify-between gap-3">
     <h3 class="font-display text-lg font-semibold text-brand-ink">{zone.title}</h3>
-    <Badge tone="outline" class="shrink-0">Referencial</Badge>
+    {zone.pendingValidation && <Badge tone="outline" class="shrink-0">Referencial</Badge>}
   </div>
   <p class="text-sm leading-relaxed text-brand-slate">{zone.description}</p>
   {zone.interestNote && (

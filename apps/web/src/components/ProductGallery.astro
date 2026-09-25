@@ -8,14 +8,15 @@
  */
 import Icon from "./Icon.astro";
 import ImagePlaceholder from "./ImagePlaceholder.astro";
+import type { Imagen } from "@cms/core/schema";
 
 interface Props {
-  images: string[];
+  fotos: Imagen[];
   name: string;
 }
-const { images, name } = Astro.props;
-const hasImages = images.length > 0;
-const hasMultiple = images.length > 1;
+const { fotos, name } = Astro.props;
+const hasImages = fotos.length > 0;
+const hasMultiple = fotos.length > 1;
 ---
 
 {hasImages ? (
@@ -28,8 +29,10 @@ const hasMultiple = images.length > 1;
       aria-label={`Fotografías de ${name}. Usa las flechas para cambiar de foto.`}
     >
       <img
-        src={images[0]}
-        alt={name}
+        src={fotos[0].src}
+        alt={fotos[0].alt}
+        width={fotos[0].ancho}
+        height={fotos[0].alto}
         class="relative z-0 h-full w-full object-contain p-10 sm:p-14"
         data-gallery-main
         loading="eager"
@@ -38,7 +41,7 @@ const hasMultiple = images.length > 1;
       <div
         class="pointer-events-none absolute inset-0 z-10 hidden bg-no-repeat opacity-0 transition-opacity duration-150 lg:block"
         data-zoom-pane
-        style={`background-image:url(${images[0]}); background-size:220%;`}
+        style={`background-image:url(${fotos[0].src}); background-size:220%;`}
       ></div>
 
       {hasMultiple && (
@@ -70,11 +73,11 @@ const hasMultiple = images.length > 1;
 
     {hasMultiple && (
       <div class="mt-4 flex gap-3 overflow-x-auto pb-1" data-gallery-thumbs>
-        {images.map((src, i) => (
+        {fotos.map((foto, i) => (
           <button
             type="button"
             data-thumb
-            data-src={src}
+            data-src={foto.src}
             data-index={i}
             aria-label={`Ver foto ${i + 1} de ${name}`}
             aria-current={i === 0 ? "true" : "false"}
@@ -82,7 +85,7 @@ const hasMultiple = images.length > 1;
               i === 0 ? "border-brand-red" : "border-brand-mist hover:border-brand-steel"
             }`}
           >
-            <img src={src} alt="" class="h-full w-full object-contain" loading="lazy" decoding="async" />
+            <img src={foto.src} alt="" width={foto.ancho} height={foto.alto} class="h-full w-full object-contain" loading="lazy" decoding="async" />
           </button>
         ))}
       </div>

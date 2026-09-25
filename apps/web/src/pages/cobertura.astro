@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
@@ -6,23 +7,29 @@ import CoverageZoneCard from "../components/CoverageZoneCard.astro";
 import EvaluationForm from "../components/EvaluationForm.astro";
 import PendingNote from "../components/PendingNote.astro";
 import Icon from "../components/Icon.astro";
-import { COVERAGE_ZONES, COVERAGE_POC_NOTE, COVERAGE_DISCLAIMER } from "../data/coverage";
-import { COMPANY_TRAJECTORY } from "../data/about";
+import { getBlocks, marcaDe, contactoDe, getZonasCobertura } from "../lib/content";
+
+const b = await getBlocks();
+const marca = marcaDe(b);
+const contacto = contactoDe(b);
+const zonas = await getZonasCobertura();
 ---
 
 <BaseLayout
   title="Cobertura"
-  description="Consulta las zonas y alternativas de cobertura de Wellbusiness. Solicita una evaluación para tu operación o ruta."
+  description={b.t('cobertura.meta.descripcion')}
+  marca={marca}
+  contacto={contacto}
 >
   <PageHero
-    eyebrow="Cobertura"
-    title="Conoce las alternativas de cobertura para tu operación"
-    description="Consulta las zonas de servicio y las opciones de infraestructura disponibles. La cobertura efectiva depende de la ubicación, el terreno, los equipos y la configuración del sistema."
+    eyebrow={b.t('cobertura.hero.eyebrow')}
+    title={b.t('cobertura.hero.titulo')}
+    description={b.t('cobertura.hero.descripcion')}
   />
 
   <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
     <p class="mb-8 text-sm font-semibold uppercase tracking-[0.1em] text-brand-steel" data-reveal>
-      {COMPANY_TRAJECTORY}
+      {b.t('nosotros.trayectoria.texto')}
     </p>
 
     <div class="mb-10 flex items-start gap-3 rounded-2xl border border-brand-mist bg-white p-5" data-reveal>
@@ -36,24 +43,24 @@ import { COMPANY_TRAJECTORY } from "../data/about";
 
     <SectionHeading title="Zonas de cobertura" class="mb-8" />
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {COVERAGE_ZONES.map((zone, i) => <CoverageZoneCard zone={zone} index={i} />)}
+      {zonas.map((zone, i) => <CoverageZoneCard zone={zone} index={i} />)}
     </div>
 
     <div class="mt-10 rounded-2xl border border-brand-mist bg-white p-6" data-reveal>
       <h3 class="flex items-center gap-2 font-display text-base font-semibold text-brand-ink">
         <Icon name="signal" class="size-5 text-brand-steel" /> Radio y comunicación PoC
       </h3>
-      <p class="mt-2 text-sm leading-relaxed text-brand-slate">{COVERAGE_POC_NOTE}</p>
+      <p class="mt-2 text-sm leading-relaxed text-brand-slate">{b.t('cobertura.pocNota.texto')}</p>
     </div>
 
-    <PendingNote class="mt-8 max-w-3xl">{COVERAGE_DISCLAIMER}</PendingNote>
+    <PendingNote class="mt-8 max-w-3xl">{b.t('cobertura.disclaimer.texto')}</PendingNote>
   </section>
 
   <!-- FORMULARIO DE EVALUACIÓN -->
   <section class="bg-white py-16">
     <div class="mx-auto max-w-3xl px-5 sm:px-8">
-      <SectionHeading align="center" class="mx-auto mb-10" title="¿Dónde necesitas comunicar a tu equipo?"
-        description="Comparte la ciudad, zona o ruta de operación. El equipo de Wellbusiness podrá revisar tu requerimiento y orientarte sobre los siguientes pasos." />
+      <SectionHeading align="center" class="mx-auto mb-10" title={b.t('cobertura.formulario.titulo')}
+        description={b.t('cobertura.formulario.descripcion')} />
       <EvaluationForm />
     </div>
   </section>
