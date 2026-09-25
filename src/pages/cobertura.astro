@@ -7,6 +7,7 @@ import EvaluationForm from "../components/EvaluationForm.astro";
 import PendingNote from "../components/PendingNote.astro";
 import Icon from "../components/Icon.astro";
 import { COVERAGE_ZONES, COVERAGE_POC_NOTE, COVERAGE_DISCLAIMER } from "../data/coverage";
+import { COMPANY_TRAJECTORY } from "../data/about";
 ---
 
 <BaseLayout
@@ -20,12 +21,16 @@ import { COVERAGE_ZONES, COVERAGE_POC_NOTE, COVERAGE_DISCLAIMER } from "../data/
   />
 
   <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <p class="mb-8 text-sm font-semibold uppercase tracking-[0.1em] text-brand-steel" data-reveal>
+      {COMPANY_TRAJECTORY}
+    </p>
+
     <div class="mb-10 flex items-start gap-3 rounded-2xl border border-brand-mist bg-white p-5" data-reveal>
       <Icon name="map" class="mt-0.5 size-5 shrink-0 text-brand-steel" />
       <p class="text-sm leading-relaxed text-brand-slate">
-        Las siguientes zonas se basan en el material de referencia de Wellbusiness y{" "}
-        <strong class="text-brand-ink">están pendientes de verificación técnica</strong> antes de publicarse como
-        cobertura confirmada. Represéntalas como referenciales, no como garantía de señal.
+        Las siguientes zonas y sus porcentajes provienen del material de referencia de Wellbusiness y son{" "}
+        <strong class="text-brand-ink">referenciales</strong>: represéntalas como aproximadas, no como garantía de
+        señal. Solicita una evaluación para confirmar la cobertura específica de tu operación.
       </p>
     </div>
 

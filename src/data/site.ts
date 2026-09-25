@@ -17,13 +17,9 @@ export const SITE = {
     "Radios Motorola, alquiler, servicio técnico y soluciones de cobertura para empresas en Ecuador. Solicita asesoría para tu operación.",
 } as const;
 
-/**
- * PENDING: the exact, currently-valid denomination for Wellbusiness's
- * Motorola dealer status must be confirmed before this is published as-is.
- * The string below is transcribed verbatim from the approved copy brief.
- */
+/** Confirmed by Wellbusiness as the current, official denomination. */
 export const MOTOROLA_DEALER_LABEL = "Dealer Autorizado Motorola en Ecuador";
-export const MOTOROLA_DEALER_LABEL_CONFIRMED = false;
+export const MOTOROLA_DEALER_LABEL_CONFIRMED = true;
 
 export const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", href: "/" },

@@ -1,13 +1,15 @@
 import type { MarqueeLogo } from "./types";
 
 /**
- * Technology/equipment brands shown in the homepage's LogoMarquee — real
- * logo files supplied under `images/testimonios sin fondo/`, trimmed to
- * their own bounding box and copied to `public/images/logos/` (never
- * recolored/altered). This is a "brands and technology we work with" strip,
- * not a claim of official partnership/certification for any brand other
- * than Motorola, whose dealer status is handled separately and explicitly
- * (see `MOTOROLA_DEALER_LABEL` in `site.ts`).
+ * Technology/equipment brands shown via LogoMarquee — real logo files
+ * supplied under `images/testimonios sin fondo/`, trimmed to their own
+ * bounding box and copied to `public/images/logos/` (never recolored/
+ * altered). Used on the homepage ("Tecnología y marcas con las que
+ * trabajamos") and on /nosotros ("Marcas que han confiado en nosotros",
+ * confirmed by Wellbusiness) — not a claim of official partnership/
+ * certification for any brand other than Motorola, whose dealer status is
+ * handled separately and explicitly (see `MOTOROLA_DEALER_LABEL` in
+ * `site.ts`).
  */
 export const PARTNER_LOGOS: MarqueeLogo[] = [
   { src: "/images/logos/claro.png", alt: "Claro" },

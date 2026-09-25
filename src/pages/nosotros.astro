@@ -2,11 +2,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import PendingNote from "../components/PendingNote.astro";
 import Icon from "../components/Icon.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import MotorolaBadge from "../components/MotorolaBadge.astro";
-import { MOTOROLA_DEALER_LABEL, MOTOROLA_DEALER_LABEL_CONFIRMED, SITE } from "../data/site";
+import LogoMarquee from "../components/LogoMarquee.astro";
+import { MOTOROLA_DEALER_LABEL, SITE } from "../data/site";
+import { MISSION, VISION, COMPANY_VALUES, COMPANY_TRAJECTORY } from "../data/about";
+import { PARTNER_LOGOS } from "../data/logos";
 ---
 
 <BaseLayout
@@ -42,12 +44,6 @@ import { MOTOROLA_DEALER_LABEL, MOTOROLA_DEALER_LABEL_CONFIRMED, SITE } from "..
       <p class="mt-5 text-base leading-relaxed text-brand-slate">
         Equipos y accesorios Motorola para uso profesional. Wellbusiness es {MOTOROLA_DEALER_LABEL}.
       </p>
-      {!MOTOROLA_DEALER_LABEL_CONFIRMED && (
-        <PendingNote class="mt-4">
-          Denominación transcrita del material de referencia de Wellbusiness; pendiente de confirmar la
-          denominación oficial vigente antes de publicarse como definitiva.
-        </PendingNote>
-      )}
     </div>
 
     <!-- IDROCOMSOLUTIONS -->
@@ -61,25 +57,49 @@ import { MOTOROLA_DEALER_LABEL, MOTOROLA_DEALER_LABEL_CONFIRMED, SITE } from "..
       <p class="mt-4 text-base leading-relaxed text-brand-slate">
         Wellbusiness es la marca comercial de radiocomunicación de {SITE.parentCompany}.
       </p>
-      <PendingNote class="mt-4">
-        Esta descripción legal/comercial está pendiente de confirmación con la empresa antes de publicarse como
-        definitiva.
-      </PendingNote>
     </div>
 
-    <!-- MISIÓN Y VALORES -->
+    <!-- MISIÓN Y VISIÓN -->
     <div class="mt-8 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="flex size-12 items-center justify-center rounded-2xl bg-brand-steel-light text-brand-steel-dark">
-          <Icon name="shield" class="size-6" />
-        </span>
-        <h2 class="font-display text-xl font-semibold text-brand-ink">Misión y valores</h2>
+      <p class="text-sm font-semibold uppercase tracking-[0.1em] text-brand-steel">{COMPANY_TRAJECTORY}</p>
+      <div class="mt-6 grid gap-8 sm:grid-cols-2">
+        <div>
+          <h2 class="font-display text-lg font-semibold text-brand-ink">Misión</h2>
+          <p class="mt-3 text-base leading-relaxed text-brand-slate">{MISSION}</p>
+        </div>
+        <div>
+          <h2 class="font-display text-lg font-semibold text-brand-ink">Visión</h2>
+          <p class="mt-3 text-base leading-relaxed text-brand-slate">{VISION}</p>
+        </div>
       </div>
-      <PendingNote class="mt-4">
-        Los textos de misión, visión y valores del material anterior están en proceso de actualización y
-        aprobación con Wellbusiness. Se publicarán en esta sección una vez confirmados — no se muestran versiones
-        no aprobadas.
-      </PendingNote>
+    </div>
+
+    <!-- VALORES -->
+    <div class="mt-8 rounded-3xl border border-brand-mist bg-white p-8" data-reveal>
+      <h2 class="font-display text-xl font-semibold text-brand-ink">Nuestros valores</h2>
+      <div class="mt-6 grid gap-5 sm:grid-cols-2">
+        {COMPANY_VALUES.map((value) => (
+          <div class="flex items-start gap-3">
+            <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-steel-light text-brand-steel-dark">
+              <Icon name={value.icon} class="size-5" />
+            </span>
+            <div>
+              <h3 class="font-display text-base font-semibold text-brand-ink">{value.title}</h3>
+              <p class="mt-1 text-sm leading-relaxed text-brand-slate">{value.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCAS QUE HAN CONFIADO EN NOSOTROS -->
+  <section class="border-y border-brand-mist bg-white py-14">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8" data-reveal>
+      <p class="mb-6 text-center text-xs font-semibold uppercase tracking-[0.14em] text-brand-slate">
+        Marcas que han confiado en nosotros
+      </p>
+      <LogoMarquee logos={PARTNER_LOGOS} />
     </div>
   </section>
 
