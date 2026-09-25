@@ -34,6 +34,61 @@ npm run build     # genera ./dist (sitio estático)
 npm run preview   # sirve ./dist localmente
 ```
 
+## Portal CMS — orden exacto para cargar fotos + contenido inicial
+
+> Nota: esta sección describe el monorepo con `apps/portal`
+> (`clientes/wellbusiness/`) — el resto de este README todavía describe la
+> estructura previa de un solo sitio estático; se actualiza completo en la
+> Fase 6.
+
+Las fotos de productos y marcas viven en la **biblioteca de medios del
+portal** (tabla `medios` + KV) — nunca como archivos estáticos de
+`apps/web`, porque el portal corre en otro dominio y una ruta relativa
+como `/images/productos/...` no resuelve ahí. El contenido inicial
+(`clientes/wellbusiness/src/colecciones.ts`) referencia cada foto por su
+id real de la biblioteca; cargarlo antes de que esos ids existan en el
+D1 real ahora falla con un mensaje claro en vez de crear fichas con fotos
+rotas (`apps/portal/src/lib/servidor/carga.ts`) — pero aun así hay un
+único orden correcto, para no tener que averiguarlo por error:
+
+1. **Sube las fotos al portal ya desplegado** (nunca contra uno local si
+   el objetivo es producción):
+   ```sh
+   npx tsx scripts/importar-fotos.ts --url https://<worker-del-portal>.workers.dev \
+     --email <correo del admin> --password '<clave>'
+   ```
+   Sube cada foto real de `apps/web/public/images/{products,logos}` a la
+   biblioteca (si ya existe una con el mismo nombre de archivo, la
+   reutiliza — seguro de correr más de una vez) y regenera
+   `clientes/wellbusiness/src/medios-generados.ts` con el id real de cada
+   una.
+2. **Revisa y comitea** ese archivo regenerado (`git diff` primero — si
+   no cambió nada, no hace falta desplegar de nuevo):
+   ```sh
+   git add clientes/wellbusiness/src/medios-generados.ts
+   git commit -m "chore: regenerar medios-generados.ts"
+   git push
+   ```
+3. **Despliega el portal** (Workers Builds lo hace solo al pushear a su
+   rama de producción, o `npm run deploy:portal` a mano) — hasta que esto
+   pase, el portal en producción todavía no conoce los ids que se acaban
+   de subir.
+4. **Recién ahora**, carga el contenido inicial:
+   ```sh
+   npx tsx scripts/importar-fotos.ts --url https://<worker-del-portal>.workers.dev \
+     --email <correo del admin> --password '<clave>' --cargar
+   ```
+   (`--cargar` sube cualquier foto pendiente y además llama a
+   `POST /api/carga-inicial` — el mismo botón "Cargar" de
+   `/carga-inicial`, sin salir de la terminal.) Si algún id todavía no
+   existiera (por ejemplo, se saltó el paso 3), el portal lo rechaza con
+   la lista exacta de qué falta, sin crear nada a medias.
+
+Si más adelante se agrega una foto nueva (un producto nuevo, por
+ejemplo), el mismo orden aplica — correr el script contra el portal real,
+comitear `medios-generados.ts`, desplegar, y solo entonces usarla desde
+el editor.
+
 ## Estructura
 
 ```

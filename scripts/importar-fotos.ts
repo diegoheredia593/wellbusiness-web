@@ -23,6 +23,21 @@
  * Al terminar, escribe `clientes/wellbusiness/src/medios-generados.ts`
  * con el id real de cada foto — `colecciones.ts` lo consume vía el
  * ayudante `medio()` de `./medios.ts`.
+ *
+ * ORDEN EXACTO PARA PRODUCCIÓN (el portal valida el paso 4 — ver
+ * `apps/portal/src/lib/servidor/carga.ts`, "Falta la foto..." — así que
+ * saltarse un paso da un error claro, nunca fichas con fotos rotas):
+ *   1. Este script, contra el portal YA DESPLEGADO (`--url https://...`).
+ *   2. Revisar y comitear `clientes/<cliente>/src/medios-generados.ts`.
+ *   3. Desplegar el portal (push a la rama de producción, o
+ *      `npm run deploy:portal`) — así el código que corre en Cloudflare
+ *      conoce los ids que se acaban de subir.
+ *   4. Recién ahora: `--cargar` (o el botón "Cargar" en `/carga-inicial`).
+ *
+ * `--cargar` (opcional) hace el paso 4 sin salir de esta terminal: llama a
+ * POST /api/carga-inicial. Sigue exigiendo que el paso 3 ya haya pasado —
+ * no hay forma de saltárselo, porque el portal necesita estar corriendo el
+ * código que ya conoce esos ids.
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -31,6 +46,7 @@ interface Args {
   url: string;
   email: string;
   password: string;
+  cargar: boolean;
 }
 
 function parseArgs(): Args {
@@ -42,11 +58,12 @@ function parseArgs(): Args {
   const url = get('--url', 'http://localhost:4321')!;
   const email = get('--email', process.env.PORTAL_ADMIN_EMAIL);
   const password = get('--password', process.env.PORTAL_ADMIN_PASSWORD);
+  const cargar = a.includes('--cargar');
   if (!email || !password) {
     console.error('Falta --email/--password (o PORTAL_ADMIN_EMAIL/PORTAL_ADMIN_PASSWORD).');
     process.exit(1);
   }
-  return { url, email, password };
+  return { url, email, password, cargar };
 }
 
 const IMAGENES_DIR = join(import.meta.dirname, '../apps/web/public/images');
@@ -175,8 +192,23 @@ async function subirFoto(base: string, cookie: string, foto: FotoAImportar): Pro
   return cuerpo.medio;
 }
 
+/** Paso 4 del orden de producción (ver el comentario del archivo) — POST /api/carga-inicial. */
+async function cargarContenidoInicial(base: string, cookie: string): Promise<void> {
+  const res = await fetch(`${base}/api/carga-inicial`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Cookie: cookie, Origin: base, Referer: `${base}/carga-inicial` },
+    body: JSON.stringify({ accion: 'cargar' }),
+  });
+  const cuerpo = (await res.json()) as { ok: boolean; cargados?: number; error?: string };
+  if (!res.ok || !cuerpo.ok) {
+    console.error(`\nNo se pudo cargar el contenido inicial:\n${cuerpo.error ?? res.statusText}`);
+    process.exit(1);
+  }
+  console.log(`\nContenido inicial cargado: ${cuerpo.cargados} elementos.`);
+}
+
 async function main() {
-  const { url, email, password } = parseArgs();
+  const { url, email, password, cargar } = parseArgs();
   console.log(`Portal: ${url}`);
   const cookie = await iniciarSesion(url, email, password);
   console.log('Sesión iniciada.\n');
@@ -213,6 +245,24 @@ export const MEDIOS_GENERADOS = ${JSON.stringify(resultado, null, 2)} as const;
   const destino = join(import.meta.dirname, '../clientes/wellbusiness/src/medios-generados.ts');
   writeFileSync(destino, salidaTs);
   console.log(`\nEscrito: ${destino}`);
+
+  if (cargar) {
+    console.log('\n--cargar: llamando a POST /api/carga-inicial...');
+    await cargarContenidoInicial(url, cookie);
+    return;
+  }
+
+  if (subidas > 0) {
+    console.log(
+      '\nSiguiente paso: revisa y comitea medios-generados.ts, despliega el portal, y solo entonces ' +
+        'vuelve a correr este script con --cargar (o usa el botón "Cargar" en /carga-inicial).',
+    );
+  } else {
+    console.log(
+      '\nNo se subió ninguna foto nueva (todas ya existían). Si el portal desplegado ya conoce estos ' +
+        'ids, puedes correr este script otra vez con --cargar.',
+    );
+  }
 }
 
 main().catch((e) => {
