@@ -19,6 +19,12 @@ export default defineConfig({
   // El sitio público no usa sesiones — sin esto, el adaptador activa solo
   // un binding KV "SESSION" que nunca declaramos en wrangler.toml.
   session: false,
+  // Igual que apps/portal: la barra de herramientas de desarrollo de Astro
+  // es un overlay solo de `astro dev` (nunca aparece en producción), pero
+  // sí aparece en cualquier captura/verificación visual local si no se
+  // desactiva — encontrado al comparar capturas Playwright local vs
+  // producción antes de la Fase 5.
+  devToolbar: { enabled: false },
   trailingSlash: 'never',
   prefetch: {
     defaultStrategy: 'hover',
