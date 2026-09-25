@@ -1,0 +1,24 @@
+{
+  "name": "wellbusiness-portal",
+  "account_id": "84ffa5d2db10e557297317693d5ae3bf",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-09-25",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": "../../apps/portal/dist", "binding": "ASSETS" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "wellbusiness-db",
+      // PENDIENTE: id real, se llena en la Fase 6 al crear la base D1 real.
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "MEDIOS",
+      // PENDIENTE: id real, se llena en la Fase 6 al crear el namespace KV real.
+      "id": "0000000000000000000000000000000"
+    }
+  ],
+  "observability": { "enabled": true }
+}

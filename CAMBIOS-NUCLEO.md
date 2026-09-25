@@ -38,3 +38,23 @@ Wellbusiness o un cambio genérico que debería portarse de vuelta a Fluvida.
 
 **`packages/cms-core`**
 - Sin cambios en la Fase 1 — copiado tal cual.
+
+## Fase 2 — Configuración del cliente
+
+**`apps/portal/worker-configuration.d.ts`**
+- Regenerado con `npx wrangler types --config=../../clientes/wellbusiness/wrangler.portal.jsonc ./worker-configuration.d.ts` una vez que `clientes/wellbusiness/wrangler.portal.jsonc` ya existía (bindings `DB`/`MEDIOS`/`ASSETS` reales de Wellbusiness).
+- **No aplica a Fluvida** (artefacto generado).
+
+**`apps/portal/package.json`**
+- Agregué `"@types/node": "^22.12.0"` a `devDependencies`.
+- **Bug genérico, debería portarse a Fluvida**: sin esta dependencia,
+  `astro.config.mjs` (`process.env.CLIENTE`) y varios archivos de
+  `src/lib/servidor/*.ts` (`cloudflare:workers`, tipos ambientes de Node)
+  fallan `astro check` con `Cannot find name 'process'`/`Cannot find module
+  'cloudflare:workers'` — 25 errores en la primera corrida de
+  `check:portal` en este repo, todos resueltos por esta única dependencia.
+  Confirmé que Fluvida tampoco la tiene declarada (ni en su
+  `apps/portal/package.json` ni instalada en ningún `node_modules` del
+  repo) — es casi seguro que `npm run check:portal` falla igual allá; no lo
+  ejecuté contra ese repo para no modificarlo, pero vale la pena que lo
+  verifiquen y porten este mismo cambio.
