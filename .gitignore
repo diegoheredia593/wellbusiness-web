@@ -26,8 +26,14 @@ pnpm-debug.log*
 # Wrangler local state (Cloudflare deploy config itself, wrangler.toml/.jsonc, is committed)
 .wrangler/
 
-# Better Auth / portal secrets for local dev (never commit real secrets)
+# Better Auth / portal secrets for local dev (never commit real secrets) —
+# but keep the committed *.example templates (see clientes/wellbusiness/).
 .dev.vars*
+!.dev.vars.example
+!*/.dev.vars.example
 
 # scratch space for one-off scripts (e.g. the photo-import script's temp output)
 .tmp/
+
+# scripts/capturas-visuales.ts output (screenshots + diff report) — never commit images
+.capturas/

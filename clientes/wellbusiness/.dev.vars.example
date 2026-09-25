@@ -1,0 +1,28 @@
+# Secretos de apps/portal para desarrollo local (`npm run dev:portal`).
+#
+# IMPORTANTE — ubicación: aunque `apps/portal` es donde vive el código, el
+# adaptador de Cloudflare (`@astrojs/cloudflare`) lee `.dev.vars` junto al
+# archivo de configuración de Wrangler que le pasamos por `configPath`
+# (`clientes/<CLIENTE>/wrangler.portal.jsonc`), NO junto a `apps/portal/`.
+# Por eso este archivo va en `clientes/wellbusiness/`, no en `apps/portal/`.
+# Confirmado en vivo: un `.dev.vars` en `apps/portal/` es ignorado en
+# silencio (el portal sigue mostrando "Falta configurar BETTER_AUTH_SECRET").
+#
+# Copia este archivo a `.dev.vars` (sin `.example`) en esta misma carpeta y
+# rellena los valores reales. `.dev.vars*` ya está en `.gitignore` — nunca
+# se sube.
+
+# Firma de cookies/tokens de Better Auth. Mínimo 32 caracteres, cualquier
+# texto aleatorio sirve para desarrollo local (nunca reutilices el valor
+# real de producción aquí). Generar uno rápido:
+#   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+BETTER_AUTH_SECRET=
+
+# Clave para crear el primer administrador desde /configuracion-inicial.
+# Mínimo 12 caracteres. Mismo método para generarla:
+#   node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"
+SETUP_SECRET=
+
+# Opcional — iteraciones de PBKDF2 para contraseñas nuevas. Sin definir usa
+# el valor por defecto del portal (ver apps/portal/src/lib/servidor/contrasenas.ts).
+# PASSWORD_ITERATIONS=

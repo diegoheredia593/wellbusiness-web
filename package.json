@@ -20,7 +20,13 @@
     "dev:portal": "npm run dev -w apps/portal",
     "check:portal": "npm run check -w apps/portal",
     "version:web": "cd apps/web && npx wrangler versions upload",
-    "version:portal": "cd apps/portal && npx wrangler versions upload"
+    "version:portal": "cd apps/portal && npx wrangler versions upload",
+    "capturas:visuales": "tsx scripts/capturas-visuales.ts"
+  },
+  "devDependencies": {
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.63.0",
+    "pngjs": "^7.0.0"
   },
   "allowScripts": {
     "esbuild": true,
