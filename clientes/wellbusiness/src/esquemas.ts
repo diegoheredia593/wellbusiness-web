@@ -43,9 +43,15 @@ const enlaceInterno = z
   });
 
 /**
- * Los 25 íconos disponibles (`IconName` en `apps/web/src/data/types.ts`,
- * dibujados a mano en `Icon.astro` — no hay librería de íconos). Fragmento
- * único, reutilizado por `productos`/`servicios`/`sectores`/`accesosRapidos`/
+ * Íconos de contenido disponibles para editores (`IconName` en
+ * `apps/web/src/data/types.ts`, dibujados a mano en `Icon.astro` — no hay
+ * librería de íconos). Deliberadamente excluye los íconos de interfaz del
+ * mismo `IconName` (`chevron-right`, `menu`, `close`, `whatsapp`, `facebook`,
+ * `phone`, `mail`, `pin`, `zoom`, `clock`) — esos son de UI fija (nav,
+ * `Icon.astro`, footer) y no los usa ningún campo de contenido hoy
+ * (confirmado por grep en `apps/web/src`); si en el futuro alguna colección
+ * necesitara uno, hay que agregarlo aquí explícitamente. Fragmento único,
+ * reutilizado por `productos`/`servicios`/`sectores`/`accesosRapidos`/
  * `valores` para que el enum nunca se desalinee entre colecciones.
  */
 export const nombresIconos = {
@@ -63,17 +69,7 @@ export const nombresIconos = {
   signal: 'Señal',
   warehouse: 'Bodega',
   compass: 'Brújula (asesoría/orientación)',
-  'chevron-right': 'Flecha derecha',
-  menu: 'Menú',
-  close: 'Cerrar',
   check: 'Check / cumplimiento',
-  whatsapp: 'WhatsApp',
-  facebook: 'Facebook',
-  phone: 'Teléfono',
-  mail: 'Correo',
-  pin: 'Ubicación',
-  zoom: 'Lupa (zoom)',
-  clock: 'Reloj (horario)',
 } as const;
 const icono = z.enum(Object.keys(nombresIconos) as [keyof typeof nombresIconos]).meta({
   etiqueta: 'Ícono',
@@ -267,7 +263,7 @@ export const colecciones = {
     campoTitulo: 'titulo',
     campoSlug: 'slug',
     ordenarPor: 'orden',
-    grupo: 'Servicios',
+    grupo: 'Páginas',
   },
   sectores: {
     schema: sectorSchema,
@@ -278,7 +274,7 @@ export const colecciones = {
     campoTitulo: 'titulo',
     campoSlug: 'slug',
     ordenarPor: 'orden',
-    grupo: 'Sectores',
+    grupo: 'Páginas',
   },
   zonas: {
     schema: zonaSchema,
@@ -289,7 +285,7 @@ export const colecciones = {
     campoTitulo: 'titulo',
     campoSlug: 'slug',
     ordenarPor: 'orden',
-    grupo: 'Cobertura',
+    grupo: 'Páginas',
   },
   preguntas: {
     schema: preguntaSchema,
@@ -319,7 +315,7 @@ export const colecciones = {
     descripcion: 'Tarjetas de "Acceso rápido a soluciones" en Inicio.',
     campoTitulo: 'titulo',
     ordenarPor: 'orden',
-    grupo: 'Inicio',
+    grupo: 'Páginas',
   },
   valores: {
     schema: valorSchema,
@@ -329,6 +325,6 @@ export const colecciones = {
     descripcion: 'Tarjetas de "Nuestros valores" en Nosotros.',
     campoTitulo: 'titulo',
     ordenarPor: 'orden',
-    grupo: 'Nosotros',
+    grupo: 'Páginas',
   },
 } satisfies Record<string, DefinicionColeccion>;

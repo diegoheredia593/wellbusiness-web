@@ -72,14 +72,17 @@ export const etiquetasSitio = {
     'contacto.hero': 'Hero',
   },
   /**
-   * Nivel `sistema`: solo lo ve/edita un admin del portal. El disclaimer
+   * Nivel `sistema`: solo lo ve/edita un admin del portal.
+   * `cobertura.disclaimer.*` es el disclaimer legal de cobertura (deslinda
+   * responsabilidad sobre los porcentajes de cobertura mostrados) — un
+   * editor normal no debería poder cambiarlo por accidente. El disclaimer
    * legal de Motorola/marcas (rótulo de marca registrada) y las etiquetas de
    * accesibilidad no viven aquí como bloques — se quedaron en código
    * (`Icon.astro`, el pie de página) porque cambiarlas por accidente puede
    * tener implicaciones legales o de accesibilidad, y no aparecían ya como
    * texto plano editable en ninguna página.
    */
-  sistema: [],
+  sistema: ['cobertura.disclaimer.*'],
 } satisfies EtiquetasSitio;
 
 const { texto, largo } = crearDeclarador(etiquetasSitio);

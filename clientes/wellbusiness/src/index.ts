@@ -22,9 +22,13 @@ export default definirCliente({
     diasPapelera: 30,
     zonaHoraria: 'America/Guayaquil',
     editores: { eliminar: false },
-    // Workers KV del plan gratuito: 1 GB para toda la cuenta, compartido
-    // con fluvida-portal (misma cuenta de Cloudflare). Se deja margen.
-    almacenamiento: { tipo: 'kv', limiteBytes: 950 * 1024 * 1024 },
+    // Workers KV del plan gratuito: 1 GB para toda la cuenta, compartido con
+    // fluvida-portal (misma cuenta de Cloudflare, namespace fluvida-medios).
+    // Reparto acordado: Wellbusiness 400 MB + Fluvida 500 MB = 900 MB, deja
+    // ~100 MB de margen bajo el límite real de 1 GB. Si este límite sube,
+    // hay que bajar el de Fluvida (fluvida-web/clientes/fluvida/src/index.ts,
+    // otro repo) para que la suma no pase de 1 GB.
+    almacenamiento: { tipo: 'kv', limiteBytes: 400 * 1024 * 1024 },
   },
   etiquetas: { paginas: etiquetasSitio.paginas, secciones: etiquetasSitio.secciones },
   bloques,
