@@ -16,11 +16,11 @@
     "dev:web": "npm run dev -w apps/web",
     "check:web": "npm run check -w apps/web",
     "build:portal": "npm run build -w apps/portal",
-    "deploy:portal": "cd apps/portal && npx wrangler deploy",
+    "deploy:portal": "cd apps/portal && npx wrangler deploy --config dist/server/wrangler.json",
     "dev:portal": "npm run dev -w apps/portal",
     "check:portal": "npm run check -w apps/portal",
     "version:web": "cd apps/web && npx wrangler versions upload",
-    "version:portal": "cd apps/portal && npx wrangler versions upload",
+    "version:portal": "cd apps/portal && npx wrangler versions upload --config dist/server/wrangler.json",
     "capturas:visuales": "tsx scripts/capturas-visuales.ts"
   },
   "devDependencies": {
