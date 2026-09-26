@@ -14,8 +14,9 @@
 | 2 — Configuración del cliente | ✅ Completa y verificada (con los 4 ajustes de Diego) | `9568c99`, `79bdf28` |
 | 3 — Contenido inicial y fotos | ✅ Completa y verificada (con las 3 exigencias de Diego) | `d49c58d`, `43ec052`, `8b538c2` |
 | 4 — El sitio lee desde D1 | ✅ Completa y verificada (incluye la comparación Playwright prod vs. local pedida antes de la Fase 5) | `2310726`, `fdd1350` |
-| 5 — Formularios | ✅ Completa y verificada (con el cambio de Diego: `Origin` propio en vez de CORS) | — |
-| 6 — Documentación y despliegue | ⏳ No iniciada (algunas piezas ya viven en `README.md` desde la Fase 3, ver abajo) | — |
+| 5 — Formularios | ✅ Completa y verificada (con el cambio de Diego: `Origin` propio en vez de CORS) | `a869a15`, `5fd0910` |
+| 6a — Despliegue del portal | ✅ Completa y verificada | `751666d`, `81d1f48`, `acb38bf` |
+| 6b — Sitio público, dominios y README | ⏳ No iniciada | — |
 
 Detalle completo de cada fase (qué se hizo, qué se verificó, qué falta) en
 `docs/ESTADO.md`. Lo que sigue abajo es el plan original.
@@ -261,7 +262,56 @@ un tipo de formulario desconocido da 404; un campo de más da 422; el sexto
 envío en la ventana de 15 minutos desde la misma IP da 429; una petición sin
 `Origin` o con un `Origin` ajeno da 403.
 
-## Fase 6 — Documentación y despliegue ⏳ NO INICIADA (parcialmente adelantada)
+## Fase 6a — Despliegue del portal ✅ COMPLETA Y VERIFICADA
+
+Diego aprobó explícitamente solo esta mitad (no tocar el worker
+`wellbusiness-web` ni sus dominios). Pasos reales (algunos difieren del
+borrador original de abajo — anotado en cada uno):
+
+1. Verificado que `wrangler` ya tenía sesión iniciada en la cuenta
+   `84ffa5d2db10e557297317693d5ae3bf` (`npx wrangler whoami`) — no hizo
+   falta pedirle a Diego que inicie sesión.
+2. D1 `wellbusiness-db` (`2afc8400-5ed4-423d-bf72-27f7cee8ece0`) y KV
+   `wellbusiness-medios` (`76a57ddc1568418ebaeb3c2d6bd8e8d2`) creados con
+   `npx wrangler d1 create` / `npx wrangler kv namespace create`
+   directamente (**distinto del borrador original**, que decía "vía las
+   herramientas MCP de Cloudflare" — Diego pidió simplemente crearlos, y
+   wrangler ya estaba autenticado). Ids puestos en
+   `clientes/wellbusiness/wrangler.portal.jsonc`, comit y push.
+3. Secretos `BETTER_AUTH_SECRET` (generado al azar) y `SETUP_SECRET` (dado
+   por Diego) subidos con `wrangler secret put --config
+   clientes/wellbusiness/wrangler.portal.jsonc` — ninguno de los dos se
+   guardó en ningún archivo.
+4. Portal publicado con `CLIENTE=wellbusiness npm run build:portal &&
+   npm run deploy:portal` (**distinto del borrador original**, que
+   proponía Workers Builds conectado a GitHub vía la UI del dashboard —
+   Diego pidió publicar directamente desde esta rama; conectar Workers
+   Builds sigue pendiente, ver Fase 6b). URL (sin dominio propio todavía):
+   `https://wellbusiness-portal.herediadiego963.workers.dev`.
+5. Diego creó el primer administrador desde `/configuracion-inicial`.
+6. **Fotos, en el orden exacto que exige el propio portal** (rechaza el
+   paso siguiente si se salta este orden — ver "Portal CMS — orden
+   exacto..." en `README.md`):
+   1. `importar-fotos.ts` (sin `--cargar`) contra el portal real — sube las
+      67 fotos y regenera `medios-generados.ts`.
+   2. Revisado y comiteado ese archivo regenerado.
+   3. Portal redesplegado (para que el código conozca los ids nuevos).
+   4. Recién ahí, `importar-fotos.ts --cargar` — reutiliza las 67 fotos
+      (no las duplica) y carga el contenido inicial: 68 elementos.
+- Bug real encontrado y corregido de paso: `deploy:portal`/`version:portal`
+  en el `package.json` raíz no encontraban la configuración de Cloudflare
+  — ahora apuntan al `wrangler.json` que el adaptador de Astro genera
+  resuelto en `apps/portal/dist/server/` en cada build.
+
+**⏸ CHECKPOINT pendiente de que Diego lo confirme**: entrar al portal, ver
+los 19 productos con sus fotos y editar uno. Verificado por Claude antes de
+avisarle: `/colecciones/productos` lista los 19 (cada uno con foto de
+portada) y `/colecciones/productos/prod-rva50` carga bien para editar.
+
+## Fase 6b — Sitio público, dominios y README ⏳ NO INICIADA
+
+Requiere aprobación explícita de Diego antes de empezar (no se tocó nada
+de esto en la 6a a propósito). Lista de pasos pendientes:
 
 - Ya adelantado durante la Fase 3 (sin esperar a la Fase 6): la sección
   "Portal CMS — orden exacto para cargar fotos + contenido inicial" del
@@ -269,31 +319,19 @@ envío en la ventana de 15 minutos desde la misma IP da 429; una petición sin
   del hero que ya estaban desactualizados.
 - Falta: el resto de la actualización de `README.md` (arquitectura nueva,
   comandos, cómo agregar una colección, cómo pasar de KV a R2).
-- Lista de pasos para Diego en Cloudflare (alto nivel, se detallan con
-  comandos exactos cuando se llegue a esta fase):
-  1. Crear D1 `wellbusiness-db` y KV `wellbusiness-medios` — vía las
-     herramientas MCP de Cloudflare, pidiendo confirmación antes de crear
-     cada recurso.
-  2. Crear el worker `wellbusiness-portal` conectado a GitHub vía Workers
-     Builds (UI del dashboard, no por API).
-  3. Cambiar la configuración de build del worker `wellbusiness-web` (ahora
-     compila desde `apps/web`).
-  4. Secretos `BETTER_AUTH_SECRET`/`SETUP_SECRET` con `--name wellbusiness-portal`.
-  5. Dominio `portal.idrocomsolutions.com` → `wellbusiness-portal`.
-  6. `/configuracion-inicial` → crear el primer administrador.
-  7. **Fotos, en este orden exacto** (el portal rechaza el paso 8 si se
-     salta este orden — ver "Portal CMS — orden exacto..." en `README.md`):
-     1. `npx tsx scripts/importar-fotos.ts --url https://portal.idrocomsolutions.com --email ... --password ...`
-        — sube las ~67 fotos reales y regenera `medios-generados.ts`.
-     2. Revisar y comitear ese archivo regenerado.
-     3. Esperar a que Workers Builds despliegue (o `npm run deploy:portal`).
-  8. Recién ahora: `/carga-inicial` → "Cargar" (o el mismo script con
-     `--cargar`) → probar crear/publicar/archivar/eliminar un producto y
-     verlo reflejado en el sitio.
+- Crear el worker `wellbusiness-web` (por ahora sigue sin desplegarse desde
+  este monorepo) conectado a GitHub vía Workers Builds, compilando desde
+  `apps/web` — o publicarlo directo con `wrangler deploy` igual que el
+  portal, a decidir con Diego.
+- Rellenar en `apps/web/wrangler.toml` los mismos ids reales de D1/KV que
+  ya tiene `clientes/wellbusiness/wrangler.portal.jsonc` (arriba) — hoy
+  siguen en `00000000-...`.
+- Dominios: `idrocomsolutions.com`/`www.idrocomsolutions.com` →
+  `wellbusiness-web`, `portal.idrocomsolutions.com` → `wellbusiness-portal`.
+- Probar crear/publicar/archivar/eliminar un producto en el portal y
+  verlo reflejado en el sitio público ya con dominio real.
 - No se hace merge a `master` (rama principal de este repo, no `main`) ni se
-  toca producción sin confirmación de Diego. La configuración de Workers
-  Builds de `wellbusiness-portal`/`wellbusiness-web` en la Fase 6 debe
-  apuntar su rama de producción a `master`.
+  toca producción sin confirmación de Diego en cada paso.
 
 ## Verificación end-to-end (además de los checkpoints de cada fase)
 

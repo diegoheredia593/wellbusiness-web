@@ -70,7 +70,8 @@ decidió, qué se verificó, con qué commit). Resumen:
 | 3 — Contenido inicial y fotos | ✅ Completa y verificada |
 | 4 — El sitio lee desde D1 | ✅ Completa y verificada (incluye comparación visual Playwright prod vs. local, 404/noindex, conteo de consultas D1, Cache-Control — todo confirmado en orden) |
 | 5 — Formularios | ✅ Completa y verificada (con el cambio de Diego: `Origin` propio en vez de CORS) |
-| 6 — Documentación y despliegue | ⏳ No iniciada (algunas piezas ya están hechas desde la Fase 3, ver `docs/PLAN-PORTAL.md`) |
+| 6a — Despliegue del portal | ✅ Completa y verificada (recursos reales de Cloudflare, portal en producción, contenido inicial cargado) |
+| 6b — Despliegue del sitio público + dominios | ⏳ No iniciada |
 
 Commit más reciente en `feat/portal-cms` al momento de escribir esto: ver
 `git log -1 feat/portal-cms` — no lo fijo aquí como número porque este
@@ -128,17 +129,15 @@ el mensaje de traspaso que Diego recibió al cerrar esta sesión.
 
 ## Pendientes conocidos (no son bugs escondidos — están anotados a propósito)
 
-- `clientes/wellbusiness/wrangler.portal.jsonc` y `apps/web/wrangler.toml`
-  todavía tienen ids de relleno (`00000000-...`) para `database_id` (D1) y
-  el namespace KV — se llenan en la Fase 6, cuando se crean los recursos
-  reales de Cloudflare.
-- `clientes/wellbusiness/src/medios-generados.ts` (committeado) tiene ids
-  de una base D1 **local y descartable** de una sesión de prueba anterior
-  — no corresponden a ningún medio real en Cloudflare todavía. Este
-  archivo se **regenera por completo** corriendo
-  `scripts/importar-fotos.ts` contra el portal ya desplegado (Fase 6, paso
-  7 del plan) — no hay que "arreglarlo" a mano, correr el script de nuevo
-  lo reemplaza entero.
+- `apps/web/wrangler.toml` todavía tiene ids de relleno (`00000000-...`)
+  para `database_id` (D1) y el namespace KV — se llenan en la Fase 6b,
+  cuando se despliegue el sitio público con los mismos ids reales que ya
+  tiene `clientes/wellbusiness/wrangler.portal.jsonc` (Fase 6a, ya
+  completa: D1 `wellbusiness-db` = `2afc8400-5ed4-423d-bf72-27f7cee8ece0`,
+  KV `wellbusiness-medios` = `76a57ddc1568418ebaeb3c2d6bd8e8d2`).
+- `clientes/wellbusiness/src/medios-generados.ts` (committeado) ya tiene
+  los ids reales de las 67 fotos subidas contra el portal en producción
+  (Fase 6a) — dejó de ser de una sesión de prueba local.
 - `/catalogo` hace una consulta a la colección `categorias` **dos veces**
   en la misma solicitud (una vez dentro de `getProductos()` para resolver
   slug→nombre, otra vez para la lista de pestañas). No rompe nada ni se
@@ -289,17 +288,45 @@ npm run check:portal
 
 Las cuatro deben terminar sin errores.
 
-## Siguiente paso exacto para retomar
+## Fase 6a — Despliegue del portal ✅ COMPLETA Y VERIFICADA
 
-La Fase 5 (formularios) ya está completa y verificada — ver el detalle en
-`docs/PLAN-PORTAL.md`. **⏸ CHECKPOINT cumplido**, pendiente de que Diego lo
-apruebe antes de tocar la Fase 6.
+Aprobada y ejecutada solo para el portal (Diego pidió explícitamente no
+tocar el worker `wellbusiness-web` ni sus dominios en esta parte):
 
-1. Empezar la **Fase 6** (documentación y despliegue): crear los recursos
-   reales de Cloudflare (D1, KV, los dos Workers), rellenar los ids de
-   relleno en `clientes/wellbusiness/wrangler.portal.jsonc` y
-   `apps/web/wrangler.toml`, y seguir el orden exacto de fotos/contenido
-   inicial documentado en `README.md` y en la Fase 6 de `docs/PLAN-PORTAL.md`.
-2. No tocar producción ni hacer merge a `master` sin la confirmación
-   explícita de Diego en cada paso (crear cada recurso de Cloudflare por
-   separado, con su propia confirmación).
+- D1 `wellbusiness-db` (`2afc8400-5ed4-423d-bf72-27f7cee8ece0`) y KV
+  `wellbusiness-medios` (`76a57ddc1568418ebaeb3c2d6bd8e8d2`) creados en la
+  cuenta `84ffa5d2db10e557297317693d5ae3bf`, ids puestos en
+  `clientes/wellbusiness/wrangler.portal.jsonc`.
+- Secretos `BETTER_AUTH_SECRET` (generado al azar) y `SETUP_SECRET`
+  subidos al Worker `wellbusiness-portal` con `wrangler secret put` —
+  **ninguno de los dos quedó guardado en ningún archivo del repo.**
+- Portal desplegado, sin dominio propio todavía (Fase 6b):
+  **https://wellbusiness-portal.herediadiego963.workers.dev**
+- Primer administrador creado por Diego desde `/configuracion-inicial`
+  (`norma.vega@idrocomsolutions.com`).
+- 67 fotos (52 productos + 15 marcas) subidas contra el portal real y
+  contenido inicial cargado — 68 elementos, incluidos los 19 productos con
+  su foto. Verificado en vivo: `/colecciones/productos` lista los 19, cada
+  uno con foto; `/colecciones/productos/prod-rva50` (edición) carga bien.
+- Bug real encontrado y corregido de paso: `deploy:portal`/`version:portal`
+  en el `package.json` raíz no encontraban la configuración de Cloudflare
+  (vive en `clientes/wellbusiness/wrangler.portal.jsonc`, no en
+  `apps/portal/`) — ahora apuntan al `wrangler.json` que el adaptador de
+  Astro genera resuelto en `apps/portal/dist/server/` en cada build.
+
+**⏸ CHECKPOINT pendiente de que Diego lo confirme**: entrar al portal, ver
+los 19 productos con sus fotos y editar uno.
+
+## Siguiente paso exacto para retomar (Fase 6b)
+
+1. **No tocar** hasta que Diego confirme el checkpoint de la Fase 6a.
+2. Fase 6b (pendiente, requiere su aprobación explícita antes de empezar):
+   crear el Worker `wellbusiness-web` conectado a GitHub (Workers Builds,
+   compilando desde `apps/web`), rellenar los mismos ids reales de D1/KV
+   (arriba) en `apps/web/wrangler.toml`, dominios
+   `idrocomsolutions.com`/`www.idrocomsolutions.com` →
+   `wellbusiness-web` y `portal.idrocomsolutions.com` →
+   `wellbusiness-portal`. Ver el detalle paso a paso en la Fase 6 de
+   `docs/PLAN-PORTAL.md`.
+3. No hacer merge a `master` ni tocar producción sin la confirmación
+   explícita de Diego en cada paso.
