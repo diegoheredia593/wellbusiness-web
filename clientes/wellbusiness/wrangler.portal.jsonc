@@ -9,15 +9,13 @@
     {
       "binding": "DB",
       "database_name": "wellbusiness-db",
-      // PENDIENTE: id real, se llena en la Fase 6 al crear la base D1 real.
-      "database_id": "00000000-0000-0000-0000-000000000000"
+      "database_id": "2afc8400-5ed4-423d-bf72-27f7cee8ece0"
     }
   ],
   "kv_namespaces": [
     {
       "binding": "MEDIOS",
-      // PENDIENTE: id real, se llena en la Fase 6 al crear el namespace KV real.
-      "id": "0000000000000000000000000000000"
+      "id": "76a57ddc1568418ebaeb3c2d6bd8e8d2"
     }
   ],
   "observability": { "enabled": true }
