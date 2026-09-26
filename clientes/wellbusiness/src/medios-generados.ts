@@ -4,673 +4,673 @@
  */
 export const MEDIOS_GENERADOS = {
   "products/dem300-1.jpg": {
-    "id": "6d0f9b40-07e1-4ed2-9bf5-c04df3c87d78",
-    "src": "/medios/fotos/2026/09/6d0f9b40-07e1-4ed2-9bf5-c04df3c87d78.jpg",
+    "id": "b63f8c46-3aa3-46a3-b96d-d1fcf5f55c37",
+    "src": "/medios/fotos/2026/09/b63f8c46-3aa3-46a3-b96d-d1fcf5f55c37.jpg",
     "alt": "Motorola DEM300 — foto 1",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "dem300-1.jpg",
     "peso": 146714,
-    "creado": "2026-09-25T19:21:09.918Z"
+    "creado": "2026-09-26T20:14:13.178Z"
   },
   "products/dem500-1.jpg": {
-    "id": "ca7646c2-1ad2-43aa-8b44-f067dc38f70b",
-    "src": "/medios/fotos/2026/09/ca7646c2-1ad2-43aa-8b44-f067dc38f70b.jpg",
+    "id": "4853e1ac-8d72-4db2-ba74-d9367ba134f8",
+    "src": "/medios/fotos/2026/09/4853e1ac-8d72-4db2-ba74-d9367ba134f8.jpg",
     "alt": "Motorola DEM500 — foto 1",
     "ancho": 800,
     "alto": 533,
     "nombre": "dem500-1.jpg",
     "peso": 54049,
-    "creado": "2026-09-25T19:21:10.012Z"
+    "creado": "2026-09-26T20:14:14.401Z"
   },
   "products/dep250-1.png": {
-    "id": "89ca5c81-d7b0-4c66-9522-09bd01473a1c",
-    "src": "/medios/fotos/2026/09/89ca5c81-d7b0-4c66-9522-09bd01473a1c.png",
+    "id": "a2cd6349-6862-427e-8e32-5822825fb9f3",
+    "src": "/medios/fotos/2026/09/a2cd6349-6862-427e-8e32-5822825fb9f3.png",
     "alt": "Motorola MOTOTRBO DEP 250 — foto 1",
     "ancho": 960,
     "alto": 960,
     "nombre": "dep250-1.png",
     "peso": 257475,
-    "creado": "2026-09-25T19:21:10.073Z"
+    "creado": "2026-09-26T20:14:15.571Z"
   },
   "products/dep450-1.jpg": {
-    "id": "688d7147-132c-46e9-8652-0c2f0b626280",
-    "src": "/medios/fotos/2026/09/688d7147-132c-46e9-8652-0c2f0b626280.jpg",
+    "id": "07ed8dce-9eed-450c-bc4a-8978605df3e1",
+    "src": "/medios/fotos/2026/09/07ed8dce-9eed-450c-bc4a-8978605df3e1.jpg",
     "alt": "Motorola MOTOTRBO DEP 450 — foto 1",
     "ancho": 324,
     "alto": 324,
     "nombre": "dep450-1.jpg",
     "peso": 8171,
-    "creado": "2026-09-25T19:21:10.133Z"
+    "creado": "2026-09-26T20:14:16.764Z"
   },
   "products/dep450-2.jpg": {
-    "id": "1a888ff4-81cd-41c2-ab18-cf3726e58cc1",
-    "src": "/medios/fotos/2026/09/1a888ff4-81cd-41c2-ab18-cf3726e58cc1.jpg",
+    "id": "2fe21b6d-76f9-4d61-8681-63d3cdfda636",
+    "src": "/medios/fotos/2026/09/2fe21b6d-76f9-4d61-8681-63d3cdfda636.jpg",
     "alt": "Motorola MOTOTRBO DEP 450 — foto 2",
     "ancho": 324,
     "alto": 324,
     "nombre": "dep450-2.jpg",
     "peso": 8441,
-    "creado": "2026-09-25T19:21:10.215Z"
+    "creado": "2026-09-26T20:14:17.852Z"
   },
   "products/dep450-3.jpg": {
-    "id": "aa69b1a2-c393-4e54-b848-6de0d8d07ff1",
-    "src": "/medios/fotos/2026/09/aa69b1a2-c393-4e54-b848-6de0d8d07ff1.jpg",
+    "id": "a87fda73-c6cc-487c-a391-caf0a018eb1f",
+    "src": "/medios/fotos/2026/09/a87fda73-c6cc-487c-a391-caf0a018eb1f.jpg",
     "alt": "Motorola MOTOTRBO DEP 450 — foto 3",
     "ancho": 324,
     "alto": 324,
     "nombre": "dep450-3.jpg",
     "peso": 8500,
-    "creado": "2026-09-25T19:21:10.279Z"
+    "creado": "2026-09-26T20:14:18.942Z"
   },
   "products/dep550e-1.jpg": {
-    "id": "ec93521c-41db-4b84-8ec2-6a895de2f632",
-    "src": "/medios/fotos/2026/09/ec93521c-41db-4b84-8ec2-6a895de2f632.jpg",
+    "id": "10f4733a-be1d-45b7-9dd7-4f1b40e277cb",
+    "src": "/medios/fotos/2026/09/10f4733a-be1d-45b7-9dd7-4f1b40e277cb.jpg",
     "alt": "Motorola MOTOTRBO DEP 550e — foto 1",
     "ancho": 327,
     "alto": 500,
     "nombre": "dep550e-1.jpg",
     "peso": 59759,
-    "creado": "2026-09-25T19:21:10.344Z"
+    "creado": "2026-09-26T20:14:20.021Z"
   },
   "products/dep570e-1.png": {
-    "id": "946bef65-a197-44ea-863c-430c726fd870",
-    "src": "/medios/fotos/2026/09/946bef65-a197-44ea-863c-430c726fd870.png",
+    "id": "7a96c0e5-ec3c-425d-a619-a042f63e4724",
+    "src": "/medios/fotos/2026/09/7a96c0e5-ec3c-425d-a619-a042f63e4724.png",
     "alt": "Motorola MOTOTRBO DEP 570e — foto 1",
     "ancho": 456,
     "alto": 456,
     "nombre": "dep570e-1.png",
     "peso": 51316,
-    "creado": "2026-09-25T19:21:10.421Z"
+    "creado": "2026-09-26T20:14:21.154Z"
   },
   "products/dep570e-2.png": {
-    "id": "09a8a3bc-6714-4169-9a91-bcfe0a165b36",
-    "src": "/medios/fotos/2026/09/09a8a3bc-6714-4169-9a91-bcfe0a165b36.png",
+    "id": "6e53a1d6-66e0-47be-9d27-ce9d9e2e8c27",
+    "src": "/medios/fotos/2026/09/6e53a1d6-66e0-47be-9d27-ce9d9e2e8c27.png",
     "alt": "Motorola MOTOTRBO DEP 570e — foto 2",
     "ancho": 600,
     "alto": 600,
     "nombre": "dep570e-2.png",
     "peso": 66270,
-    "creado": "2026-09-25T19:21:10.509Z"
+    "creado": "2026-09-26T20:14:22.386Z"
   },
   "products/dep570e-3.png": {
-    "id": "44b3d7d1-733f-404f-8a32-7dbf8b0a372a",
-    "src": "/medios/fotos/2026/09/44b3d7d1-733f-404f-8a32-7dbf8b0a372a.png",
+    "id": "bb0e3e6b-99b9-462c-906a-c1eb38feabcf",
+    "src": "/medios/fotos/2026/09/bb0e3e6b-99b9-462c-906a-c1eb38feabcf.png",
     "alt": "Motorola MOTOTRBO DEP 570e — foto 3",
     "ancho": 600,
     "alto": 600,
     "nombre": "dep570e-3.png",
     "peso": 61762,
-    "creado": "2026-09-25T19:21:10.573Z"
+    "creado": "2026-09-26T20:14:23.481Z"
   },
   "products/dep570e-4.png": {
-    "id": "02c1401e-4058-4851-b6e6-a39f19300a34",
-    "src": "/medios/fotos/2026/09/02c1401e-4058-4851-b6e6-a39f19300a34.png",
+    "id": "89ce6498-2576-481e-a906-468f299e5d24",
+    "src": "/medios/fotos/2026/09/89ce6498-2576-481e-a906-468f299e5d24.png",
     "alt": "Motorola MOTOTRBO DEP 570e — foto 4",
     "ancho": 600,
     "alto": 600,
     "nombre": "dep570e-4.png",
     "peso": 58782,
-    "creado": "2026-09-25T19:21:10.670Z"
+    "creado": "2026-09-26T20:14:24.633Z"
   },
   "products/magone-x10d-1.jpg": {
-    "id": "b3999cbd-7456-476e-8a6d-ba2578dbfd27",
-    "src": "/medios/fotos/2026/09/b3999cbd-7456-476e-8a6d-ba2578dbfd27.jpg",
+    "id": "605b015c-6cf3-461d-bcfb-18f85c5b9615",
+    "src": "/medios/fotos/2026/09/605b015c-6cf3-461d-bcfb-18f85c5b9615.jpg",
     "alt": "Motorola MagOne X10d — foto 1",
     "ancho": 1000,
     "alto": 900,
     "nombre": "magone-x10d-1.jpg",
     "peso": 24981,
-    "creado": "2026-09-25T19:21:10.762Z"
+    "creado": "2026-09-26T20:14:25.747Z"
   },
   "products/magone-x10d-2.jpg": {
-    "id": "8e56fcc5-e276-4e25-a09b-dd71bb34cc84",
-    "src": "/medios/fotos/2026/09/8e56fcc5-e276-4e25-a09b-dd71bb34cc84.jpg",
+    "id": "6785d37d-268d-4657-8470-be5f37a002f5",
+    "src": "/medios/fotos/2026/09/6785d37d-268d-4657-8470-be5f37a002f5.jpg",
     "alt": "Motorola MagOne X10d — foto 2",
     "ancho": 1000,
     "alto": 900,
     "nombre": "magone-x10d-2.jpg",
     "peso": 19698,
-    "creado": "2026-09-25T19:21:10.849Z"
+    "creado": "2026-09-26T20:14:26.964Z"
   },
   "products/magone-x10d-3.jpg": {
-    "id": "804cebc4-cd8c-4cb3-a266-2da1267c857e",
-    "src": "/medios/fotos/2026/09/804cebc4-cd8c-4cb3-a266-2da1267c857e.jpg",
+    "id": "514c55b0-b63a-4432-a053-10bbed5e490a",
+    "src": "/medios/fotos/2026/09/514c55b0-b63a-4432-a053-10bbed5e490a.jpg",
     "alt": "Motorola MagOne X10d — foto 3",
     "ancho": 1000,
     "alto": 900,
     "nombre": "magone-x10d-3.jpg",
     "peso": 17343,
-    "creado": "2026-09-25T19:21:10.945Z"
+    "creado": "2026-09-26T20:14:28.005Z"
   },
   "products/magone-x10d-4.jpg": {
-    "id": "c8001b52-a66d-41da-beed-469a174806f8",
-    "src": "/medios/fotos/2026/09/c8001b52-a66d-41da-beed-469a174806f8.jpg",
+    "id": "7e2d00de-fbac-4a3e-b389-326643881bb9",
+    "src": "/medios/fotos/2026/09/7e2d00de-fbac-4a3e-b389-326643881bb9.jpg",
     "alt": "Motorola MagOne X10d — foto 4",
     "ancho": 1000,
     "alto": 900,
     "nombre": "magone-x10d-4.jpg",
     "peso": 21780,
-    "creado": "2026-09-25T19:21:10.997Z"
+    "creado": "2026-09-26T20:14:29.085Z"
   },
   "products/r2-1.jpg": {
-    "id": "1dbde905-40a1-405b-8b3e-32037e6fe6e4",
-    "src": "/medios/fotos/2026/09/1dbde905-40a1-405b-8b3e-32037e6fe6e4.jpg",
+    "id": "cc2c0219-263b-418b-b19d-81afcc432b50",
+    "src": "/medios/fotos/2026/09/cc2c0219-263b-418b-b19d-81afcc432b50.jpg",
     "alt": "Motorola MOTOTRBO R2 — foto 1",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "r2-1.jpg",
     "peso": 122776,
-    "creado": "2026-09-25T19:21:11.085Z"
+    "creado": "2026-09-26T20:14:30.153Z"
   },
   "products/r2-2.jpg": {
-    "id": "47f1fad6-2d05-41e5-896f-7996a988a831",
-    "src": "/medios/fotos/2026/09/47f1fad6-2d05-41e5-896f-7996a988a831.jpg",
+    "id": "598528df-0fe1-4c0b-9404-25651067c080",
+    "src": "/medios/fotos/2026/09/598528df-0fe1-4c0b-9404-25651067c080.jpg",
     "alt": "Motorola MOTOTRBO R2 — foto 2",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "r2-2.jpg",
     "peso": 107333,
-    "creado": "2026-09-25T19:21:11.160Z"
+    "creado": "2026-09-26T20:14:31.257Z"
   },
   "products/r2-3.jpg": {
-    "id": "c5fa89da-6e35-45db-a18f-b3018beebc1c",
-    "src": "/medios/fotos/2026/09/c5fa89da-6e35-45db-a18f-b3018beebc1c.jpg",
+    "id": "4a5c70dc-c59a-43e0-b2e8-b695f0064295",
+    "src": "/medios/fotos/2026/09/4a5c70dc-c59a-43e0-b2e8-b695f0064295.jpg",
     "alt": "Motorola MOTOTRBO R2 — foto 3",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "r2-3.jpg",
     "peso": 107486,
-    "creado": "2026-09-25T19:21:11.247Z"
+    "creado": "2026-09-26T20:14:32.379Z"
   },
   "products/r2-4.jpg": {
-    "id": "0828ba1c-3e7c-4b22-a806-a2ea85ddbfab",
-    "src": "/medios/fotos/2026/09/0828ba1c-3e7c-4b22-a806-a2ea85ddbfab.jpg",
+    "id": "14d92e5c-067f-49ea-979f-2e2e907e3870",
+    "src": "/medios/fotos/2026/09/14d92e5c-067f-49ea-979f-2e2e907e3870.jpg",
     "alt": "Motorola MOTOTRBO R2 — foto 4",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "r2-4.jpg",
     "peso": 140890,
-    "creado": "2026-09-25T19:21:11.344Z"
+    "creado": "2026-09-26T20:14:33.442Z"
   },
   "products/r5-1.jpg": {
-    "id": "37a47cb1-8898-4d49-9320-202db448b3d6",
-    "src": "/medios/fotos/2026/09/37a47cb1-8898-4d49-9320-202db448b3d6.jpg",
+    "id": "725eda53-b85d-40bb-b946-8ea35cf1965c",
+    "src": "/medios/fotos/2026/09/725eda53-b85d-40bb-b946-8ea35cf1965c.jpg",
     "alt": "Motorola MOTOTRBO R5 — foto 1",
     "ancho": 1000,
     "alto": 900,
     "nombre": "r5-1.jpg",
     "peso": 36517,
-    "creado": "2026-09-25T19:21:11.430Z"
+    "creado": "2026-09-26T20:14:34.730Z"
   },
   "products/r5-2.jpg": {
-    "id": "b5a6ee28-7ae8-4dd7-ac36-31d80ac64f27",
-    "src": "/medios/fotos/2026/09/b5a6ee28-7ae8-4dd7-ac36-31d80ac64f27.jpg",
+    "id": "6d736802-4e1f-45da-a8b5-043c735e2557",
+    "src": "/medios/fotos/2026/09/6d736802-4e1f-45da-a8b5-043c735e2557.jpg",
     "alt": "Motorola MOTOTRBO R5 — foto 2",
     "ancho": 1000,
     "alto": 900,
     "nombre": "r5-2.jpg",
     "peso": 50851,
-    "creado": "2026-09-25T19:21:11.502Z"
+    "creado": "2026-09-26T20:14:35.902Z"
   },
   "products/r5-3.jpg": {
-    "id": "1c702fc5-5ba2-4986-8de6-6f1b30670591",
-    "src": "/medios/fotos/2026/09/1c702fc5-5ba2-4986-8de6-6f1b30670591.jpg",
+    "id": "9f602b84-7bb6-459e-a61f-54827c2c2bcc",
+    "src": "/medios/fotos/2026/09/9f602b84-7bb6-459e-a61f-54827c2c2bcc.jpg",
     "alt": "Motorola MOTOTRBO R5 — foto 3",
     "ancho": 1000,
     "alto": 900,
     "nombre": "r5-3.jpg",
     "peso": 22249,
-    "creado": "2026-09-25T19:21:11.603Z"
+    "creado": "2026-09-26T20:14:37.082Z"
   },
   "products/r5-4.jpg": {
-    "id": "dfa022ae-fc80-46d4-8cd0-205949a006be",
-    "src": "/medios/fotos/2026/09/dfa022ae-fc80-46d4-8cd0-205949a006be.jpg",
+    "id": "7ac155d2-de70-4220-8a9e-65e23819ead1",
+    "src": "/medios/fotos/2026/09/7ac155d2-de70-4220-8a9e-65e23819ead1.jpg",
     "alt": "Motorola MOTOTRBO R5 — foto 4",
     "ancho": 1000,
     "alto": 900,
     "nombre": "r5-4.jpg",
     "peso": 25952,
-    "creado": "2026-09-25T19:21:11.668Z"
+    "creado": "2026-09-26T20:14:38.137Z"
   },
   "products/r5-bateria-impres-1.jpg": {
-    "id": "aff7060d-304d-470e-8b36-2adf114d756b",
-    "src": "/medios/fotos/2026/09/aff7060d-304d-470e-8b36-2adf114d756b.jpg",
+    "id": "f3f935a1-a1b9-45ed-91ec-2d765b017e20",
+    "src": "/medios/fotos/2026/09/f3f935a1-a1b9-45ed-91ec-2d765b017e20.jpg",
     "alt": "Batería IMPRES Motorola PMNN4888 / PMNN4889 — foto 1",
     "ancho": 500,
     "alto": 500,
     "nombre": "r5-bateria-impres-1.jpg",
     "peso": 29723,
-    "creado": "2026-09-25T19:23:08.044Z"
+    "creado": "2026-09-26T20:14:39.206Z"
   },
   "products/r5-cargador-multiunidad-1.jpg": {
-    "id": "12953dd4-2692-4857-bf44-488bb703020f",
-    "src": "/medios/fotos/2026/09/12953dd4-2692-4857-bf44-488bb703020f.jpg",
+    "id": "281b4b6b-ac09-47bc-946d-9c6d6d962433",
+    "src": "/medios/fotos/2026/09/281b4b6b-ac09-47bc-946d-9c6d6d962433.jpg",
     "alt": "Cargador multiunidad IMPRES Motorola PMPN4283 — foto 1",
     "ancho": 447,
     "alto": 447,
     "nombre": "r5-cargador-multiunidad-1.jpg",
     "peso": 20395,
-    "creado": "2026-09-25T19:23:08.118Z"
+    "creado": "2026-09-26T20:14:40.271Z"
   },
   "products/r5-microfono-rm560-1.jpg": {
-    "id": "e3642416-56ea-4361-91c7-317f8d80727d",
-    "src": "/medios/fotos/2026/09/e3642416-56ea-4361-91c7-317f8d80727d.jpg",
+    "id": "e582e044-b53e-4356-aca4-c06a6d4cbf45",
+    "src": "/medios/fotos/2026/09/e582e044-b53e-4356-aca4-c06a6d4cbf45.jpg",
     "alt": "Micrófono con altavoz remoto Motorola RM560 / RM530 — foto 1",
     "ancho": 558,
     "alto": 558,
     "nombre": "r5-microfono-rm560-1.jpg",
     "peso": 38785,
-    "creado": "2026-09-25T19:23:08.207Z"
+    "creado": "2026-09-26T20:14:41.327Z"
   },
   "products/rva50-1.jpg": {
-    "id": "df854561-0f07-4754-8d68-d45c8aa37d4e",
-    "src": "/medios/fotos/2026/09/df854561-0f07-4754-8d68-d45c8aa37d4e.jpg",
+    "id": "e9b9775e-b735-48f0-9235-6c78145b8d98",
+    "src": "/medios/fotos/2026/09/e9b9775e-b735-48f0-9235-6c78145b8d98.jpg",
     "alt": "Motorola RVA50 — foto 1",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "rva50-1.jpg",
     "peso": 155836,
-    "creado": "2026-09-25T19:23:08.305Z"
+    "creado": "2026-09-26T20:14:42.424Z"
   },
   "products/rva50-2.jpg": {
-    "id": "48d48f81-c833-427e-b1cf-9947b553faf1",
-    "src": "/medios/fotos/2026/09/48d48f81-c833-427e-b1cf-9947b553faf1.jpg",
+    "id": "0fcee9e8-46c8-4722-aeb8-1b5bd13d370e",
+    "src": "/medios/fotos/2026/09/0fcee9e8-46c8-4722-aeb8-1b5bd13d370e.jpg",
     "alt": "Motorola RVA50 — foto 2",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "rva50-2.jpg",
     "peso": 114348,
-    "creado": "2026-09-25T19:23:08.379Z"
+    "creado": "2026-09-26T20:14:43.529Z"
   },
   "products/rva50-3.jpg": {
-    "id": "3e6f6030-bc56-4072-92c5-d9e98eb59f23",
-    "src": "/medios/fotos/2026/09/3e6f6030-bc56-4072-92c5-d9e98eb59f23.jpg",
+    "id": "767ef14c-1012-4c1d-9535-3a2fd1b2a0d9",
+    "src": "/medios/fotos/2026/09/767ef14c-1012-4c1d-9535-3a2fd1b2a0d9.jpg",
     "alt": "Motorola RVA50 — foto 3",
     "ancho": 1000,
     "alto": 1000,
     "nombre": "rva50-3.jpg",
     "peso": 108769,
-    "creado": "2026-09-25T19:23:08.473Z"
+    "creado": "2026-09-26T20:14:44.678Z"
   },
   "products/sl500e-1.jpg": {
-    "id": "82aa4f6f-491f-4754-8e00-1123c6365f67",
-    "src": "/medios/fotos/2026/09/82aa4f6f-491f-4754-8e00-1123c6365f67.jpg",
+    "id": "fa0f6f9a-e6ea-4974-b37f-e0926a888c3b",
+    "src": "/medios/fotos/2026/09/fa0f6f9a-e6ea-4974-b37f-e0926a888c3b.jpg",
     "alt": "Motorola SL500e — foto 1",
     "ancho": 792,
     "alto": 792,
     "nombre": "sl500e-1.jpg",
     "peso": 47628,
-    "creado": "2026-09-25T19:23:08.549Z"
+    "creado": "2026-09-26T20:14:45.754Z"
   },
   "products/sl500e-2.jpg": {
-    "id": "541b6663-1039-4546-b820-bc0125253da2",
-    "src": "/medios/fotos/2026/09/541b6663-1039-4546-b820-bc0125253da2.jpg",
+    "id": "d44b899f-15f3-41b9-8568-066821d6efa1",
+    "src": "/medios/fotos/2026/09/d44b899f-15f3-41b9-8568-066821d6efa1.jpg",
     "alt": "Motorola SL500e — foto 2",
     "ancho": 800,
     "alto": 800,
     "nombre": "sl500e-2.jpg",
     "peso": 24382,
-    "creado": "2026-09-25T19:23:08.634Z"
+    "creado": "2026-09-26T20:14:46.942Z"
   },
   "products/sl500e-3.jpg": {
-    "id": "654205f2-7902-42a8-9e9a-268ba5328849",
-    "src": "/medios/fotos/2026/09/654205f2-7902-42a8-9e9a-268ba5328849.jpg",
+    "id": "ff40d748-23d9-48bd-acb3-3453162834a4",
+    "src": "/medios/fotos/2026/09/ff40d748-23d9-48bd-acb3-3453162834a4.jpg",
     "alt": "Motorola SL500e — foto 3",
     "ancho": 800,
     "alto": 800,
     "nombre": "sl500e-3.jpg",
     "peso": 35524,
-    "creado": "2026-09-25T19:23:08.702Z"
+    "creado": "2026-09-26T20:14:48.009Z"
   },
   "products/sl500e-4.jpg": {
-    "id": "c73ad908-6002-4677-b9ba-f6f50d226883",
-    "src": "/medios/fotos/2026/09/c73ad908-6002-4677-b9ba-f6f50d226883.jpg",
+    "id": "7e27fb1c-c68a-4578-8b82-aa3427cb27b0",
+    "src": "/medios/fotos/2026/09/7e27fb1c-c68a-4578-8b82-aa3427cb27b0.jpg",
     "alt": "Motorola SL500e — foto 4",
     "ancho": 800,
     "alto": 800,
     "nombre": "sl500e-4.jpg",
     "peso": 28123,
-    "creado": "2026-09-25T19:23:08.777Z"
+    "creado": "2026-09-26T20:14:49.060Z"
   },
   "products/slr1000-1.jpg": {
-    "id": "c7dd033d-740b-443d-a7a7-2f7e48fb0c7b",
-    "src": "/medios/fotos/2026/09/c7dd033d-740b-443d-a7a7-2f7e48fb0c7b.jpg",
+    "id": "744e76d7-f60d-4e77-8b81-9386cebcd9d6",
+    "src": "/medios/fotos/2026/09/744e76d7-f60d-4e77-8b81-9386cebcd9d6.jpg",
     "alt": "Motorola MOTOTRBO SLR1000 — foto 1",
     "ancho": 704,
     "alto": 704,
     "nombre": "slr1000-1.jpg",
     "peso": 22716,
-    "creado": "2026-09-25T19:23:08.857Z"
+    "creado": "2026-09-26T20:14:50.144Z"
   },
   "products/slr1000-2.jpg": {
-    "id": "ffa836bc-2857-4f08-9582-f79e895ed574",
-    "src": "/medios/fotos/2026/09/ffa836bc-2857-4f08-9582-f79e895ed574.jpg",
+    "id": "a9de0b85-3508-4163-b479-14e33faab3c9",
+    "src": "/medios/fotos/2026/09/a9de0b85-3508-4163-b479-14e33faab3c9.jpg",
     "alt": "Motorola MOTOTRBO SLR1000 — foto 2",
     "ancho": 660,
     "alto": 660,
     "nombre": "slr1000-2.jpg",
     "peso": 20703,
-    "creado": "2026-09-25T19:23:08.938Z"
+    "creado": "2026-09-26T20:14:51.237Z"
   },
   "products/slr1000-3.jpg": {
-    "id": "f177aa47-5e02-4727-b186-22a0db831605",
-    "src": "/medios/fotos/2026/09/f177aa47-5e02-4727-b186-22a0db831605.jpg",
+    "id": "5c8e0971-9f9c-40b8-9713-6f54405f68a4",
+    "src": "/medios/fotos/2026/09/5c8e0971-9f9c-40b8-9713-6f54405f68a4.jpg",
     "alt": "Motorola MOTOTRBO SLR1000 — foto 3",
     "ancho": 572,
     "alto": 572,
     "nombre": "slr1000-3.jpg",
     "peso": 16050,
-    "creado": "2026-09-25T19:23:09.030Z"
+    "creado": "2026-09-26T20:14:52.297Z"
   },
   "products/slr1000-4.jpg": {
-    "id": "2f60213e-e51e-4a2f-9afc-74a26d6b790b",
-    "src": "/medios/fotos/2026/09/2f60213e-e51e-4a2f-9afc-74a26d6b790b.jpg",
+    "id": "6ade263a-5244-4c62-8b96-f1ddcc592856",
+    "src": "/medios/fotos/2026/09/6ade263a-5244-4c62-8b96-f1ddcc592856.jpg",
     "alt": "Motorola MOTOTRBO SLR1000 — foto 4",
     "ancho": 616,
     "alto": 616,
     "nombre": "slr1000-4.jpg",
     "peso": 17662,
-    "creado": "2026-09-25T19:23:09.111Z"
+    "creado": "2026-09-26T20:14:53.364Z"
   },
   "products/slr1000-5.jpg": {
-    "id": "b061b3e1-2b00-4971-a60c-c4456e26a516",
-    "src": "/medios/fotos/2026/09/b061b3e1-2b00-4971-a60c-c4456e26a516.jpg",
+    "id": "21109639-1de9-4430-a091-82fb0c059863",
+    "src": "/medios/fotos/2026/09/21109639-1de9-4430-a091-82fb0c059863.jpg",
     "alt": "Motorola MOTOTRBO SLR1000 — foto 5",
     "ancho": 616,
     "alto": 616,
     "nombre": "slr1000-5.jpg",
     "peso": 21161,
-    "creado": "2026-09-25T19:23:09.202Z"
+    "creado": "2026-09-26T20:14:54.431Z"
   },
   "products/slr5100-1.jpg": {
-    "id": "fa59a021-c629-4f91-8e3d-0c8468852926",
-    "src": "/medios/fotos/2026/09/fa59a021-c629-4f91-8e3d-0c8468852926.jpg",
+    "id": "0e8c1866-f562-4f73-85b0-f6de152dbd91",
+    "src": "/medios/fotos/2026/09/0e8c1866-f562-4f73-85b0-f6de152dbd91.jpg",
     "alt": "Motorola MOTOTRBO SLR5100 — foto 1",
     "ancho": 600,
     "alto": 600,
     "nombre": "slr5100-1.jpg",
     "peso": 52709,
-    "creado": "2026-09-25T19:23:09.278Z"
+    "creado": "2026-09-26T20:14:55.516Z"
   },
   "products/slr5100-2.jpg": {
-    "id": "06d3abc7-ed22-4c48-90a4-b8efb1a37559",
-    "src": "/medios/fotos/2026/09/06d3abc7-ed22-4c48-90a4-b8efb1a37559.jpg",
+    "id": "c49ff8b9-2fff-4e90-898f-0c1b279b3704",
+    "src": "/medios/fotos/2026/09/c49ff8b9-2fff-4e90-898f-0c1b279b3704.jpg",
     "alt": "Motorola MOTOTRBO SLR5100 — foto 2",
     "ancho": 600,
     "alto": 600,
     "nombre": "slr5100-2.jpg",
     "peso": 36036,
-    "creado": "2026-09-25T19:23:09.353Z"
+    "creado": "2026-09-26T20:14:56.592Z"
   },
   "products/slr5100-3.jpg": {
-    "id": "c5a1ed12-56dd-46e5-be92-92a907e23b56",
-    "src": "/medios/fotos/2026/09/c5a1ed12-56dd-46e5-be92-92a907e23b56.jpg",
+    "id": "077c6dcc-cae5-4b18-94f5-192bd91847fd",
+    "src": "/medios/fotos/2026/09/077c6dcc-cae5-4b18-94f5-192bd91847fd.jpg",
     "alt": "Motorola MOTOTRBO SLR5100 — foto 3",
     "ancho": 600,
     "alto": 600,
     "nombre": "slr5100-3.jpg",
     "peso": 58134,
-    "creado": "2026-09-25T19:23:09.433Z"
+    "creado": "2026-09-26T20:14:57.653Z"
   },
   "products/slr5100-4.jpg": {
-    "id": "4f623131-69ad-4899-8cbf-c97d50df527d",
-    "src": "/medios/fotos/2026/09/4f623131-69ad-4899-8cbf-c97d50df527d.jpg",
+    "id": "0ea78672-2672-42a1-b8c3-17b178737d7c",
+    "src": "/medios/fotos/2026/09/0ea78672-2672-42a1-b8c3-17b178737d7c.jpg",
     "alt": "Motorola MOTOTRBO SLR5100 — foto 4",
     "ancho": 600,
     "alto": 600,
     "nombre": "slr5100-4.jpg",
     "peso": 58382,
-    "creado": "2026-09-25T19:23:09.499Z"
+    "creado": "2026-09-26T20:14:58.731Z"
   },
   "products/slr5100-5.jpg": {
-    "id": "4cc08cf4-b774-4336-b4dd-65d695d3b82c",
-    "src": "/medios/fotos/2026/09/4cc08cf4-b774-4336-b4dd-65d695d3b82c.jpg",
+    "id": "3bdac4b9-a42f-467b-8138-01646f8746e0",
+    "src": "/medios/fotos/2026/09/3bdac4b9-a42f-467b-8138-01646f8746e0.jpg",
     "alt": "Motorola MOTOTRBO SLR5100 — foto 5",
     "ancho": 600,
     "alto": 600,
     "nombre": "slr5100-5.jpg",
     "peso": 46114,
-    "creado": "2026-09-25T19:23:09.588Z"
+    "creado": "2026-09-26T20:14:59.813Z"
   },
   "products/slr8000-1.jpg": {
-    "id": "2baf83a8-970d-486b-84a8-7d165a006492",
-    "src": "/medios/fotos/2026/09/2baf83a8-970d-486b-84a8-7d165a006492.jpg",
+    "id": "6c119dae-f6af-4bff-ad2d-8219c7e459fb",
+    "src": "/medios/fotos/2026/09/6c119dae-f6af-4bff-ad2d-8219c7e459fb.jpg",
     "alt": "Motorola MOTOTRBO SLR 8000 — foto 1",
     "ancho": 324,
     "alto": 324,
     "nombre": "slr8000-1.jpg",
     "peso": 24010,
-    "creado": "2026-09-25T19:23:09.662Z"
+    "creado": "2026-09-26T20:15:00.835Z"
   },
   "products/slr8000-2.jpg": {
-    "id": "06b79696-c6bc-42c7-bfec-d4d93e66afb3",
-    "src": "/medios/fotos/2026/09/06b79696-c6bc-42c7-bfec-d4d93e66afb3.jpg",
+    "id": "027c2e01-3e1f-4f4c-af48-9f38308c6858",
+    "src": "/medios/fotos/2026/09/027c2e01-3e1f-4f4c-af48-9f38308c6858.jpg",
     "alt": "Motorola MOTOTRBO SLR 8000 — foto 2",
     "ancho": 324,
     "alto": 324,
     "nombre": "slr8000-2.jpg",
     "peso": 17388,
-    "creado": "2026-09-25T19:23:09.745Z"
+    "creado": "2026-09-26T20:15:02.172Z"
   },
   "products/slr8000-3.jpg": {
-    "id": "7898d268-3072-49fd-bb42-58718d98dcec",
-    "src": "/medios/fotos/2026/09/7898d268-3072-49fd-bb42-58718d98dcec.jpg",
+    "id": "e599bda6-c060-4609-a386-30ed538bb65d",
+    "src": "/medios/fotos/2026/09/e599bda6-c060-4609-a386-30ed538bb65d.jpg",
     "alt": "Motorola MOTOTRBO SLR 8000 — foto 3",
     "ancho": 500,
     "alto": 500,
     "nombre": "slr8000-3.jpg",
     "peso": 71584,
-    "creado": "2026-09-25T19:23:09.818Z"
+    "creado": "2026-09-26T20:15:03.234Z"
   },
   "products/slr8000-4.jpg": {
-    "id": "909aaaf5-08a8-4d16-bcf8-44e3f9299078",
-    "src": "/medios/fotos/2026/09/909aaaf5-08a8-4d16-bcf8-44e3f9299078.jpg",
+    "id": "4b61cd47-f596-4089-bccf-f8c2ab242343",
+    "src": "/medios/fotos/2026/09/4b61cd47-f596-4089-bccf-f8c2ab242343.jpg",
     "alt": "Motorola MOTOTRBO SLR 8000 — foto 4",
     "ancho": 324,
     "alto": 324,
     "nombre": "slr8000-4.jpg",
     "peso": 23395,
-    "creado": "2026-09-25T19:23:09.894Z"
+    "creado": "2026-09-26T20:15:04.523Z"
   },
   "products/slr8000-5.jpg": {
-    "id": "9dc1a8c3-57e5-495a-9b90-e6b55b42c8e5",
-    "src": "/medios/fotos/2026/09/9dc1a8c3-57e5-495a-9b90-e6b55b42c8e5.jpg",
+    "id": "f507cc93-e735-4eb2-8a77-bd39b3e11622",
+    "src": "/medios/fotos/2026/09/f507cc93-e735-4eb2-8a77-bd39b3e11622.jpg",
     "alt": "Motorola MOTOTRBO SLR 8000 — foto 5",
     "ancho": 324,
     "alto": 324,
     "nombre": "slr8000-5.jpg",
     "peso": 22511,
-    "creado": "2026-09-25T19:23:09.972Z"
+    "creado": "2026-09-26T20:15:05.593Z"
   },
   "products/tlk110-1.jpg": {
-    "id": "e9e7c536-2187-4661-9fa0-c17dc9edc5cc",
-    "src": "/medios/fotos/2026/09/e9e7c536-2187-4661-9fa0-c17dc9edc5cc.jpg",
+    "id": "77b5137f-0408-4c02-bbed-c0c9dd29a8da",
+    "src": "/medios/fotos/2026/09/77b5137f-0408-4c02-bbed-c0c9dd29a8da.jpg",
     "alt": "Motorola TLK110 Wave PTX — foto 1",
     "ancho": 1000,
     "alto": 900,
     "nombre": "tlk110-1.jpg",
     "peso": 55438,
-    "creado": "2026-09-25T19:23:10.053Z"
+    "creado": "2026-09-26T20:15:06.668Z"
   },
   "products/tlk110-2.jpg": {
-    "id": "2514fcc6-ca93-40b6-8f09-d7b5b736554b",
-    "src": "/medios/fotos/2026/09/2514fcc6-ca93-40b6-8f09-d7b5b736554b.jpg",
+    "id": "09dabe08-cb65-4ff2-8eb4-67aaefe30a4e",
+    "src": "/medios/fotos/2026/09/09dabe08-cb65-4ff2-8eb4-67aaefe30a4e.jpg",
     "alt": "Motorola TLK110 Wave PTX — foto 2",
     "ancho": 1000,
     "alto": 900,
     "nombre": "tlk110-2.jpg",
     "peso": 50994,
-    "creado": "2026-09-25T19:23:10.132Z"
+    "creado": "2026-09-26T20:15:07.743Z"
   },
   "products/tlk110-3.jpg": {
-    "id": "8b2f44d0-1ffc-4b6e-acd0-ea372b0a7034",
-    "src": "/medios/fotos/2026/09/8b2f44d0-1ffc-4b6e-acd0-ea372b0a7034.jpg",
+    "id": "0176d409-7bd6-47c9-8959-d3529fd8feab",
+    "src": "/medios/fotos/2026/09/0176d409-7bd6-47c9-8959-d3529fd8feab.jpg",
     "alt": "Motorola TLK110 Wave PTX — foto 3",
     "ancho": 1000,
     "alto": 900,
     "nombre": "tlk110-3.jpg",
     "peso": 72798,
-    "creado": "2026-09-25T19:23:10.224Z"
+    "creado": "2026-09-26T20:15:08.851Z"
   },
   "products/tlk110-4.jpg": {
-    "id": "f2f98ec5-1294-447a-92a3-f55b6b3243d7",
-    "src": "/medios/fotos/2026/09/f2f98ec5-1294-447a-92a3-f55b6b3243d7.jpg",
+    "id": "fa4cbbcc-da8e-4247-a57f-ec86d53e27fe",
+    "src": "/medios/fotos/2026/09/fa4cbbcc-da8e-4247-a57f-ec86d53e27fe.jpg",
     "alt": "Motorola TLK110 Wave PTX — foto 4",
     "ancho": 1000,
     "alto": 900,
     "nombre": "tlk110-4.jpg",
     "peso": 52349,
-    "creado": "2026-09-25T19:23:10.310Z"
+    "creado": "2026-09-26T20:15:10.099Z"
   },
   "logos/claro.png": {
-    "id": "5fa16d36-46ef-4c85-b406-48f8cc469379",
-    "src": "/medios/fotos/2026/09/5fa16d36-46ef-4c85-b406-48f8cc469379.png",
+    "id": "1eb9e646-eb43-4ffd-8a71-3f67a6fefcea",
+    "src": "/medios/fotos/2026/09/1eb9e646-eb43-4ffd-8a71-3f67a6fefcea.png",
     "alt": "Claro",
     "ancho": 480,
     "alto": 175,
     "nombre": "claro.png",
     "peso": 25092,
-    "creado": "2026-09-25T19:23:10.393Z"
+    "creado": "2026-09-26T20:15:11.212Z"
   },
   "logos/grandstream.png": {
-    "id": "b1103e8d-3fb8-4cd3-a290-358f7581b3a5",
-    "src": "/medios/fotos/2026/09/b1103e8d-3fb8-4cd3-a290-358f7581b3a5.png",
+    "id": "20dd0886-123f-43e0-9fe3-83bb2159d7dd",
+    "src": "/medios/fotos/2026/09/20dd0886-123f-43e0-9fe3-83bb2159d7dd.png",
     "alt": "Grandstream",
     "ancho": 1257,
     "alto": 213,
     "nombre": "grandstream.png",
     "peso": 78870,
-    "creado": "2026-09-25T19:23:10.470Z"
+    "creado": "2026-09-26T20:15:12.288Z"
   },
   "logos/huawei.png": {
-    "id": "55ea740b-1883-4fb4-989a-68f2b8558c67",
-    "src": "/medios/fotos/2026/09/55ea740b-1883-4fb4-989a-68f2b8558c67.png",
+    "id": "1e712d33-f51c-4481-8223-76f30df96714",
+    "src": "/medios/fotos/2026/09/1e712d33-f51c-4481-8223-76f30df96714.png",
     "alt": "Huawei",
     "ancho": 843,
     "alto": 832,
     "nombre": "huawei.png",
     "peso": 268586,
-    "creado": "2026-09-25T19:23:10.531Z"
+    "creado": "2026-09-26T20:15:13.415Z"
   },
   "logos/hustler.png": {
-    "id": "6f1fd4a2-4878-42a0-bd48-80cdc43eba7a",
-    "src": "/medios/fotos/2026/09/6f1fd4a2-4878-42a0-bd48-80cdc43eba7a.png",
+    "id": "6129b10a-f320-4218-8892-1b948441c830",
+    "src": "/medios/fotos/2026/09/6129b10a-f320-4218-8892-1b948441c830.png",
     "alt": "Hustler",
     "ancho": 1338,
     "alto": 474,
     "nombre": "hustler.png",
     "peso": 245641,
-    "creado": "2026-09-25T19:23:10.612Z"
+    "creado": "2026-09-26T20:15:14.549Z"
   },
   "logos/l-com-global.png": {
-    "id": "8d9a338b-3bc9-4df3-b78f-677378c1cd64",
-    "src": "/medios/fotos/2026/09/8d9a338b-3bc9-4df3-b78f-677378c1cd64.png",
+    "id": "fb25aa29-af64-4bab-ad5f-5c2839e74e2e",
+    "src": "/medios/fotos/2026/09/fb25aa29-af64-4bab-ad5f-5c2839e74e2e.png",
     "alt": "L-com",
     "ancho": 1334,
     "alto": 581,
     "nombre": "l-com-global.png",
     "peso": 190115,
-    "creado": "2026-09-25T19:23:10.704Z"
+    "creado": "2026-09-26T20:15:15.870Z"
   },
   "logos/motorola-waveptx.png": {
-    "id": "725e7073-2ac0-422a-b0e7-68967488c9fe",
-    "src": "/medios/fotos/2026/09/725e7073-2ac0-422a-b0e7-68967488c9fe.png",
+    "id": "b17eff32-7508-4a29-bb46-bc6604f04dd1",
+    "src": "/medios/fotos/2026/09/b17eff32-7508-4a29-bb46-bc6604f04dd1.png",
     "alt": "Motorola WAVE PTX",
     "ancho": 1278,
     "alto": 306,
     "nombre": "motorola-waveptx.png",
     "peso": 102364,
-    "creado": "2026-09-25T19:23:10.791Z"
+    "creado": "2026-09-26T20:15:17.085Z"
   },
   "logos/pctel.png": {
-    "id": "69f72081-38ab-4314-b3d4-64a5086e0a6c",
-    "src": "/medios/fotos/2026/09/69f72081-38ab-4314-b3d4-64a5086e0a6c.png",
+    "id": "a45b990a-61f6-4c95-9888-b0e92b5b7da4",
+    "src": "/medios/fotos/2026/09/a45b990a-61f6-4c95-9888-b0e92b5b7da4.png",
     "alt": "PCTEL",
     "ancho": 1226,
     "alto": 507,
     "nombre": "pctel.png",
     "peso": 164245,
-    "creado": "2026-09-25T19:23:10.877Z"
+    "creado": "2026-09-26T20:15:18.216Z"
   },
   "logos/rf-elements.png": {
-    "id": "510cffbe-ff79-49a2-b035-fc2a2938ae41",
-    "src": "/medios/fotos/2026/09/510cffbe-ff79-49a2-b035-fc2a2938ae41.png",
+    "id": "7205a1f5-e801-446e-b672-3c375057ab16",
+    "src": "/medios/fotos/2026/09/7205a1f5-e801-446e-b672-3c375057ab16.png",
     "alt": "RF Elements",
     "ancho": 1329,
     "alto": 234,
     "nombre": "rf-elements.png",
     "peso": 76390,
-    "creado": "2026-09-25T19:23:10.966Z"
+    "creado": "2026-09-26T20:15:19.452Z"
   },
   "logos/sinclair.png": {
-    "id": "d9ecf1b4-b6a9-498f-b95f-babcd902de52",
-    "src": "/medios/fotos/2026/09/d9ecf1b4-b6a9-498f-b95f-babcd902de52.png",
+    "id": "c56d14b9-0b3b-41b1-a819-982c01e36fc6",
+    "src": "/medios/fotos/2026/09/c56d14b9-0b3b-41b1-a819-982c01e36fc6.png",
     "alt": "Sinclair",
     "ancho": 1225,
     "alto": 325,
     "nombre": "sinclair.png",
     "peso": 121607,
-    "creado": "2026-09-25T19:23:11.050Z"
+    "creado": "2026-09-26T20:15:20.565Z"
   },
   "logos/smartptt.png": {
-    "id": "19bf770a-75b9-47e8-8f1d-3d117f8f546d",
-    "src": "/medios/fotos/2026/09/19bf770a-75b9-47e8-8f1d-3d117f8f546d.png",
+    "id": "545503be-f63e-452f-a456-45cdcf4dca9d",
+    "src": "/medios/fotos/2026/09/545503be-f63e-452f-a456-45cdcf4dca9d.png",
     "alt": "SmartPTT",
     "ancho": 1366,
     "alto": 688,
     "nombre": "smartptt.png",
     "peso": 194228,
-    "creado": "2026-09-25T19:23:11.129Z"
+    "creado": "2026-09-26T20:15:21.752Z"
   },
   "logos/tassta.png": {
-    "id": "172f6288-f4c4-4cb3-a60a-c11bc6b7c361",
-    "src": "/medios/fotos/2026/09/172f6288-f4c4-4cb3-a60a-c11bc6b7c361.png",
+    "id": "2712410f-dec9-4ffe-a9d9-b014785046b8",
+    "src": "/medios/fotos/2026/09/2712410f-dec9-4ffe-a9d9-b014785046b8.png",
     "alt": "Tassta",
     "ancho": 1273,
     "alto": 441,
     "nombre": "tassta.png",
     "peso": 159369,
-    "creado": "2026-09-25T19:23:11.197Z"
+    "creado": "2026-09-26T20:15:22.932Z"
   },
   "logos/telosystems.png": {
-    "id": "3c9f0daf-487d-47be-b017-fb111f6e5533",
-    "src": "/medios/fotos/2026/09/3c9f0daf-487d-47be-b017-fb111f6e5533.png",
+    "id": "d82ae15c-ddc7-41b0-a646-b39f1a307ef1",
+    "src": "/medios/fotos/2026/09/d82ae15c-ddc7-41b0-a646-b39f1a307ef1.png",
     "alt": "TeloSystems",
     "ancho": 1212,
     "alto": 333,
     "nombre": "telosystems.png",
     "peso": 124614,
-    "creado": "2026-09-25T19:23:11.276Z"
+    "creado": "2026-09-26T20:15:24.065Z"
   },
   "logos/telox.png": {
-    "id": "1b7547a9-30e2-467e-a125-9b0ff5aac176",
-    "src": "/medios/fotos/2026/09/1b7547a9-30e2-467e-a125-9b0ff5aac176.png",
+    "id": "fb70966a-6a22-436b-8bcb-64995d6e9b35",
+    "src": "/medios/fotos/2026/09/fb70966a-6a22-436b-8bcb-64995d6e9b35.png",
     "alt": "Telox",
     "ancho": 1187,
     "alto": 629,
     "nombre": "telox.png",
     "peso": 146329,
-    "creado": "2026-09-25T19:23:11.367Z"
+    "creado": "2026-09-26T20:15:25.219Z"
   },
   "logos/tram-browning.png": {
-    "id": "b1b6a827-4d67-4e77-85d5-cc6b9dc99b59",
-    "src": "/medios/fotos/2026/09/b1b6a827-4d67-4e77-85d5-cc6b9dc99b59.png",
+    "id": "9618d245-fba4-4ea5-9e0b-49e1b5ee9efa",
+    "src": "/medios/fotos/2026/09/9618d245-fba4-4ea5-9e0b-49e1b5ee9efa.png",
     "alt": "Tram Browning",
     "ancho": 1298,
     "alto": 627,
     "nombre": "tram-browning.png",
     "peso": 282041,
-    "creado": "2026-09-25T19:23:11.438Z"
+    "creado": "2026-09-26T20:15:26.380Z"
   },
   "logos/zetron.png": {
-    "id": "a2c8dbc4-50c7-4c71-9a4f-14259e85e708",
-    "src": "/medios/fotos/2026/09/a2c8dbc4-50c7-4c71-9a4f-14259e85e708.png",
+    "id": "8d5a5fb1-f230-4fc0-8664-db8155566de3",
+    "src": "/medios/fotos/2026/09/8d5a5fb1-f230-4fc0-8664-db8155566de3.png",
     "alt": "Zetron",
     "ancho": 1294,
     "alto": 258,
     "nombre": "zetron.png",
     "peso": 89487,
-    "creado": "2026-09-25T19:23:11.513Z"
+    "creado": "2026-09-26T20:15:27.527Z"
   }
 } as const;
