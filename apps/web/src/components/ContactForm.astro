@@ -1,14 +1,20 @@
 ---
 /**
- * Main contact form (`/contacto`). Front-end only for now: on submit it
- * validates and shows a confirmation state, but sends nothing anywhere yet.
- *
- * TO CONNECT A REAL BACKEND: see "Formularios" in the project README for
- * three ready-made options (Formspree, a serverless/API endpoint, or an
- * email-forwarding service) and the exact lines to change in this file's
- * inline script below.
+ * Main contact form (`/contacto`). Submits to `POST /api/formularios/contacto`
+ * (Fase 5) — see that route for validation/rate-limit/honeypot details.
  */
 import { CONTACT_MOTIVES } from "../data/site";
+import { whatsappLink } from "../utils/whatsapp";
+import type { Contacto } from "../lib/content";
+
+interface Props {
+  contacto: Contacto;
+}
+
+const { contacto } = Astro.props;
+const waHref = contacto.whatsapp
+  ? whatsappLink(contacto.whatsapp, "Hola, tuve un problema enviando el formulario de contacto en la web.")
+  : undefined;
 ---
 
 <form id="contact-form" class="grid gap-5 sm:grid-cols-2" novalidate>
@@ -73,9 +79,15 @@ import { CONTACT_MOTIVES } from "../data/site";
     </label>
   </div>
 
+  <!-- Campo señuelo (honeypot): oculto para personas, tentador para bots. No es parte de los datos que valida el servidor. -->
+  <div class="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+    <label for="cf-website">Sitio web</label>
+    <input id="cf-website" name="sitioWeb" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
   <div class="sm:col-span-2">
     <button type="submit"
-      class="inline-flex w-full items-center justify-center rounded-full bg-brand-red px-6 py-3 text-sm font-semibold text-white shadow-brand-sm transition-colors hover:bg-brand-red-dark sm:w-auto">
+      class="inline-flex w-full items-center justify-center rounded-full bg-brand-red px-6 py-3 text-sm font-semibold text-white shadow-brand-sm transition-colors hover:bg-brand-red-dark sm:w-auto disabled:cursor-not-allowed disabled:opacity-60">
       Enviar consulta
     </button>
   </div>
@@ -84,6 +96,22 @@ import { CONTACT_MOTIVES } from "../data/site";
     Revisa los campos marcados: falta información obligatoria o el correo no es válido.
   </p>
 </form>
+
+<div id="contact-form-send-error" class="hidden mt-4 rounded-2xl bg-brand-red/10 p-5" role="alert">
+  <p class="text-sm font-medium text-brand-red">
+    No pudimos enviar tu consulta. Puede ser algo temporal — inténtalo de nuevo en un momento.
+  </p>
+  {waHref && (
+    <a
+      href={waHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-3 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white shadow-brand-sm"
+    >
+      Escribir por WhatsApp
+    </a>
+  )}
+</div>
 
 <div id="contact-form-success" class="hidden flex-col items-start gap-3 rounded-2xl bg-brand-steel-light p-6" role="status">
   <span class="flex size-10 items-center justify-center rounded-full bg-brand-steel text-white">
@@ -96,10 +124,13 @@ import { CONTACT_MOTIVES } from "../data/site";
 </div>
 
 <script>
+  import { enviarFormulario } from "../utils/formularios";
+
   function initContactForm() {
     const form = document.getElementById("contact-form") as HTMLFormElement | null;
     const success = document.getElementById("contact-form-success");
     const errorMsg = document.getElementById("contact-form-error");
+    const sendError = document.getElementById("contact-form-send-error");
     if (!form || !success || !errorMsg) return;
 
     // Pre-fill "motivo" / "producto" from ?motivo=&producto= query params, set
@@ -115,7 +146,7 @@ import { CONTACT_MOTIVES } from "../data/site";
     }
     if (product && productInput) productInput.value = product;
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       if (!form.checkValidity()) {
@@ -124,20 +155,31 @@ import { CONTACT_MOTIVES } from "../data/site";
         return;
       }
       errorMsg.classList.add("hidden");
+      sendError?.classList.add("hidden");
 
-      /*
-       * TODO (pending backend): this is where the real submission call goes.
-       * The form is fully validated at this point. Example with Formspree:
-       *
-       *   await fetch("https://formspree.io/f/XXXXXXX", {
-       *     method: "POST",
-       *     headers: { Accept: "application/json" },
-       *     body: new FormData(form),
-       *   });
-       *
-       * or POST `new FormData(form)` / `Object.fromEntries(new FormData(form))`
-       * to your own API route / serverless function.
-       */
+      const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      submitButton?.setAttribute("disabled", "true");
+
+      const datos = new FormData(form);
+      const campo = (nombre: string) => String(datos.get(nombre) ?? "");
+      const resultado = await enviarFormulario("contacto", {
+        nombre: campo("nombre"),
+        empresa: campo("empresa"),
+        correo: campo("correo"),
+        telefono: campo("telefono"),
+        ciudad: campo("ciudad"),
+        motivo: campo("motivo"),
+        producto: campo("producto"),
+        mensaje: campo("mensaje"),
+        sitioWeb: campo("sitioWeb"),
+      });
+
+      submitButton?.removeAttribute("disabled");
+
+      if (!resultado.ok) {
+        sendError?.classList.remove("hidden");
+        return;
+      }
 
       form.classList.add("hidden");
       success.classList.remove("hidden");

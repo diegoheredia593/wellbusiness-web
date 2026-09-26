@@ -25,6 +25,9 @@ pnpm-debug.log*
 
 # Wrangler local state (Cloudflare deploy config itself, wrangler.toml/.jsonc, is committed)
 .wrangler/
+# D1/KV local state shared between apps/portal y apps/web cuando se usa el
+# truco de `persistState` de docs/ESTADO.md ("Cómo levantar todo en local").
+.wrangler-local-shared/
 
 # Better Auth / portal secrets for local dev (never commit real secrets) —
 # but keep the committed *.example templates (see clientes/wellbusiness/).

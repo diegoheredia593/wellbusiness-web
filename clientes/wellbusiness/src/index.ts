@@ -6,7 +6,7 @@ import { definirCliente } from '@cms/core/cliente';
 import logo from '../assets/logo.png?url';
 import { bloques, etiquetasSitio } from './bloques';
 import * as contenido from './colecciones';
-import { colecciones } from './esquemas';
+import { colecciones, formularioContactoSchema, formularioEvaluacionSchema } from './esquemas';
 
 export default definirCliente({
   id: 'wellbusiness',
@@ -57,6 +57,7 @@ export default definirCliente({
           Otro: 'Otro',
         },
       },
+      esquema: formularioContactoSchema,
     },
     'evaluacion-cobertura': {
       etiqueta: 'Evaluación de cobertura',
@@ -70,6 +71,7 @@ export default definirCliente({
         usuarios: 'Número aproximado de usuarios',
         mensaje: 'Cuéntanos qué necesitas',
       },
+      esquema: formularioEvaluacionSchema,
     },
   },
   contenidoInicial: {
@@ -84,8 +86,9 @@ export default definirCliente({
       accesosRapidos: contenido.accesosRapidos,
       valores: contenido.valores,
     },
-    // Sin envíos de ejemplo: los formularios públicos todavía no guardan
-    // nada real (Fase 5), así que no hay nada honesto que simular todavía.
+    // Sin envíos de ejemplo: los formularios públicos ya guardan envíos
+    // reales (Fase 5) — simular unos de mentira solo ensuciaría la pantalla
+    // "Formularios recibidos" el primer día.
     enviosEjemplo: [],
   },
 });

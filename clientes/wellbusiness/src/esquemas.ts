@@ -230,6 +230,52 @@ export const valorSchema = definirColeccion({
   icono,
 });
 
+// ─── Formularios (Fase 5) ────────────────────────────────────────────────
+
+// Mismo patrón permisivo que ya usa el portal para validar correos
+// (apps/portal/src/lib/servidor/usuarios.ts `PATRON_EMAIL`) — no se importa
+// de ahí porque este paquete no depende de `apps/portal`.
+const PATRON_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Mismo enum `motivosContacto` que usa el campo `motivo` de `servicios` —
+ * una sola fuente de verdad para que el formulario nunca acepte un motivo
+ * que ya no existe en las opciones reales del sitio.
+ */
+export const formularioContactoSchema = z
+  .object({
+    nombre: z.string().trim().min(2, 'Escribe tu nombre.').max(120),
+    empresa: z.string().trim().min(1, 'Escribe tu empresa.').max(120),
+    correo: z.string().trim().toLowerCase().regex(PATRON_EMAIL, 'Escribe un correo válido.').max(160),
+    telefono: z.string().trim().min(6, 'Escribe un teléfono válido.').max(30),
+    ciudad: z.string().trim().min(1, 'Escribe tu ciudad.').max(80),
+    motivo: z.enum(Object.keys(motivosContacto) as [keyof typeof motivosContacto]),
+    // Opcional en el propio formulario (`<input>` sin `required`, precargado
+    // por ?producto= desde el catálogo) — nunca falla la validación si viene vacío.
+    producto: z.string().trim().max(120).optional().default(''),
+    mensaje: z.string().trim().min(1, 'Escribe tu mensaje.').max(2000),
+  })
+  .strict();
+
+export const formularioEvaluacionSchema = z
+  .object({
+    nombre: z.string().trim().min(2, 'Escribe tu nombre.').max(120),
+    empresa: z.string().trim().min(1, 'Escribe tu empresa.').max(120),
+    correo: z.string().trim().toLowerCase().regex(PATRON_EMAIL, 'Escribe un correo válido.').max(160),
+    telefono: z.string().trim().min(6, 'Escribe un teléfono válido.').max(30),
+    zonas: z.string().trim().min(1, 'Escribe las zonas de operación.').max(300),
+    tipoOperacion: z.string().trim().min(1, 'Escribe el tipo de operación.').max(120),
+    // Llega como texto (el <input type="number"> del formulario serializa a
+    // string) — se guarda como string, igual que el resto de `datos`.
+    usuarios: z
+      .string()
+      .trim()
+      .regex(/^[0-9]+$/, 'Escribe un número.')
+      .max(6),
+    mensaje: z.string().trim().min(1, 'Cuéntanos qué necesitas.').max(2000),
+  })
+  .strict();
+
 export const colecciones = {
   categorias: {
     schema: categoriaSchema,

@@ -69,7 +69,7 @@ decidió, qué se verificó, con qué commit). Resumen:
 | 2 — Configuración del cliente | ✅ Completa y verificada |
 | 3 — Contenido inicial y fotos | ✅ Completa y verificada |
 | 4 — El sitio lee desde D1 | ✅ Completa y verificada (incluye comparación visual Playwright prod vs. local, 404/noindex, conteo de consultas D1, Cache-Control — todo confirmado en orden) |
-| 5 — Formularios | ⏳ **No iniciada.** Se pausó explícitamente antes de escribir código para hacer este traspaso — no hay trabajo a medias que rescatar. |
+| 5 — Formularios | ✅ Completa y verificada (con el cambio de Diego: `Origin` propio en vez de CORS) |
 | 6 — Documentación y despliegue | ⏳ No iniciada (algunas piezas ya están hechas desde la Fase 3, ver `docs/PLAN-PORTAL.md`) |
 
 Commit más reciente en `feat/portal-cms` al momento de escribir esto: ver
@@ -146,8 +146,9 @@ el mensaje de traspaso que Diego recibió al cerrar esta sesión.
   pequeña optimización pendiente si algún día importa. Ver
   `apps/web/src/lib/content/index.ts` (`mapaCategorias()` / `getCategorias()`)
   y `apps/web/src/pages/catalogo/index.astro`.
-- Fase 5 (formularios) no está empezada — ver `docs/PLAN-PORTAL.md` para el
-  detalle completo de qué falta.
+- La verificación Turnstile en los formularios públicos quedó fuera de
+  alcance de la Fase 5 a propósito (anotado en `docs/PLAN-PORTAL.md`) — el
+  honeypot + límite por IP son la única defensa anti-bot por ahora.
 
 ## Cómo levantar todo en local desde cero
 
@@ -290,14 +291,15 @@ Las cuatro deben terminar sin errores.
 
 ## Siguiente paso exacto para retomar
 
-1. Empezar la **Fase 5** (formularios) siguiendo el detalle en
-   `docs/PLAN-PORTAL.md` — el trabajo central es: guardar los envíos reales
-   en D1 (`envios_formulario`) desde
-   `apps/web/src/pages/api/formularios/[tipo].ts`, promover `limitar()` de
-   `apps/portal/src/lib/servidor/limites.ts` a `packages/cms-core` (con su
-   entrada en `CAMBIOS-NUCLEO.md`), CORS restringido al dominio real, y
-   declarar `contacto`/`evaluacion-cobertura` como `DefinicionFormulario`
-   en `clientes/wellbusiness/src/index.ts`.
-2. Al terminar la Fase 5: **⏸ CHECKPOINT** — reportar a Diego y esperar su
-   aprobación antes de tocar nada de la Fase 6 (recursos reales de
-   Cloudflare, dominios, despliegue).
+La Fase 5 (formularios) ya está completa y verificada — ver el detalle en
+`docs/PLAN-PORTAL.md`. **⏸ CHECKPOINT cumplido**, pendiente de que Diego lo
+apruebe antes de tocar la Fase 6.
+
+1. Empezar la **Fase 6** (documentación y despliegue): crear los recursos
+   reales de Cloudflare (D1, KV, los dos Workers), rellenar los ids de
+   relleno en `clientes/wellbusiness/wrangler.portal.jsonc` y
+   `apps/web/wrangler.toml`, y seguir el orden exacto de fotos/contenido
+   inicial documentado en `README.md` y en la Fase 6 de `docs/PLAN-PORTAL.md`.
+2. No tocar producción ni hacer merge a `master` sin la confirmación
+   explícita de Diego en cada paso (crear cada recurso de Cloudflare por
+   separado, con su propia confirmación).

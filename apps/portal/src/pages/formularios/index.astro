@@ -25,10 +25,9 @@ const hayEjemplos = envios.some((e) => e.esEjemplo);
 ---
 
 <Portal titulo="Formularios recibidos">
-  <p class="aviso aviso-info mb-5">
-    El sitio todavía no guarda los formularios: empezará a hacerlo cuando se conecte con la base de datos (fase 3).
-    {hayEjemplos && ' Lo que ves aquí son envíos de ejemplo.'}
-  </p>
+  {hayEjemplos && (
+    <p class="aviso aviso-info mb-5">Lo que ves aquí son envíos de ejemplo.</p>
+  )}
 
   <nav aria-label="Tipo de formulario" class="mb-5">
     <ul class="flex flex-wrap gap-2">

@@ -25,8 +25,9 @@ directory = "./dist"
 binding = "ASSETS"
 
 # Misma base D1 y el mismo namespace KV que wellbusiness-portal (ver
-# clientes/wellbusiness/wrangler.portal.jsonc, en la raíz del repo) — el
-# sitio solo lee (colecciones/bloques publicados y fotos), nunca escribe.
+# clientes/wellbusiness/wrangler.portal.jsonc, en la raíz del repo). El sitio
+# lee colecciones/bloques publicados y fotos; desde la Fase 5 también escribe
+# en `envios_formulario` (POST /api/formularios/<tipo>), nunca en nada más.
 [[d1_databases]]
 binding = "DB"
 database_name = "wellbusiness-db"

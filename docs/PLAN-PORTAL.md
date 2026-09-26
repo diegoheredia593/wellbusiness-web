@@ -14,7 +14,7 @@
 | 2 — Configuración del cliente | ✅ Completa y verificada (con los 4 ajustes de Diego) | `9568c99`, `79bdf28` |
 | 3 — Contenido inicial y fotos | ✅ Completa y verificada (con las 3 exigencias de Diego) | `d49c58d`, `43ec052`, `8b538c2` |
 | 4 — El sitio lee desde D1 | ✅ Completa y verificada (incluye la comparación Playwright prod vs. local pedida antes de la Fase 5) | `2310726`, `fdd1350` |
-| 5 — Formularios | ⏳ No iniciada (pausada explícitamente antes de escribir código, para hacer este traspaso) | — |
+| 5 — Formularios | ✅ Completa y verificada (con el cambio de Diego: `Origin` propio en vez de CORS) | — |
 | 6 — Documentación y despliegue | ⏳ No iniciada (algunas piezas ya viven en `README.md` desde la Fase 3, ver abajo) | — |
 
 Detalle completo de cada fase (qué se hizo, qué se verificó, qué falta) en
@@ -51,9 +51,10 @@ borrador original donde la realidad del código difería de lo que asumía.
 5. **`z.boolean()` no está soportado por el portal.** El patrón real usado
    es `z.enum(['si','no']).meta({ opciones: { si:'Sí', no:'No' } })`. Aplica
    a `pendienteValidacion` y `esPlaceholder`.
-6. **Los formularios públicos NO están conectados a D1 en ningún lado
-   todavía** — ni siquiera en Fluvida (esto sigue siendo cierto: es
-   exactamente el trabajo pendiente de la Fase 5).
+6. **Los formularios públicos NO estaban conectados a D1 en ningún lado**
+   al momento de escribir este hallazgo — ni siquiera en Fluvida. Resuelto
+   para Wellbusiness en la Fase 5 (ver esa sección); Fluvida sigue sin
+   conectar los suyos.
 7. `crearFuenteD1().coleccion()` **no filtra por `publicado`** — solo excluye
    lo eliminado. Cada función de dominio del sitio llama `soloPublicados()`
    explícitamente, y usa `safeParse` **por ítem** (nunca sobre el arreglo
@@ -200,34 +201,65 @@ contenido inicial" corre sin errores contra el contenido real. Commits
 1. Verificación funcional en vivo (contenido real, 404 real, borrador/publicado) — hecha durante la Fase 4 misma.
 2. **Verificación visual Playwright pedida por Diego antes de aprobar seguir a la Fase 5**: comparación página completa, 390px y 1440px, de las 8 páginas (`/`, `/nosotros`, `/cobertura`, `/servicios`, `/sectores`, `/catalogo`, `/catalogo/rva50`, `/contacto`) contra la producción real (`https://idrocomsolutions.com`). Resultado: **16/16 pares pixel-perfect** tras corregir dos artefactos del propio método de prueba (la barra de desarrollo de Astro, nunca visible en producción — corregido permanentemente con `devToolbar: { enabled: false }` en `apps/web/astro.config.mjs`; y que Playwright no dispara imágenes `loading="lazy"` en una captura de página completa sin hacer scroll real primero). También confirmado: `/no-existe` y `/catalogo/no-existe` dan 404 + `noindex`; `Cache-Control` correcto en las 8 páginas; consultas a D1 por página muy por debajo del límite de 50 (`/` = 5, `/catalogo/rva50` = 3 — detalle completo en `docs/ESTADO.md`). Commits `2310726`, `fdd1350`.
 
-## Fase 5 — Formularios ⏳ NO INICIADA
+## Fase 5 — Formularios ✅ COMPLETA Y VERIFICADA
 
-- `envios_formulario` **sigue sin estar conectado en ningún lado** (ver
-  hallazgo 6 — esto no cambió). Falta construir el guardado real: en
-  `apps/web/src/pages/api/formularios/[tipo].ts`, después de la validación
-  Zod + honeypot que ya existen, insertar en D1 (`id, tipo, datos JSON,
-  creado`) y aplicar rate-limit por IP.
-- El rate-limiter (`limitar()`) hoy vive solo en
-  `apps/portal/src/lib/servidor/limites.ts` (privado del portal). Falta
-  **promoverlo a `packages/cms-core`** (es genérico, no tiene nada
-  específico del portal) para que tanto `apps/portal` como `apps/web` lo
-  importen del mismo lugar — este cambio va a `CAMBIOS-NUCLEO.md`.
-- CORS: la ruta debe aceptar solo el mismo origen o
-  `https://idrocomsolutions.com` / `https://www.idrocomsolutions.com`
-  explícitamente.
-- Falta declarar `contacto` y `evaluacion-cobertura` como
-  `DefinicionFormulario` en `clientes/wellbusiness/src/index.ts` (con las
-  etiquetas de campo/opciones en español que ya usan
-  `ContactForm.astro`/`EvaluationForm.astro`).
-- Mantener `?motivo=&producto=` en el flujo de `/contacto` sin cambios.
-- Fuera de alcance de esta fase (anotado, no se construye): verificación
+**Ajuste de Diego sobre el borrador original**: la ruta vive en el propio
+sitio (el formulario llama al mismo dominio que lo sirve), así que **no
+hay CORS** — en su lugar se rechaza toda petición cuyo `Origin` no sea el
+del propio sitio. Implementado como "mismo origen que la propia petición"
+(`request.headers.get('origin') === url.origin`) en vez de una lista fija
+de dominios: cubre automáticamente tanto desarrollo local (cualquier puerto
+de `astro dev`) como producción, porque Cloudflare enruta
+`idrocomsolutions.com` **y** `www.idrocomsolutions.com` al mismo Worker
+(ver `apps/web/wrangler.toml`) — `url.origin` siempre refleja el dominio
+real que el visitante haya usado. Una petición sin `Origin` se rechaza
+igual (un navegador real siempre lo manda en un POST).
+
+- `apps/web/src/pages/api/formularios/[tipo].ts` (nuevo): valida el
+  `Origin`, aplica el límite por IP, revisa el honeypot, valida con Zod
+  según `cliente.formularios[tipo].esquema` y recién ahí inserta en D1
+  (`INSERT INTO envios_formulario (id, tipo, datos) VALUES (?, ?, ?)` — el
+  resto de columnas tiene default en la propia tabla).
+- **Rate-limiter promovido a `packages/cms-core/src/limites.ts`** (era
+  privado de `apps/portal/src/lib/servidor/limites.ts`) — ver
+  `CAMBIOS-NUCLEO.md`. El portal sigue llamando `limitar()`/`ipDe()` igual
+  que antes (el archivo del portal quedó como envoltorio de una línea con
+  el prefijo `"portal:"`); el sitio la usa con el prefijo `"formularios:"`,
+  clave por IP (`formularios:<ip>`), 5 envíos cada 15 minutos — el mismo
+  mecanismo (misma tabla `rate_limit`, misma función) que ya usaba el
+  portal para el login.
+- **Validación Zod real, no solo por nombre de campo**: se agregó el campo
+  `esquema` a `DefinicionFormulario` (`packages/cms-core/src/cliente.ts`,
+  ver `CAMBIOS-NUCLEO.md`) — cada formulario declara su propio
+  `z.object({...}).strict()` en `clientes/wellbusiness/src/esquemas.ts`
+  (`formularioContactoSchema`, `formularioEvaluacionSchema`). `.strict()`
+  es lo que rechaza un tipo desconocido o un campo de más con un 422 claro
+  en vez de guardarlo a medias. `contacto.motivo` reutiliza el mismo enum
+  `motivosContacto` que ya usaba el campo `motivo` de `servicios` — una
+  sola fuente de verdad.
+- **Honeypot**: campo `sitioWeb`, oculto fuera de pantalla (no
+  `display:none`) en `ContactForm.astro`/`EvaluationForm.astro`. Si llega
+  con contenido, la ruta responde `{ ok: true }` sin guardar nada — nunca
+  se le avisa al bot que fue detectado.
+- `contacto`/`evaluacion-cobertura` ya estaban declarados como
+  `DefinicionFormulario` en `clientes/wellbusiness/src/index.ts` desde la
+  Fase 2 (el plan original decía que faltaba; no era así al llegar a esta
+  fase) — solo les faltaba el campo `esquema` nuevo.
+- `?motivo=&producto=` en el flujo de `/contacto` se mantuvo sin cambios.
+- El error de envío (red caída, 429, 500) muestra un aviso con un botón
+  "Escribir por WhatsApp" (usa el mismo `contacto.whatsapp` del bloque
+  `global.contacto.whatsapp` que ya usa la página) — el mensaje de éxito
+  solo aparece si el `fetch` realmente devolvió `{ ok: true }`.
+- Fuera de alcance de esta fase (anotado, no se construyó): verificación
   Turnstile — queda como mejora futura documentada.
 
-**⏸ CHECKPOINT pendiente**: un envío real de cada formulario debe aparecer
-en "Formularios recibidos" del portal.
-
-**Siguiente paso exacto para retomar esta fase**: ver la sección "Siguiente
-paso" en `docs/ESTADO.md`.
+**⏸ CHECKPOINT cumplido**: un envío real de "contacto" y uno de
+"evaluacion-cobertura" hechos contra el sitio en local (`http://localhost:4322`)
+aparecen en "Formularios recibidos" del portal. Además, verificado en vivo:
+un envío con el honeypot lleno responde éxito pero no aparece en el portal;
+un tipo de formulario desconocido da 404; un campo de más da 422; el sexto
+envío en la ventana de 15 minutos desde la misma IP da 429; una petición sin
+`Origin` o con un `Origin` ajeno da 403.
 
 ## Fase 6 — Documentación y despliegue ⏳ NO INICIADA (parcialmente adelantada)
 
@@ -270,4 +302,4 @@ paso" en `docs/ESTADO.md`.
 - Un producto creado/editado/archivado/eliminado en el portal se refleja en el sitio en ≤5 minutos. ✅ verificado en la Fase 4.
 - Un slug de producto inexistente da 404 real. ✅ verificado en la Fase 4.
 - Contenido en borrador o archivado no aparece en el sitio público. ✅ verificado en la Fase 4.
-- Un envío real de cada formulario llega a "Formularios recibidos". ⏳ pendiente (Fase 5).
+- Un envío real de cada formulario llega a "Formularios recibidos". ✅ verificado en la Fase 5.

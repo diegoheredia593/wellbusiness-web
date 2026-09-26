@@ -61,7 +61,7 @@ const zonas = await getZonasCobertura();
     <div class="mx-auto max-w-3xl px-5 sm:px-8">
       <SectionHeading align="center" class="mx-auto mb-10" title={b.t('cobertura.formulario.titulo')}
         description={b.t('cobertura.formulario.descripcion')} />
-      <EvaluationForm />
+      <EvaluationForm contacto={contacto} />
     </div>
   </section>
 </BaseLayout>
