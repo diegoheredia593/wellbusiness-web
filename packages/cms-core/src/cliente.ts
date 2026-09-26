@@ -3,6 +3,7 @@
  * todo lo específico (nombre, colores, bloques, colecciones, formularios y
  * contenido inicial) viene de `clientes/<cliente>/`.
  */
+import type { z } from 'zod';
 import type { TipoAlmacen } from './almacen';
 import type { DefinicionBloque, DefinicionColeccion } from './schema';
 
@@ -13,6 +14,12 @@ export interface DefinicionFormulario {
   campos: Record<string, string>;
   /** Valores con nombre legible (p. ej. motivo: donar → "Donar"). */
   opciones?: Record<string, Record<string, string>>;
+  /**
+   * Valida un envío público antes de guardarlo (Fase 5). Debe ser un
+   * `z.object({...}).strict()` con exactamente las claves de `campos` —
+   * `.strict()` es lo que hace que un campo de más rechace el envío entero.
+   */
+  esquema: z.ZodType<Record<string, string>>;
 }
 
 export interface ConfiguracionPortal {

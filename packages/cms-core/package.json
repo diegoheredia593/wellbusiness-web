@@ -16,7 +16,8 @@
     "./fuente": "./src/fuente.ts",
     "./validacion": "./src/validacion.ts",
     "./almacen": "./src/almacen.ts",
-    "./youtube": "./src/youtube.ts"
+    "./youtube": "./src/youtube.ts",
+    "./limites": "./src/limites.ts"
   },
   "peerDependencies": {
     "zod": "^4.6.5"

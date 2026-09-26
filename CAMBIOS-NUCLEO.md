@@ -90,3 +90,43 @@ Wellbusiness o un cambio genérico que debería portarse de vuelta a Fluvida.
 **`scripts/importar-fotos.ts`** (nuevo, vive fuera de `apps/`, no es parte
 del núcleo compartido — documentado aquí solo porque su flujo (`--cargar`)
 llama a la misma ruta `/api/carga-inicial` que este cambio endurece).
+
+## Fase 5 — Formularios: límite de intentos genérico + esquema de validación
+
+**`packages/cms-core/src/limites.ts`** (nuevo) + entrada `"./limites"` en
+`packages/cms-core/package.json`
+- Antes: `limitar()`/`ipDe()` (ventana fija sobre la tabla `rate_limit` de
+  D1) vivían solo en `apps/portal/src/lib/servidor/limites.ts`, con el
+  prefijo `"portal:"` incluido a la fuerza dentro de la función y sin
+  recibir el binding de D1 como parámetro (leía `env.DB` directo vía
+  `cloudflare:workers`).
+- Ahora: la lógica genérica (recibe el binding `D1Database` como parámetro,
+  como el resto de `packages/cms-core`, p. ej. `db/migraciones.ts`) vive en
+  `packages/cms-core/src/limites.ts`. `apps/portal/src/lib/servidor/limites.ts`
+  queda como un envoltorio de una línea que antepone `"portal:"` — los 4
+  call sites del portal (`auth.ts`, `configuracion-inicial.ts`,
+  `invitacion.ts`, `restablecer.ts`) no cambiaron.
+- **Genérico, debería portarse a Fluvida**: el motivo real es que
+  `apps/web` (el sitio de Wellbusiness) ahora también necesita limitar por
+  IP los envíos de formularios públicos (`POST /api/formularios/<tipo>`,
+  ver más abajo) con el mismo mecanismo que ya usa el portal para el login
+  — necesitaba la función fuera de `apps/portal` para poder importarla
+  desde `apps/web` sin que un app dependiera del código interno del otro.
+  Si Fluvida en algún momento conecta sus propios formularios a un backend
+  real, va a necesitar este mismo movimiento.
+
+**`packages/cms-core/src/cliente.ts`** (`DefinicionFormulario`)
+- Antes: `{ etiqueta, campos, opciones? }` — sin ninguna validación
+  asociada; nada impedía que un envío público con campos de más o de tipo
+  incorrecto llegara a `envios_formulario` (de hecho hoy sigue sin llegar
+  nada ahí, ver hallazgo 6 de `docs/PLAN-PORTAL.md` antes de esta fase).
+- Ahora: se agregó el campo obligatorio `esquema: z.ZodType<Record<string,
+  string>>` — un `z.object({...}).strict()` con exactamente las claves de
+  `campos`, que la ruta pública usa para validar antes de guardar.
+- **Genérico, debería portarse a Fluvida, pero con un paso manual**: si
+  Fluvida ya declara sus propios `formularios` en su config de cliente
+  (`clientes/fluvida/src/index.ts` en ese repo), agregar este campo al tipo
+  ahí también va a exigir escribir un `esquema` para cada uno de ellos antes
+  de que `check:portal` vuelva a pasar — no es un cambio que compile solo.
+  Ver `clientes/wellbusiness/src/esquemas.ts` (`formularioContactoSchema`,
+  `formularioEvaluacionSchema`) para el patrón exacto a replicar.
