@@ -15,6 +15,11 @@ export const SITE = {
   legalTagline: "Soluciones de radiocomunicación para empresas en Ecuador.",
   defaultDescription:
     "Radios Motorola, alquiler, servicio técnico y soluciones de cobertura para empresas en Ecuador. Solicita asesoría para tu operación.",
+  /**
+   * Google Search Console "HTML tag" verification code (only the `content`
+   * value). Leave `null` if the property is verified via DNS instead.
+   */
+  googleSiteVerification: null as string | null,
 } as const;
 
 /** Confirmed by Wellbusiness as the current, official denomination. */

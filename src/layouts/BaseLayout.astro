@@ -15,6 +15,7 @@ interface Props {
 
 const { title, description = SITE.defaultDescription, noindex = false } = Astro.props;
 const pageTitle = title === SITE.brandName ? title : `${title} · ${SITE.brandName}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -30,11 +31,18 @@ const pageTitle = title === SITE.brandName ? title : `${title} · ${SITE.brandNa
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {SITE.googleSiteVerification && (
+      <meta name="google-site-verification" content={SITE.googleSiteVerification} />
+    )}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.brandName} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="es_EC" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
