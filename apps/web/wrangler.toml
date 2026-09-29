@@ -31,10 +31,8 @@ binding = "ASSETS"
 [[d1_databases]]
 binding = "DB"
 database_name = "wellbusiness-db"
-# PENDIENTE: mismo id real que clientes/wellbusiness/wrangler.portal.jsonc, se llena en la Fase 6.
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "2afc8400-5ed4-423d-bf72-27f7cee8ece0"
 
 [[kv_namespaces]]
 binding = "MEDIOS"
-# PENDIENTE: mismo id real que clientes/wellbusiness/wrangler.portal.jsonc, se llena en la Fase 6.
-id = "0000000000000000000000000000000"
+id = "76a57ddc1568418ebaeb3c2d6bd8e8d2"
