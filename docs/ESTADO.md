@@ -71,7 +71,7 @@ decidió, qué se verificó, con qué commit). Resumen:
 | 4 — El sitio lee desde D1 | ✅ Completa y verificada (incluye comparación visual Playwright prod vs. local, 404/noindex, conteo de consultas D1, Cache-Control — todo confirmado en orden) |
 | 5 — Formularios | ✅ Completa y verificada (con el cambio de Diego: `Origin` propio en vez de CORS) |
 | 6a — Despliegue del portal | ✅ Completa y verificada (recursos reales de Cloudflare, portal en producción, contenido inicial cargado) |
-| 6b — Despliegue del sitio público + dominios | ⏳ No iniciada |
+| 6b — Despliegue del sitio público + dominios | ✅ Completa y verificada (idrocomsolutions.com y www ya sirven este monorepo; falta la actualización de `README.md`) |
 
 Commit más reciente en `feat/portal-cms` al momento de escribir esto: ver
 `git log -1 feat/portal-cms` — no lo fijo aquí como número porque este
@@ -129,12 +129,10 @@ el mensaje de traspaso que Diego recibió al cerrar esta sesión.
 
 ## Pendientes conocidos (no son bugs escondidos — están anotados a propósito)
 
-- `apps/web/wrangler.toml` todavía tiene ids de relleno (`00000000-...`)
-  para `database_id` (D1) y el namespace KV — se llenan en la Fase 6b,
-  cuando se despliegue el sitio público con los mismos ids reales que ya
-  tiene `clientes/wellbusiness/wrangler.portal.jsonc` (Fase 6a, ya
-  completa: D1 `wellbusiness-db` = `2afc8400-5ed4-423d-bf72-27f7cee8ece0`,
-  KV `wellbusiness-medios` = `76a57ddc1568418ebaeb3c2d6bd8e8d2`).
+- `apps/web/wrangler.toml` ya tiene los mismos ids reales que
+  `clientes/wellbusiness/wrangler.portal.jsonc` (D1 `wellbusiness-db` =
+  `2afc8400-5ed4-423d-bf72-27f7cee8ece0`, KV `wellbusiness-medios` =
+  `76a57ddc1568418ebaeb3c2d6bd8e8d2`) — Fase 6b completa.
 - `clientes/wellbusiness/src/medios-generados.ts` (committeado) ya tiene
   los ids reales de las 67 fotos subidas contra el portal en producción
   (Fase 6a) — dejó de ser de una sesión de prueba local.
@@ -314,19 +312,45 @@ tocar el worker `wellbusiness-web` ni sus dominios en esta parte):
   `apps/portal/`) — ahora apuntan al `wrangler.json` que el adaptador de
   Astro genera resuelto en `apps/portal/dist/server/` en cada build.
 
-**⏸ CHECKPOINT pendiente de que Diego lo confirme**: entrar al portal, ver
-los 19 productos con sus fotos y editar uno.
+**⏸ CHECKPOINT de la 6a**: Diego entró al portal, confirmó los 19 productos
+con sus fotos, y pidió seguir (agregar teléfono de servicio técnico +
+Instagram, luego desplegar el sitio público) — aprobación implícita, no
+hizo falta volver a preguntar.
 
-## Siguiente paso exacto para retomar (Fase 6b)
+## Fase 6b — Sitio público y dominios ✅ COMPLETA Y VERIFICADA
 
-1. **No tocar** hasta que Diego confirme el checkpoint de la Fase 6a.
-2. Fase 6b (pendiente, requiere su aprobación explícita antes de empezar):
-   crear el Worker `wellbusiness-web` conectado a GitHub (Workers Builds,
-   compilando desde `apps/web`), rellenar los mismos ids reales de D1/KV
-   (arriba) en `apps/web/wrangler.toml`, dominios
-   `idrocomsolutions.com`/`www.idrocomsolutions.com` →
-   `wellbusiness-web` y `portal.idrocomsolutions.com` →
-   `wellbusiness-portal`. Ver el detalle paso a paso en la Fase 6 de
-   `docs/PLAN-PORTAL.md`.
-3. No hacer merge a `master` ni tocar producción sin la confirmación
-   explícita de Diego en cada paso.
+Diego pidió explícitamente el corte de producción real (confirmado con una
+pregunta directa antes de tocar los dominios, porque `apps/web/wrangler.toml`
+ya traía declarados `idrocomsolutions.com`/`www.idrocomsolutions.com` como
+`custom_domain` — un `wrangler deploy` normal los habría apuntado al worker
+nuevo en el mismo paso, reemplazando lo que servía esas URLs hasta ahora).
+
+- `apps/web/wrangler.toml` con los mismos ids reales de D1/KV que ya tenía
+  el portal.
+- `npm run build:web && npx wrangler deploy --config dist/server/wrangler.json`
+  (mismo patrón que se corrigió para el portal en la 6a).
+- Desplegado a `idrocomsolutions.com`, `www.idrocomsolutions.com` y
+  `https://wellbusiness-web.herediadiego963.workers.dev` — reemplaza el
+  sitio anterior.
+- Verificado en vivo contra el dominio real: las 8 páginas
+  (`/`, `/nosotros`, `/cobertura`, `/servicios`, `/sectores`, `/catalogo`,
+  `/catalogo/rva50`, `/contacto`) dan 200 con el `Cache-Control` correcto;
+  `/no-existe` da 404; una foto real de `/medios/fotos/...` carga
+  (`image/jpeg`); `/contacto` muestra el teléfono de servicio técnico y el
+  Instagram nuevos.
+
+**Pendiente dentro de la 6b** (no bloquea lo anterior): conectar
+`wellbusiness-web`/`wellbusiness-portal` a Workers Builds (GitHub) para que
+los próximos cambios se desplieguen solos al hacer push a `master`, dominio
+propio del portal (`portal.idrocomsolutions.com`), y el resto de la
+actualización de `README.md` (arquitectura nueva, comandos, cómo agregar
+una colección, cómo pasar de KV a R2).
+
+## Siguiente paso exacto para retomar
+
+Las 6 fases del plan original están completas. Lo que queda es
+mantenimiento normal: cambios de contenido/copy a pedido de Diego, y las
+piezas de "Pendiente dentro de la 6b" de arriba cuando él las pida. No
+hacer merge a `master` ni tocar producción/dominios sin su confirmación
+explícita en cada paso — sigue siendo la regla incluso con las fases
+completas.

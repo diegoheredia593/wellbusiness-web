@@ -16,7 +16,7 @@
 | 4 — El sitio lee desde D1 | ✅ Completa y verificada (incluye la comparación Playwright prod vs. local pedida antes de la Fase 5) | `2310726`, `fdd1350` |
 | 5 — Formularios | ✅ Completa y verificada (con el cambio de Diego: `Origin` propio en vez de CORS) | `a869a15`, `5fd0910` |
 | 6a — Despliegue del portal | ✅ Completa y verificada | `751666d`, `81d1f48`, `acb38bf` |
-| 6b — Sitio público, dominios y README | ⏳ No iniciada | — |
+| 6b — Sitio público y dominios | ✅ Completa y verificada (README todavía pendiente) | `f95452d` |
 
 Detalle completo de cada fase (qué se hizo, qué se verificó, qué falta) en
 `docs/ESTADO.md`. Lo que sigue abajo es el plan original.
@@ -308,30 +308,46 @@ los 19 productos con sus fotos y editar uno. Verificado por Claude antes de
 avisarle: `/colecciones/productos` lista los 19 (cada uno con foto de
 portada) y `/colecciones/productos/prod-rva50` carga bien para editar.
 
-## Fase 6b — Sitio público, dominios y README ⏳ NO INICIADA
+## Fase 6b — Sitio público y dominios ✅ COMPLETA Y VERIFICADA
 
-Requiere aprobación explícita de Diego antes de empezar (no se tocó nada
-de esto en la 6a a propósito). Lista de pasos pendientes:
+Diego pidió explícitamente el despliegue del sitio ("desplegalo en
+cloudflare"). Antes de tocar nada, Claude preguntó y confirmó que
+`apps/web/wrangler.toml` ya traía declarados `idrocomsolutions.com` y
+`www.idrocomsolutions.com` como `custom_domain` — un `wrangler deploy` sin
+más apunta esos dominios reales al worker nuevo en el mismo paso,
+reemplazando lo que los servía hasta ahora (el sitio de antes de esta
+migración). Diego confirmó que quería el corte completo, worker + dominios,
+en el mismo paso.
 
-- Ya adelantado durante la Fase 3 (sin esperar a la Fase 6): la sección
-  "Portal CMS — orden exacto para cargar fotos + contenido inicial" del
-  `README.md`, y la corrección del conteo real de productos/nombre real
-  del hero que ya estaban desactualizados.
-- Falta: el resto de la actualización de `README.md` (arquitectura nueva,
-  comandos, cómo agregar una colección, cómo pasar de KV a R2).
-- Crear el worker `wellbusiness-web` (por ahora sigue sin desplegarse desde
-  este monorepo) conectado a GitHub vía Workers Builds, compilando desde
-  `apps/web` — o publicarlo directo con `wrangler deploy` igual que el
-  portal, a decidir con Diego.
-- Rellenar en `apps/web/wrangler.toml` los mismos ids reales de D1/KV que
-  ya tiene `clientes/wellbusiness/wrangler.portal.jsonc` (arriba) — hoy
-  siguen en `00000000-...`.
-- Dominios: `idrocomsolutions.com`/`www.idrocomsolutions.com` →
-  `wellbusiness-web`, `portal.idrocomsolutions.com` → `wellbusiness-portal`.
-- Probar crear/publicar/archivar/eliminar un producto en el portal y
-  verlo reflejado en el sitio público ya con dominio real.
+- `apps/web/wrangler.toml`: mismos ids reales de D1/KV que ya tenía el
+  portal (D1 `wellbusiness-db` = `2afc8400-5ed4-423d-bf72-27f7cee8ece0`, KV
+  `wellbusiness-medios` = `76a57ddc1568418ebaeb3c2d6bd8e8d2`).
+- `npm run build:web && npx wrangler deploy --config dist/server/wrangler.json`
+  desde `apps/web` (mismo patrón de config resuelto que se corrigió para el
+  portal en la 6a — el `deploy:web` del `package.json` raíz, sin
+  `--config`, sigue sin el fix porque en este caso el `wrangler.toml` vive
+  directo en `apps/web/`, no en `clientes/*`, así que si algún día falla
+  igual que el del portal, el arreglo es el mismo).
+- Desplegado a `idrocomsolutions.com`, `www.idrocomsolutions.com` y
+  `https://wellbusiness-web.herediadiego963.workers.dev`.
+- Verificado en vivo contra el dominio real: las 8 páginas de la
+  comparación de la Fase 4 dan 200 con `Cache-Control` correcto,
+  `/no-existe` da 404, una foto real de `/medios/fotos/...` carga como
+  `image/jpeg`, y `/contacto` muestra el teléfono de servicio técnico y el
+  Instagram agregados a pedido de Diego.
+
+**Pendiente (no bloquea lo anterior, se hace cuando Diego lo pida)**:
+- El resto de la actualización de `README.md` (arquitectura nueva,
+  comandos, cómo agregar una colección, cómo pasar de KV a R2) — lo ya
+  adelantado en la Fase 3 (sección de fotos + contenido inicial, conteo
+  real de productos) sigue vigente.
+- Conectar `wellbusiness-web`/`wellbusiness-portal` a Workers Builds
+  (GitHub) para que un push a `master` despliegue solo, en vez de
+  `wrangler deploy` manual.
+- Dominio propio del portal (`portal.idrocomsolutions.com` →
+  `wellbusiness-portal`) — hoy sigue solo en su URL `*.workers.dev`.
 - No se hace merge a `master` (rama principal de este repo, no `main`) ni se
-  toca producción sin confirmación de Diego en cada paso.
+  toca producción/dominios sin confirmación de Diego en cada paso.
 
 ## Verificación end-to-end (además de los checkpoints de cada fase)
 
