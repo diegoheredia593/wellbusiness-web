@@ -106,9 +106,35 @@ const servicioActivo = servicios.find((s) => s.slug === servicioSlug);
                   <Icon name="mail" class="size-4" />
                 </span>
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Correo</p>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Correo (ventas)</p>
                   <a href={`mailto:${contacto.correo}`} class="font-medium text-brand-ink hover:text-brand-steel">
                     {contacto.correo}
+                  </a>
+                </div>
+              </li>
+            )}
+            {contacto.correoGerencia && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="mail" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Correo (gerencia)</p>
+                  <a href={`mailto:${contacto.correoGerencia}`} class="font-medium text-brand-ink hover:text-brand-steel">
+                    {contacto.correoGerencia}
+                  </a>
+                </div>
+              </li>
+            )}
+            {contacto.correoInfo && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="mail" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Correo (información general)</p>
+                  <a href={`mailto:${contacto.correoInfo}`} class="font-medium text-brand-ink hover:text-brand-steel">
+                    {contacto.correoInfo}
                   </a>
                 </div>
               </li>

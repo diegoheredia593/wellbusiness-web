@@ -86,7 +86,25 @@ const year = new Date().getFullYear();
           {contacto.correo && (
             <li class="flex items-center gap-2">
               <Icon name="mail" class="size-4 shrink-0 text-white/50" />
-              <a href={`mailto:${contacto.correo}`} class="hover:text-white">{contacto.correo}</a>
+              <a href={`mailto:${contacto.correo}`} class="hover:text-white">
+                {contacto.correo} <span class="text-white/45">· ventas</span>
+              </a>
+            </li>
+          )}
+          {contacto.correoGerencia && (
+            <li class="flex items-center gap-2">
+              <Icon name="mail" class="size-4 shrink-0 text-white/50" />
+              <a href={`mailto:${contacto.correoGerencia}`} class="hover:text-white">
+                {contacto.correoGerencia} <span class="text-white/45">· gerencia</span>
+              </a>
+            </li>
+          )}
+          {contacto.correoInfo && (
+            <li class="flex items-center gap-2">
+              <Icon name="mail" class="size-4 shrink-0 text-white/50" />
+              <a href={`mailto:${contacto.correoInfo}`} class="hover:text-white">
+                {contacto.correoInfo} <span class="text-white/45">· información general</span>
+              </a>
             </li>
           )}
           {contacto.direccion && (

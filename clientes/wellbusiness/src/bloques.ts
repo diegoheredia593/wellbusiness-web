@@ -119,7 +119,17 @@ export const bloques = [
     obligatorio: false,
     ayuda: 'Línea exclusiva de soporte técnico — distinta del teléfono de ventas de arriba. Deja vacío para ocultar esta línea en el sitio.',
   }),
-  texto('global.contacto.correo', 'Correo', 'ventasidrocom@hotmail.com', { max: 80, obligatorio: false }),
+  texto('global.contacto.correo', 'Correo (ventas)', 'ventasidrocom@hotmail.com', { max: 80, obligatorio: false }),
+  texto('global.contacto.correoGerencia', 'Correo (gerencia)', 'gerenciawellbusiness@outlook.com', {
+    max: 80,
+    obligatorio: false,
+    ayuda: 'Línea directa de gerencia, distinta del correo de ventas de arriba. Deja vacío para ocultar esta línea en el sitio.',
+  }),
+  texto('global.contacto.correoInfo', 'Correo (información general)', 'info@idrocomsolution.com', {
+    max: 80,
+    obligatorio: false,
+    ayuda: 'Consultas generales, distinto del de ventas y del de gerencia de arriba. Deja vacío para ocultar esta línea en el sitio.',
+  }),
   texto('global.contacto.direccion', 'Dirección', 'Calle Rumichaca 212 y Manuel Galecio', {
     max: 120,
     obligatorio: false,

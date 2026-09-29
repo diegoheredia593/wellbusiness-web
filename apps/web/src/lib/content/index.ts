@@ -90,6 +90,8 @@ export function contactoDe(b: Bloques) {
     telefono: b.o('global.contacto.telefono'),
     telefonoSoporte: b.o('global.contacto.telefonoSoporte'),
     correo: b.o('global.contacto.correo'),
+    correoGerencia: b.o('global.contacto.correoGerencia'),
+    correoInfo: b.o('global.contacto.correoInfo'),
     direccion: b.o('global.contacto.direccion'),
     horario: b.o('global.contacto.horario'),
     facebook: b.o('global.contacto.facebook'),
