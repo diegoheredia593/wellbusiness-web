@@ -6,7 +6,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import ContactForm from "../components/ContactForm.astro";
 import Faq from "../components/Faq.astro";
 import Icon from "../components/Icon.astro";
-import { getBlocks, marcaDe, contactoDe, getFaq } from "../lib/content";
+import { getBlocks, marcaDe, contactoDe, getFaq, getServicios } from "../lib/content";
 import { whatsappLink } from "../utils/whatsapp";
 
 const b = await getBlocks();
@@ -18,6 +18,17 @@ const hasAnyContact = Object.values(contacto).some(Boolean);
 const mapsHref = contacto.direccion
   ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contacto.direccion)}`
   : undefined;
+
+/**
+ * "Hidden tab": no hay ruta ni link de navegación nuevos — cada
+ * ServiceCard (/servicios) agrega ?servicio=<slug> a este mismo /contacto.
+ * Si el slug existe, el hero muestra el título/gancho/descripción de esa
+ * tarjeta (contenido que Diego ya gestiona en el portal, no copy nuevo) en
+ * vez del hero genérico de abajo. El formulario nunca cambia.
+ */
+const servicioSlug = Astro.url.searchParams.get("servicio");
+const servicios = await getServicios();
+const servicioActivo = servicios.find((s) => s.slug === servicioSlug);
 ---
 
 <BaseLayout
@@ -26,11 +37,19 @@ const mapsHref = contacto.direccion
   marca={marca}
   contacto={contacto}
 >
-  <PageHero
-    eyebrow={b.t('contacto.hero.eyebrow')}
-    title={b.t('contacto.hero.titulo')}
-    description={b.t('contacto.hero.descripcion')}
-  />
+  {servicioActivo ? (
+    <PageHero eyebrow={servicioActivo.title} title={servicioActivo.hook} description={servicioActivo.description}>
+      <a href="/servicios" class="text-sm font-medium text-white/70 underline-offset-4 hover:text-white hover:underline">
+        ← Ver todos los servicios
+      </a>
+    </PageHero>
+  ) : (
+    <PageHero
+      eyebrow={b.t('contacto.hero.eyebrow')}
+      title={b.t('contacto.hero.titulo')}
+      description={b.t('contacto.hero.descripcion')}
+    />
+  )}
 
   <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
     <div class="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
