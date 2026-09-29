@@ -106,8 +106,19 @@ export const bloques = [
   }),
 
   // Vacío = el sitio oculta ese canal (mismo comportamiento que hoy con `null`).
-  texto('global.contacto.whatsapp', 'WhatsApp', '+593 98 161 5096', { max: 20, obligatorio: false }),
-  texto('global.contacto.telefono', 'Teléfono', '+593 98 161 5096', { max: 20, obligatorio: false }),
+  texto('global.contacto.whatsapp', 'WhatsApp (ventas)', '+593 98 161 5096', { max: 20, obligatorio: false }),
+  texto('global.contacto.telefono', 'Teléfono (ventas)', '+593 98 161 5096', {
+    max: 20,
+    obligatorio: false,
+    ayuda: 'Para cotizaciones, catálogo y alquiler. El de servicio técnico es el campo de abajo — son dos líneas distintas a propósito.',
+  }),
+  // Línea exclusiva de soporte, separada de ventas a pedido de Diego — nunca
+  // se mezcla con el teléfono/WhatsApp de arriba.
+  texto('global.contacto.telefonoSoporte', 'Teléfono (servicio técnico)', '+593 99 562 7425', {
+    max: 20,
+    obligatorio: false,
+    ayuda: 'Línea exclusiva de soporte técnico — distinta del teléfono de ventas de arriba. Deja vacío para ocultar esta línea en el sitio.',
+  }),
   texto('global.contacto.correo', 'Correo', 'ventasidrocom@hotmail.com', { max: 80, obligatorio: false }),
   texto('global.contacto.direccion', 'Dirección', 'Calle Rumichaca 212 y Manuel Galecio', {
     max: 120,
@@ -115,6 +126,10 @@ export const bloques = [
   }),
   texto('global.contacto.horario', 'Horario de atención', '9:00 am – 6:00 pm', { max: 60, obligatorio: false }),
   texto('global.contacto.facebook', 'URL de Facebook', 'https://www.facebook.com/wellbusiness.gye/', {
+    max: 200,
+    obligatorio: false,
+  }),
+  texto('global.contacto.instagram', 'URL de Instagram', 'https://www.instagram.com/wellbusiness.ec/', {
     max: 200,
     obligatorio: false,
   }),

@@ -61,9 +61,22 @@ const mapsHref = contacto.direccion
                   <Icon name="phone" class="size-4" />
                 </span>
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Teléfono</p>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Ventas y cotizaciones</p>
                   <a href={`tel:${contacto.telefono.replace(/\s/g, "")}`} class="font-medium text-brand-ink hover:text-brand-steel">
                     {contacto.telefono}
+                  </a>
+                </div>
+              </li>
+            )}
+            {contacto.telefonoSoporte && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="wrench" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">¿Ya eres cliente? Servicio técnico</p>
+                  <a href={`tel:${contacto.telefonoSoporte.replace(/\s/g, "")}`} class="font-medium text-brand-ink hover:text-brand-steel">
+                    {contacto.telefonoSoporte}
                   </a>
                 </div>
               </li>
@@ -103,6 +116,19 @@ const mapsHref = contacto.direccion
                   <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Facebook</p>
                   <a href={contacto.facebook} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-ink hover:text-brand-steel">
                     Wellbusiness
+                  </a>
+                </div>
+              </li>
+            )}
+            {contacto.instagram && (
+              <li class="flex items-center gap-3 text-sm">
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-steel-light text-brand-steel-dark">
+                  <Icon name="instagram" class="size-4" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wide text-brand-slate">Instagram</p>
+                  <a href={contacto.instagram} target="_blank" rel="noopener noreferrer" class="font-medium text-brand-ink hover:text-brand-steel">
+                    @wellbusiness.ec
                   </a>
                 </div>
               </li>

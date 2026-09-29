@@ -43,6 +43,15 @@ const year = new Date().getFullYear();
           >
             <Icon name="whatsapp" class="size-4" />
           </a>
+          <a
+            href={contacto.instagram ?? undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Wellbusiness en Instagram"
+            class="flex size-9 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+          >
+            <Icon name="instagram" class="size-4" />
+          </a>
         </div>
       </div>
 
@@ -62,7 +71,15 @@ const year = new Date().getFullYear();
             <li class="flex items-center gap-2">
               <Icon name="whatsapp" class="size-4 shrink-0 text-white/50" />
               <a href={whatsappLink(contacto.whatsapp)} target="_blank" rel="noopener noreferrer" class="hover:text-white">
-                {contacto.whatsapp}
+                {contacto.whatsapp} <span class="text-white/45">· ventas</span>
+              </a>
+            </li>
+          )}
+          {contacto.telefonoSoporte && (
+            <li class="flex items-center gap-2">
+              <Icon name="wrench" class="size-4 shrink-0 text-white/50" />
+              <a href={`tel:${contacto.telefonoSoporte.replace(/\s/g, "")}`} class="hover:text-white">
+                {contacto.telefonoSoporte} <span class="text-white/45">· servicio técnico</span>
               </a>
             </li>
           )}

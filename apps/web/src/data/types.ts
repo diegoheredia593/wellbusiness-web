@@ -121,6 +121,7 @@ export type IconName =
   | "check"
   | "whatsapp"
   | "facebook"
+  | "instagram"
   | "phone"
   | "mail"
   | "pin"

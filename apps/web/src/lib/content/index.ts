@@ -88,10 +88,12 @@ export function contactoDe(b: Bloques) {
   return {
     whatsapp: b.o('global.contacto.whatsapp'),
     telefono: b.o('global.contacto.telefono'),
+    telefonoSoporte: b.o('global.contacto.telefonoSoporte'),
     correo: b.o('global.contacto.correo'),
     direccion: b.o('global.contacto.direccion'),
     horario: b.o('global.contacto.horario'),
     facebook: b.o('global.contacto.facebook'),
+    instagram: b.o('global.contacto.instagram'),
   };
 }
 export type Contacto = ReturnType<typeof contactoDe>;
