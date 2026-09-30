@@ -24,7 +24,7 @@
  * - `devToolbar: { enabled: false }` debe estar en el `astro.config.mjs` de
  *   cada app que se vaya a comparar en local — si no, la barra de Astro
  *   (solo visible en `astro dev`) sale en cada captura local y nunca en
- *   producción. Ya está puesto en `apps/web` y `apps/portal`.
+ *   producción. Ya está puesto en `apps/web`.
  *
  * Uso:
  *   npx tsx scripts/capturas-visuales.ts \

@@ -1,8 +1,6 @@
 /**
- * Ayudantes para las rutas /api del sitio. Mismo patrón que
- * `apps/portal/src/lib/servidor/api.ts` — no se comparte como un solo
- * archivo porque el sitio no tiene sesión/usuario (nada de `usuarioDe`/`adminDe`
- * aquí), pero conviene que la forma de las respuestas sea idéntica.
+ * Ayudantes para las rutas /api del sitio. El sitio no tiene sesión/usuario,
+ * solo respuestas JSON con la forma `{ ok, ... }` / `{ ok: false, error, campos? }`.
  */
 import type { z } from 'zod';
 

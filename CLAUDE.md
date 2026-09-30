@@ -2,15 +2,11 @@
 
 Lectura obligatoria antes de tocar cualquier cosa en este repo:
 
-1. **`docs/ESTADO.md`** — qué es este proyecto, qué contiene cada carpeta,
-   estado real de cada fase, reglas acordadas, decisiones tomadas y por
-   qué, pendientes conocidos, y cómo levantar todo en local desde cero.
-2. **`docs/PLAN-PORTAL.md`** — el plan completo de las 6 fases (integrar el
-   portal CMS de Fluvida en Wellbusiness), con el razonamiento detrás de
-   cada decisión y el estado de cada fase.
-3. **`CAMBIOS-NUCLEO.md`** — todo cambio a `apps/portal/` o
-   `packages/cms-core/` que en teoría también aplicaría al portal de
-   Fluvida (repo separado) se documenta aquí, para portarlo a mano.
+1. **`docs/ESTADO.md`** — qué es este proyecto, cómo lee el contenido de la
+   plataforma, decisiones, pendientes y cómo levantarlo en local.
+2. **`README.md`** — estructura, comandos y despliegue.
+3. **`REPORTE-CORTE-WELLBUSINESS.md`** — el corte a la plataforma: qué cambió,
+   qué se verificó, cómo volver atrás y cuándo se pueden borrar D1 y KV.
 
 No dupliques ese contenido en este archivo — si algo cambia, actualiza
 `docs/ESTADO.md` directamente.
