@@ -124,7 +124,12 @@ const waHref = contacto.whatsapp
 </div>
 
 <script>
-  import { enviarFormulario } from "../utils/formularios";
+  import {
+    enviarFormulario,
+    limpiarErroresDeCampos,
+    mostrarFalloDeEnvio,
+    restaurarAvisoDeEnvio,
+  } from "../utils/formularios";
 
   function initContactForm() {
     const form = document.getElementById("contact-form") as HTMLFormElement | null;
@@ -156,6 +161,8 @@ const waHref = contacto.whatsapp
       }
       errorMsg.classList.add("hidden");
       sendError?.classList.add("hidden");
+      restaurarAvisoDeEnvio(sendError);
+      limpiarErroresDeCampos(form);
 
       const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       submitButton?.setAttribute("disabled", "true");
@@ -177,7 +184,7 @@ const waHref = contacto.whatsapp
       submitButton?.removeAttribute("disabled");
 
       if (!resultado.ok) {
-        sendError?.classList.remove("hidden");
+        mostrarFalloDeEnvio(form, sendError, resultado);
         return;
       }
 

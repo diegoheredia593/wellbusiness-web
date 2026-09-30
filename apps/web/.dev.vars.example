@@ -1,0 +1,6 @@
+# Copia este archivo a `.dev.vars` (está en .gitignore — nunca se sube) y pon la llave real.
+# Llave de API de la plataforma para el cliente "wellbusiness", con los alcances
+# `contenido:leer` y `formularios:enviar` (se crea en la consola de la plataforma:
+# /clientes/<id> → pestaña API). En producción es un secreto del Worker:
+#   npx wrangler versions secret put PLATAFORMA_LLAVE   (desde apps/web)
+PLATAFORMA_LLAVE=pk_...

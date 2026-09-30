@@ -6,7 +6,13 @@
  * names, never the CMS's own Spanish field names (`nombre`, `resumen`, ...),
  * so components didn't need to change when the data source did.
  */
-import type { Imagen } from '@cms/core/schema';
+/** Foto de producto/marca, ya adaptada desde la plataforma (ver `lib/content/index.ts`, `aImagen`). */
+export interface Imagen {
+  src: string;
+  alt: string;
+  ancho: number;
+  alto: number;
+}
 
 export type ContactMotive =
   | "Catálogo Motorola"
