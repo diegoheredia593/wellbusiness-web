@@ -39,4 +39,4 @@ pnpm-debug.log*
 .tmp/
 
 # scripts/capturas-visuales.ts output (screenshots + diff report) — never commit images
-.capturas/
+.capturas*/
