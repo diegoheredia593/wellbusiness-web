@@ -26,6 +26,7 @@ import {
   fotoSchema,
 } from './esquemas';
 import { leerBloques, leerColeccion } from './fuente';
+import { urlPublicaDeMedio } from '../plataforma/medios';
 import type { ClaveBloque } from './claves-bloques';
 import type {
   CompanyValue,
@@ -117,7 +118,7 @@ async function publicados<S extends z.ZodType>(nombre: string, schema: S): Promi
 
 /** Foto de la plataforma (`width`/`height`) → `Imagen` del sitio (`ancho`/`alto`). */
 function aImagen(f: z.infer<typeof fotoSchema>): Imagen {
-  return { src: f.src, alt: f.alt, ancho: f.width, alto: f.height };
+  return { src: urlPublicaDeMedio(f.src), alt: f.alt, ancho: f.width, alto: f.height };
 }
 
 // ---------------------------------------------------------------------------
@@ -205,7 +206,7 @@ export async function getFaq(): Promise<FaqItem[]> {
 
 export async function getMarcas(): Promise<MarqueeLogo[]> {
   const items = await publicados('marcas', marcaSchema);
-  return items.map((m) => ({ src: m.logo.src, alt: m.logo.alt }));
+  return items.map((m) => ({ src: aImagen(m.logo).src, alt: m.logo.alt }));
 }
 
 // ---------------------------------------------------------------------------

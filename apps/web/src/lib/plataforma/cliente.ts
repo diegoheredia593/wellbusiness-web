@@ -14,8 +14,9 @@
  */
 import { env } from 'cloudflare:workers';
 import { crearCliente, type Cliente } from './sdk';
+import { ORIGEN_PUBLICO_PLATAFORMA } from './medios';
 
-const URL_PUBLICA = 'https://agencia-plataforma.herediadiego963.workers.dev/c/wellbusiness/v1';
+const URL_PUBLICA = `${ORIGEN_PUBLICO_PLATAFORMA}/c/wellbusiness/v1`;
 const URL_BINDING = 'https://agencia-plataforma/c/wellbusiness/v1';
 
 let cliente: Cliente | undefined;

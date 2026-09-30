@@ -1,0 +1,20 @@
+[
+  {
+    "pagina": "/catalogo",
+    "ancho": 390,
+    "prod": ".capturas2\\prod__catalogo__390.png",
+    "local": ".capturas2\\local__catalogo__390.png",
+    "estado": "OK",
+    "diffPixeles": 0,
+    "porcentaje": "0.0000"
+  },
+  {
+    "pagina": "/catalogo",
+    "ancho": 1440,
+    "prod": ".capturas2\\prod__catalogo__1440.png",
+    "local": ".capturas2\\local__catalogo__1440.png",
+    "estado": "OK",
+    "diffPixeles": 0,
+    "porcentaje": "0.0000"
+  }
+]

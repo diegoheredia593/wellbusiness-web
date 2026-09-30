@@ -116,6 +116,20 @@ async function capturar(browser: import('playwright').Browser, base: string, pag
     window.scrollTo(0, 0);
   });
   await page.waitForLoadState('networkidle');
+  // Esperar a que TODAS las imágenes terminen de cargar y decodificarse: con fotos servidas desde
+  // otro origen (Sprint 4e), `networkidle` puede resolver con una foto decodificada a medias y la
+  // captura sale con la foto cortada (falso positivo, distinto en cada ejecución).
+  await page.evaluate(async () => {
+    await Promise.all(
+      Array.from(document.images).map((img) =>
+        img.complete
+          ? img.decode().catch(() => undefined)
+          : new Promise((r) => {
+              img.onload = img.onerror = () => r(undefined);
+            }),
+      ),
+    );
+  });
   await page.waitForTimeout(300);
   const archivo = path.join(outDir, `${etiqueta}__${slugify(pagina)}__${ancho}.png`);
   await page.screenshot({ path: archivo, fullPage: true });
