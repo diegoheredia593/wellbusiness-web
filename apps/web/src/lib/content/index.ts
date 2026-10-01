@@ -118,7 +118,14 @@ async function publicados<S extends z.ZodType>(nombre: string, schema: S): Promi
 
 /** Foto de la plataforma (`width`/`height`) → `Imagen` del sitio (`ancho`/`alto`). */
 function aImagen(f: z.infer<typeof fotoSchema>): Imagen {
-  return { src: urlPublicaDeMedio(f.src), alt: f.alt, ancho: f.width, alto: f.height };
+  return {
+    src: urlPublicaDeMedio(f.src),
+    alt: f.alt,
+    ancho: f.width,
+    alto: f.height,
+    // Igual que `src`: por el service binding el host es el ficticio `agencia-plataforma`.
+    variantes: f.variantes.map((v) => ({ src: urlPublicaDeMedio(v.src), ancho: v.width, alto: v.height })),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -206,7 +213,7 @@ export async function getFaq(): Promise<FaqItem[]> {
 
 export async function getMarcas(): Promise<MarqueeLogo[]> {
   const items = await publicados('marcas', marcaSchema);
-  return items.map((m) => ({ src: aImagen(m.logo).src, alt: m.logo.alt }));
+  return items.map((m) => aImagen(m.logo));
 }
 
 // ---------------------------------------------------------------------------

@@ -9,11 +9,14 @@ import ImagePlaceholder from "./ImagePlaceholder.astro";
 import Badge from "./Badge.astro";
 import Icon from "./Icon.astro";
 import type { Product } from "../data/types";
+import { atributosFoto } from "../lib/fotos";
 
 interface Props {
   product: Product;
+  /** Primera tarjeta de la lista: su foto es la principal de la página (sin lazy, prioridad alta). */
+  prioridad?: boolean;
 }
-const { product } = Astro.props;
+const { product, prioridad = false } = Astro.props;
 const cover = product.fotos[0];
 ---
 
@@ -26,13 +29,8 @@ const cover = product.fotos[0];
   <div class="relative aspect-square overflow-hidden bg-white">
     {cover ? (
       <img
-        src={cover.src}
-        alt={cover.alt}
-        width={cover.ancho}
-        height={cover.alto}
+        {...atributosFoto(cover, { sizes: "(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw", prioridad })}
         class="h-full w-full object-contain p-8 transition-transform duration-500 ease-out group-hover:scale-105"
-        loading="lazy"
-        decoding="async"
       />
     ) : (
       <ImagePlaceholder class="h-full w-full" icon="radio-handheld" note={`Fotografía de ${product.name}`} />

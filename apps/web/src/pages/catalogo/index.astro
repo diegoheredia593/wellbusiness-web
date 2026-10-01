@@ -62,7 +62,7 @@ const categoriesWithCount = categorias.map((category) => ({
         <SectionHeading title={category} class="mb-6" />
         {products.length > 0 ? (
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {products.map((product) => <ProductCoverCard product={product} />)}
+            {products.map((product, i) => <ProductCoverCard product={product} prioridad={i === 0} />)}
           </div>
         ) : (
           <CategoryEmptyState category={category} />

@@ -20,6 +20,8 @@ export const fotoSchema = z.object({
   alt: z.string(),
   width: z.number(),
   height: z.number(),
+  /** Tamaños de foto (sprint 6a): ausente en respuestas viejas de la plataforma. */
+  variantes: z.array(z.object({ src: z.string().min(1), width: z.number(), height: z.number() })).default([]),
 });
 
 const siNo = z.enum(['si', 'no']);

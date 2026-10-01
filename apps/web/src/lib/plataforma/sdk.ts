@@ -1,9 +1,10 @@
 /**
  * COPIA del núcleo del SDK de la plataforma (`@plataforma/sdk`), sin dependencias.
  *
- * Origen: repo `agencia-plataforma`, `packages/sdk/src/index.ts`, commit 7289c7fbbbf8cf08940ff1798f4136a0ce972ccd (HEAD limpio al copiar; el último commit que tocó el SDK fue 7306bf40d186e52c7c516785692e7d68a67e6958).
+ * Origen: repo `agencia-plataforma`, `packages/sdk/src/index.ts`, commit 6d6b6e67f0c2ef3286ccb0ddb0343df6450744fa (HEAD limpio al copiar, 2026-10-01; ese mismo commit es el último que tocó el SDK).
  * Diferencia con el original: no se copia `render.ts` (texto enriquecido / YouTube), que depende de
- * `@plataforma/core` y que este sitio no usa (todo su contenido son textos planos e imágenes).
+ * `@plataforma/core` y que este sitio no usa. `imagenResponsiva` (sprint 6a) vive en `imagen.ts`, sin dependencias.
+ * Otra diferencia: `export * from './imagen'` en vez de `export * from './render'`.
  * Publicar el SDK como paquete queda para después; mientras, al actualizarlo se re-copia a mano.
  */
 /**
@@ -17,6 +18,7 @@
 import type { Bloque, ClaveColeccion, Colecciones, ElementoPersonalizado } from './tipos';
 
 export * from './tipos';
+export * from './imagen';
 
 export class ErrorApiPlataforma extends Error {
   readonly status: number;

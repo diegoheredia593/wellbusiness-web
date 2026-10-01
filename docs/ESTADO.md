@@ -54,6 +54,17 @@ Hoy el sitio lo corrige: `apps/web/src/lib/plataforma/medios.ts` reescribe ese h
 públicas sin depender del host de la petición. Va con el sprint del dominio propio de la
 plataforma; cuando exista, `medios.ts` se simplifica o se elimina.
 
+### Tamaños de foto (sprint 6a)
+
+La plataforma genera para cada foto variantes webp de 480, 960 y 1600 px de ancho (nunca más anchas
+que el original) y las entrega en `variantes` dentro de cada imagen. El sitio las usa con `srcset` +
+`sizes`: el **único helper de imágenes es `apps/web/src/lib/fotos.ts`** (`atributosFoto`), que apoya
+en `lib/plataforma/imagen.ts` (copia del SDK). Cada lugar dice con qué ancho se muestra la foto; la
+imagen principal de cada página va con `fetchpriority="high"` y sin `lazy`. Una foto sin variantes
+(chica o aún sin procesar) sale con solo `src`. En la galería de producto, el script que cambia la foto
+principal también cambia el `srcset` (con `srcset` puesto, el navegador ignora `src`). Los PNG propios
+del sitio (`/images/brand`, `/images/hero`) no pasan por la plataforma y no cambiaron.
+
 ## Redirecciones `/medios/<clave>`
 
 El sitio antes servía las fotos en `/medios/<clave>` (KV). Hoy cada una de las 67 claves viejas

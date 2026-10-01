@@ -12,6 +12,8 @@ export interface Imagen {
   alt: string;
   ancho: number;
   alto: number;
+  /** Versiones más angostas (480/960/1600 px), de menor a mayor; vacío si la foto es chica o aún no las tiene. */
+  variantes: { src: string; ancho: number; alto: number }[];
 }
 
 export type ContactMotive =
@@ -59,10 +61,7 @@ export interface FaqItem {
   answer: string;
 }
 
-export interface MarqueeLogo {
-  src: string;
-  alt: string;
-}
+export type MarqueeLogo = Imagen;
 
 /** Editable in the portal (colección `categorias`) — no longer a fixed set. */
 export type ProductCategory = string;

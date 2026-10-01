@@ -18,6 +18,7 @@ apps/web/                 El sitio (único workspace).
   src/components/         UI reutilizable.
   src/data/               site.ts (navegación, datos de contacto, motivos) y types.ts.
   src/lib/plataforma/     SDK de la plataforma (copia, sin dependencias) + cliente + URLs de fotos.
+  src/lib/fotos.ts        Único helper de imágenes: srcset + sizes con las variantes de la plataforma.
   src/lib/content/        Capa de contenido: bloques y colecciones desde la plataforma.
   redirecciones-medios.json   Mapa de las 67 URLs viejas /medios/<clave> → foto en la plataforma.
   wrangler.toml           Worker, dominios y service binding PLATAFORMA.

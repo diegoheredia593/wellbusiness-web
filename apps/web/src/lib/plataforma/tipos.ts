@@ -1,9 +1,9 @@
 /**
  * COPIA del núcleo del SDK de la plataforma (`@plataforma/sdk`), sin dependencias.
  *
- * Origen: repo `agencia-plataforma`, `packages/sdk/src/tipos.ts`, commit 7289c7fbbbf8cf08940ff1798f4136a0ce972ccd (HEAD limpio al copiar; el último commit que tocó el SDK fue 7306bf40d186e52c7c516785692e7d68a67e6958).
+ * Origen: repo `agencia-plataforma`, `packages/sdk/src/tipos.ts`, commit 6d6b6e67f0c2ef3286ccb0ddb0343df6450744fa (HEAD limpio al copiar, 2026-10-01; ese mismo commit es el último que tocó el SDK).
  * Diferencia con el original: no se copia `render.ts` (texto enriquecido / YouTube), que depende de
- * `@plataforma/core` y que este sitio no usa (todo su contenido son textos planos e imágenes).
+ * `@plataforma/core` y que este sitio no usa. `imagenResponsiva` (sprint 6a) vive en `imagen.ts`, sin dependencias.
  * Publicar el SDK como paquete queda para después; mientras, al actualizarlo se re-copia a mano.
  */
 /**
@@ -15,11 +15,23 @@
  * URL absoluta, nunca campos internos (state/scheduledAt/deletedAt/authorUserId).
  */
 
+/** Una versión más angosta de una foto (webp), con URL absoluta. */
+export interface VarianteFoto {
+  src: string;
+  width: number;
+  height: number;
+}
+
 export interface Foto {
   src: string;
   width: number;
   height: number;
   alt: string;
+  /**
+   * Versiones de 480, 960 y/o 1600 px de ancho (nunca más anchas que el original), de menor a
+   * mayor. Puede venir vacío (foto chica o aún sin procesar) y no existir en respuestas viejas.
+   */
+  variantes?: VarianteFoto[];
 }
 
 export interface VideoYoutube {

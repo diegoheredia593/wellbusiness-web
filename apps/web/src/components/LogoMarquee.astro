@@ -17,6 +17,7 @@
  * visually fight each other in one row.
  */
 import type { MarqueeLogo } from "../data/types";
+import { atributosFoto } from "../lib/fotos";
 
 interface Props {
   logos: MarqueeLogo[];
@@ -36,10 +37,8 @@ const track = [...logos, ...logos];
   >
     {track.map((logo) => (
       <img
-        src={logo.src}
-        alt={logo.alt}
+        {...atributosFoto(logo, { sizes: "160px" })}
         loading="eager"
-        decoding="async"
         class="h-8 w-auto shrink-0 object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:h-10"
       />
     ))}

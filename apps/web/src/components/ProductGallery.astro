@@ -9,12 +9,14 @@
 import Icon from "./Icon.astro";
 import ImagePlaceholder from "./ImagePlaceholder.astro";
 import type { Imagen } from "../data/types";
+import { atributosFoto, srcsetDeFoto, urlMasNitida } from "../lib/fotos";
 
 interface Props {
   fotos: Imagen[];
   name: string;
 }
 const { fotos, name } = Astro.props;
+const TAM_PRINCIPAL = "(min-width: 1024px) 50vw, 100vw";
 const hasImages = fotos.length > 0;
 const hasMultiple = fotos.length > 1;
 ---
@@ -29,19 +31,14 @@ const hasMultiple = fotos.length > 1;
       aria-label={`Fotografías de ${name}. Usa las flechas para cambiar de foto.`}
     >
       <img
-        src={fotos[0].src}
-        alt={fotos[0].alt}
-        width={fotos[0].ancho}
-        height={fotos[0].alto}
+        {...atributosFoto(fotos[0], { sizes: TAM_PRINCIPAL, prioridad: true })}
         class="relative z-0 h-full w-full object-contain p-10 sm:p-14"
         data-gallery-main
-        loading="eager"
-        decoding="async"
       />
       <div
         class="pointer-events-none absolute inset-0 z-10 hidden bg-no-repeat opacity-0 transition-opacity duration-150 lg:block"
         data-zoom-pane
-        style={`background-image:url(${fotos[0].src}); background-size:220%;`}
+        style={`background-image:url(${urlMasNitida(fotos[0])}); background-size:220%;`}
       ></div>
 
       {hasMultiple && (
@@ -78,6 +75,8 @@ const hasMultiple = fotos.length > 1;
             type="button"
             data-thumb
             data-src={foto.src}
+            data-srcset={srcsetDeFoto(foto, TAM_PRINCIPAL)?.srcset}
+            data-zoom={urlMasNitida(foto)}
             data-index={i}
             aria-label={`Ver foto ${i + 1} de ${name}`}
             aria-current={i === 0 ? "true" : "false"}
@@ -85,7 +84,7 @@ const hasMultiple = fotos.length > 1;
               i === 0 ? "border-brand-red" : "border-brand-mist hover:border-brand-steel"
             }`}
           >
-            <img src={foto.src} alt="" width={foto.ancho} height={foto.alto} class="h-full w-full object-contain" loading="lazy" decoding="async" />
+            <img {...atributosFoto(foto, { sizes: "80px" })} alt="" class="h-full w-full object-contain" />
           </button>
         ))}
       </div>
@@ -116,9 +115,13 @@ const hasMultiple = fotos.length > 1;
       const setIndex = (next: number) => {
         const total = thumbs.length || 1;
         index = ((next % total) + total) % total;
-        const src = thumbs[index]?.dataset.src ?? main.src;
+        const thumb = thumbs[index];
+        const src = thumb?.dataset.src ?? main.src;
         main.src = src;
-        if (zoomPane) zoomPane.style.backgroundImage = `url(${src})`;
+        // Con `srcset` puesto, el navegador ignora `src`: hay que cambiar también el `srcset`.
+        if (thumb?.dataset.srcset) main.srcset = thumb.dataset.srcset;
+        else main.removeAttribute("srcset");
+        if (zoomPane) zoomPane.style.backgroundImage = `url(${thumb?.dataset.zoom ?? src})`;
         gallery.dataset.index = String(index);
 
         thumbs.forEach((t, i) => {

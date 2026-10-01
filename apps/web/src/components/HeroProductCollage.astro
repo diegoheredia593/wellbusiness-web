@@ -122,6 +122,7 @@ const items: CollageItem[] = [
         src={item.src}
         alt={item.alt}
         loading="eager"
+        fetchpriority={item.src.endsWith("collage-r2.png") ? "high" : undefined}
         decoding="async"
         class="collage-item"
         data-dim={item.size.dimension}
