@@ -1,6 +1,6 @@
 ---
 /**
- * Real Wellbusiness logo assets (`public/images/brand/`), used as supplied
+ * Real Wellbusiness logo assets (`imagenes-origen/brand/`, served as webp from `public/images/brand/`), used as supplied
  * — never recolored/redrawn/altered. `wellbusiness-isologo.png` is trimmed
  * to its own bounding box only (same rule this project already follows for
  * every other supplied logo — see LogoMarquee's header comment) — it was
@@ -20,6 +20,8 @@
  * text label instead of the bitmap wordmark — same convention a two-piece
  * lockup (icon mark + adaptable wordmark color) normally uses.
  */
+import { atributosEstatica } from "../lib/fotos";
+
 interface Props {
   variant?: "dark" | "light";
   class?: string;
@@ -30,21 +32,15 @@ const { variant = "dark", class: className = "" } = Astro.props;
 {variant === "dark" ? (
   <a href="/" class={`inline-flex items-center ${className}`} aria-label="Wellbusiness — Inicio">
     <img
-      src="/images/brand/wellbusiness-logo.png"
-      alt="Wellbusiness"
+      {...atributosEstatica("/images/brand/wellbusiness-logo", "Wellbusiness", { sizes: "72px", carga: "eager" })}
       class="h-9 w-auto sm:h-10"
-      width="450"
-      height="100"
     />
   </a>
 ) : (
   <a href="/" class={`inline-flex items-center gap-2.5 ${className}`} aria-label="Wellbusiness — Inicio">
     <img
-      src="/images/brand/wellbusiness-isologo.png"
-      alt=""
+      {...atributosEstatica("/images/brand/wellbusiness-isologo", "", { sizes: "28px" })}
       class="h-9 w-auto shrink-0 object-contain"
-      width="1000"
-      height="1341"
     />
     <span class="flex flex-col leading-none">
       <span class="font-display text-lg font-bold tracking-tight text-white">Wellbusiness</span>

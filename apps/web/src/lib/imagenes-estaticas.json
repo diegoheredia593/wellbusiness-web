@@ -1,0 +1,114 @@
+{
+  "/images/brand/motorola-authorized-dealer": {
+    "ancho": 2428,
+    "alto": 791,
+    "variantes": [
+      {
+        "ancho": 240,
+        "alto": 78
+      },
+      {
+        "ancho": 480,
+        "alto": 156
+      },
+      {
+        "ancho": 960,
+        "alto": 313
+      }
+    ]
+  },
+  "/images/brand/wellbusiness-isologo": {
+    "ancho": 1000,
+    "alto": 1341,
+    "variantes": [
+      {
+        "ancho": 240,
+        "alto": 322
+      },
+      {
+        "ancho": 480,
+        "alto": 644
+      },
+      {
+        "ancho": 960,
+        "alto": 1287
+      }
+    ]
+  },
+  "/images/brand/wellbusiness-logo": {
+    "ancho": 2752,
+    "alto": 1536,
+    "variantes": [
+      {
+        "ancho": 240,
+        "alto": 134
+      },
+      {
+        "ancho": 480,
+        "alto": 268
+      },
+      {
+        "ancho": 960,
+        "alto": 536
+      }
+    ]
+  },
+  "/images/hero/collage-dem300": {
+    "ancho": 946,
+    "alto": 409,
+    "variantes": [
+      {
+        "ancho": 240,
+        "alto": 104
+      },
+      {
+        "ancho": 480,
+        "alto": 208
+      }
+    ]
+  },
+  "/images/hero/collage-dem500": {
+    "ancho": 726,
+    "alto": 333,
+    "variantes": [
+      {
+        "ancho": 240,
+        "alto": 110
+      },
+      {
+        "ancho": 480,
+        "alto": 220
+      }
+    ]
+  },
+  "/images/hero/collage-mic": {
+    "ancho": 180,
+    "alto": 454,
+    "variantes": []
+  },
+  "/images/hero/collage-r2": {
+    "ancho": 255,
+    "alto": 955,
+    "variantes": [
+      {
+        "ancho": 240,
+        "alto": 899
+      }
+    ]
+  },
+  "/images/hero/collage-sl500e": {
+    "ancho": 205,
+    "alto": 724,
+    "variantes": []
+  },
+  "/images/hero/collage-slr8000": {
+    "ancho": 319,
+    "alto": 121,
+    "variantes": [
+      {
+        "ancho": 240,
+        "alto": 91
+      }
+    ]
+  }
+}

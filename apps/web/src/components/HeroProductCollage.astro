@@ -10,7 +10,7 @@
  *
  * Source cutouts (`images/Hero/`, background already removed by the
  * client) are trimmed to their own bounding box only — never recolored —
- * and copied to `public/images/hero/` as `collage-*.png`. The RM560
+ * and kept as `imagenes-origen/hero/collage-*.png`; `scripts/optimizar-imagenes.mjs` generates their webp sizes in `public/images/hero/` (read through `atributosEstatica`). The RM560
  * accessory source was a 3-up front/side/side composite; it was cropped to
  * just its center/front view before trimming, so it reads as one clean
  * object like every other item in the lineup.
@@ -41,6 +41,8 @@
  * `z-index`/`transform` rules live in this file's own scoped `<style>`
  * block instead.
  */
+import { atributosEstatica } from "../lib/fotos";
+
 interface Props {
   class?: string;
 }
@@ -57,7 +59,7 @@ interface CollageItem {
 
 const items: CollageItem[] = [
   {
-    src: "/images/hero/collage-dem300.png",
+    src: "/images/hero/collage-dem300",
     alt: "Radio móvil Motorola DEM300",
     bottom: "9%",
     left: "0%",
@@ -65,7 +67,7 @@ const items: CollageItem[] = [
     z: 10,
   },
   {
-    src: "/images/hero/collage-sl500e.png",
+    src: "/images/hero/collage-sl500e",
     alt: "Radio Motorola SL500e",
     bottom: "3%",
     left: "28%",
@@ -73,7 +75,7 @@ const items: CollageItem[] = [
     z: 20,
   },
   {
-    src: "/images/hero/collage-r2.png",
+    src: "/images/hero/collage-r2",
     alt: "Radio Motorola MOTOTRBO R2",
     bottom: "0%",
     left: "36%",
@@ -81,7 +83,7 @@ const items: CollageItem[] = [
     z: 40,
   },
   {
-    src: "/images/hero/collage-mic.png",
+    src: "/images/hero/collage-mic",
     alt: "Micrófono con altavoz remoto Motorola RM560",
     bottom: "5%",
     left: "49%",
@@ -89,7 +91,7 @@ const items: CollageItem[] = [
     z: 30,
   },
   {
-    src: "/images/hero/collage-dem500.png",
+    src: "/images/hero/collage-dem500",
     alt: "Radio móvil Motorola DEM500",
     bottom: "7%",
     left: "56%",
@@ -97,7 +99,7 @@ const items: CollageItem[] = [
     z: 15,
   },
   {
-    src: "/images/hero/collage-slr8000.png",
+    src: "/images/hero/collage-slr8000",
     alt: "Repetidor Motorola MOTOTRBO SLR 8000",
     bottom: "11%",
     left: "81%",
@@ -119,11 +121,7 @@ const items: CollageItem[] = [
   <div class="motion-safe:animate-hero-collage-float relative h-full w-full">
     {items.map((item) => (
       <img
-        src={item.src}
-        alt={item.alt}
-        loading="eager"
-        fetchpriority={item.src.endsWith("collage-r2.png") ? "high" : undefined}
-        decoding="async"
+        {...atributosEstatica(item.src, item.alt, { sizes: "(min-width: 1024px) 200px, 120px", carga: "eager", prioridad: item.src.endsWith("collage-r2") })}
         class="collage-item"
         data-dim={item.size.dimension}
         style={`--bottom:${item.bottom}; --left:${item.left}; --size:${item.size.value}; --z:${item.z};`}

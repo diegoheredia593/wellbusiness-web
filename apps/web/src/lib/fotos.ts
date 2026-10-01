@@ -11,6 +11,7 @@
  */
 import { imagenResponsiva } from "./plataforma/imagen";
 import type { Imagen } from "../data/types";
+import manifiesto from "./imagenes-estaticas.json";
 
 export interface OpcionesFoto {
   /** Atributo `sizes`: ancho con que se muestra la foto según la pantalla. Por defecto `100vw`. */
@@ -51,4 +52,23 @@ export function srcsetDeFoto(img: Imagen, sizes?: string): { srcset: string; siz
 export function urlMasNitida(img: Imagen): string {
   const mayor = [...img.variantes].sort((a, b) => b.ancho - a.ancho)[0];
   return mayor && mayor.ancho >= img.ancho ? img.src : (mayor?.src ?? img.src);
+}
+
+/**
+ * Imágenes PROPIAS del sitio (logos y collage del inicio): `ruta` es la del archivo sin extensión (p. ej.
+ * `/images/brand/wellbusiness-logo`); sus webp y tamaños los genera `scripts/optimizar-imagenes.mjs` desde
+ * `imagenes-origen/` y los registra en `imagenes-estaticas.json`. Mismo `srcset` + `sizes` que las fotos de la
+ * plataforma.
+ */
+export function atributosEstatica(ruta: string, alt: string, opciones: OpcionesFoto = {}) {
+  const e = (manifiesto as Record<string, { ancho: number; alto: number; variantes: { ancho: number; alto: number }[] }>)[ruta];
+  if (!e) throw new Error(`Imagen estática sin optimizar: ${ruta}. Corre scripts/optimizar-imagenes.mjs.`);
+  const img: Imagen = {
+    src: `${ruta}.webp`,
+    alt,
+    ancho: e.ancho,
+    alto: e.alto,
+    variantes: e.variantes.map((v) => ({ src: `${ruta}-${v.ancho}.webp`, ancho: v.ancho, alto: v.alto })),
+  };
+  return atributosFoto(img, opciones);
 }

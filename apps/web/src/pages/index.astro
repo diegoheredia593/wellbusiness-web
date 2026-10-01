@@ -11,6 +11,7 @@ import CtaBanner from "../components/CtaBanner.astro";
 import MotorolaBadge from "../components/MotorolaBadge.astro";
 import HeroProductCollage from "../components/HeroProductCollage.astro";
 import LogoMarquee from "../components/LogoMarquee.astro";
+import { atributosEstatica } from "../lib/fotos";
 import { getBlocks, marcaDe, contactoDe, getSectores, getZonasCobertura, getMarcas, getAccesosRapidos } from "../lib/content";
 
 const b = await getBlocks();
@@ -47,11 +48,8 @@ const [sectores, zonas, marcas, accesos] = await Promise.all([
         <HeroProductCollage class="aspect-[4/3]" />
         <div class="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white px-5 py-4 shadow-brand-lg sm:block">
           <img
-            src="/images/brand/motorola-authorized-dealer.png"
-            alt="Motorola Authorized Two-Way Radio Dealer"
+            {...atributosEstatica("/images/brand/motorola-authorized-dealer", "Motorola Authorized Two-Way Radio Dealer", { sizes: "136px" })}
             class="h-11 w-auto"
-            width="2428"
-            height="791"
           />
         </div>
       </div>
