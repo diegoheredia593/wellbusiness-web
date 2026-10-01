@@ -62,8 +62,12 @@ que el original) y las entrega en `variantes` dentro de cada imagen. El sitio la
 en `lib/plataforma/imagen.ts` (copia del SDK). Cada lugar dice con qué ancho se muestra la foto; la
 imagen principal de cada página va con `fetchpriority="high"` y sin `lazy`. Una foto sin variantes
 (chica o aún sin procesar) sale con solo `src`. En la galería de producto, el script que cambia la foto
-principal también cambia el `srcset` (con `srcset` puesto, el navegador ignora `src`). Los PNG propios
-del sitio (`/images/brand`, `/images/hero`) no pasan por la plataforma y no cambiaron.
+principal también cambia el `srcset` (con `srcset` puesto, el navegador ignora `src`). Las imágenes PROPIAS
+del sitio (logos y collage del inicio) también van en webp con tamaños (sprint 6b): los PNG originales
+viven en `apps/web/imagenes-origen/`, `node scripts/optimizar-imagenes.mjs` genera los webp en
+`public/images/` y el manifiesto `src/lib/imagenes-estaticas.json`, y `atributosEstatica()` de
+`lib/fotos.ts` arma su `srcset`. Si cambias un PNG de `imagenes-origen/`, vuelve a correr el script y
+sube los archivos generados. (`favicon.png` y `apple-touch-icon.png` siguen en PNG, como exigen los navegadores.)
 
 ## Redirecciones `/medios/<clave>`
 
