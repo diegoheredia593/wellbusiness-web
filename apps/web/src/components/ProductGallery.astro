@@ -84,7 +84,7 @@ const hasMultiple = fotos.length > 1;
               i === 0 ? "border-brand-red" : "border-brand-mist hover:border-brand-steel"
             }`}
           >
-            <img {...atributosFoto(foto, { sizes: "80px" })} alt="" class="h-full w-full object-contain" />
+            <img {...atributosFoto(foto, { sizes: "80px", alt: "" })} class="h-full w-full object-contain" />
           </button>
         ))}
       </div>

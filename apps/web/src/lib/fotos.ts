@@ -16,6 +16,10 @@ export interface OpcionesFoto {
   /** Atributo `sizes`: ancho con que se muestra la foto según la pantalla. Por defecto `100vw`. */
   sizes?: string | undefined;
   prioridad?: boolean | undefined;
+  /** Texto alternativo propio (p. ej. '' en una imagen decorativa). Se pasa aquí y no como atributo aparte: un `<img>` con `alt` repetido usa el primero. */
+  alt?: string | undefined;
+  /** Carga explícita sin prioridad alta (p. ej. un carrusel que debe cargar todo). */
+  carga?: 'eager' | 'lazy' | undefined;
 }
 
 function aFoto(img: Imagen) {
@@ -29,8 +33,11 @@ function aFoto(img: Imagen) {
 }
 
 /** Para un `<img {...atributosFoto(img, { sizes })}>`. */
-export function atributosFoto(img: Imagen, { sizes, prioridad }: OpcionesFoto = {}) {
-  const { srcSet, fetchPriority, ...resto } = imagenResponsiva(aFoto(img), { sizes, prioritaria: prioridad });
+export function atributosFoto(img: Imagen, { sizes, prioridad, alt, carga }: OpcionesFoto = {}) {
+  const foto = aFoto(img);
+  if (alt !== undefined) foto.alt = alt;
+  const { srcSet, fetchPriority, ...resto } = imagenResponsiva(foto, { sizes, prioritaria: prioridad });
+  if (carga && !prioridad) resto.loading = carga;
   return { ...resto, srcset: srcSet, fetchpriority: fetchPriority };
 }
 
