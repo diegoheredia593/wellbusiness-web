@@ -67,7 +67,7 @@ visible sin animar — nunca se oculta contenido real por un fallo de JS).
   menú hamburguesa a pantalla completa en móvil (abre/cierra con JS, bloquea
   scroll del body, cierra con `Escape` o al hacer click en un link).
 - **`Footer.astro`** — logo, tagline, redes, navegación, datos de contacto,
-  bloque legal (Motorola) y la firma final "Desarrollado por bebrand.dev".
+  bloque legal (Motorola) y la firma final "Desarrollado por equatorial.dev".
 - **`WhatsAppFloatingButton.astro`** — botón flotante inferior-derecha con un
   anillo de pulso animado; no se renderiza si no hay número de WhatsApp
   configurado en `site.ts`.
