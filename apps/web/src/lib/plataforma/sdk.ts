@@ -1,7 +1,7 @@
 /**
  * COPIA del núcleo del SDK de la plataforma (`@plataforma/sdk`), sin dependencias.
  *
- * Origen: repo `agencia-plataforma`, `packages/sdk/src/index.ts`, commit 6d6b6e67f0c2ef3286ccb0ddb0343df6450744fa (HEAD limpio al copiar, 2026-10-01; ese mismo commit es el último que tocó el SDK).
+ * Origen: repo `agencia-plataforma`, `packages/sdk/src/index.ts`, commit 8cd5374d808479d93000802d2a3a5bc6b344d09d (HEAD limpio al copiar, 2026-10-12; ese mismo commit es el último que tocó el SDK, sprint 9a: registrarVisita y scriptVisitas).
  * Diferencia con el original: no se copia `render.ts` (texto enriquecido / YouTube), que depende de
  * `@plataforma/core` y que este sitio no usa. `imagenResponsiva` (sprint 6a) vive en `imagen.ts`, sin dependencias.
  * Otra diferencia: `export * from './imagen'` en vez de `export * from './render'`.
@@ -81,6 +81,36 @@ export interface OpcionesEnvio {
   pagina?: string | undefined;
 }
 
+/** Lo que el navegador del visitante le cuenta al sitio (ver `scriptVisitas`). */
+export interface DatosVisita {
+  /** Ruta de la página vista, sin parámetros: "/contacto". */
+  pagina: string;
+  /** Sitio desde el que llegó (el origen, p. ej. "https://www.google.com"); vacío si entró directo. */
+  referente?: string | undefined;
+  utm?:
+    { source?: string | undefined; medium?: string | undefined; campaign?: string | undefined } | undefined;
+  /** `screen.width` en px, para distinguir móvil, tableta y escritorio. */
+  anchoPantalla?: number | undefined;
+  /** Dominio del propio sitio ("www.ejemplo.com"), para reconocer la navegación interna. */
+  sitio?: string | undefined;
+}
+
+/**
+ * De la petición del visitante al servidor del sitio: lo que ESE servidor reenvía como encabezados de
+ * confianza. La plataforma los usa para decidir robot/dispositivo/país y calcular el visitante del día, y
+ * los descarta: nunca guarda la IP ni el user-agent.
+ */
+export interface OpcionesVisita {
+  /** IP del visitante (`cf-connecting-ip`). */
+  ip?: string | undefined;
+  /** User-agent del visitante. */
+  ua?: string | undefined;
+  /** País ISO de dos letras (`request.cf.country`). */
+  country?: string | undefined;
+  /** Ciudad (`request.cf.city`). */
+  city?: string | undefined;
+}
+
 export interface PaginaDeElementos<T> {
   coleccion: string;
   paginaActual: number;
@@ -126,6 +156,34 @@ export interface Cliente {
     datos: Record<string, string>,
     opciones?: OpcionesEnvio,
   ): Promise<{ id: string }>;
+  /**
+   * Registra una visita (POST /v1/visitas, responde 202). Requiere una llave con el alcance
+   * "visitas:registrar". Llámalo desde el SERVIDOR del sitio —con `waitUntil`, para no demorar al
+   * visitante—, nunca desde el navegador. Sin cookies: ver `scriptVisitas()`.
+   */
+  registrarVisita(datos: DatosVisita, opciones?: OpcionesVisita): Promise<void>;
+}
+
+/**
+ * El script de visitas para el navegador: menos de 1 KB, sin cookies ni localStorage. Al cargar la página
+ * manda con `sendBeacon` la ruta, el origen, los utm y el ancho de pantalla a `endpoint` (por defecto
+ * `/api/visita`, del MISMO sitio), que reenvía a la plataforma con `registrarVisita`. No hace nada si el
+ * visitante activó No Rastrear (DNT) o Global Privacy Control (GPC). Con el enrutador de vistas de Astro
+ * (`ClientRouter`) cuenta también cada navegación (evento `astro:page-load`), con la página anterior como
+ * referente, sin duplicar la carga inicial.
+ */
+export function scriptVisitas(opciones: { endpoint?: string } = {}): string {
+  const endpoint = JSON.stringify(opciones.endpoint ?? '/api/visita');
+  return (
+    '(function(){var n=navigator,l=location,w=window,p;' +
+    'if(w.__v||n.doNotTrack=="1"||w.doNotTrack=="1"||n.globalPrivacyControl===true||!n.sendBeacon)return;w.__v=1;' +
+    'function s(){if(p==l.href)return;var r=p||document.referrer,q=new URLSearchParams(l.search),u={};p=l.href;' +
+    '["source","medium","campaign"].forEach(function(k){var v=q.get("utm_"+k);if(v)u[k]=v});' +
+    'try{r=new URL(r).origin}catch(e){r=""}' +
+    `n.sendBeacon(${endpoint},new Blob([JSON.stringify({pagina:l.pathname,referente:r,utm:u,anchoPantalla:screen.width,sitio:l.hostname})],{type:"application/json"}))}` +
+    'document.addEventListener("astro:page-load",s);' +
+    'document.readyState=="complete"?s():w.addEventListener("load",s)})()'
+  );
 }
 
 function buildQuery(params: Record<string, string | undefined>): string {
@@ -153,6 +211,11 @@ async function errorFrom(res: Response): Promise<ErrorApiPlataforma> {
     detalle,
     Number.isFinite(reintento) && reintento > 0 ? reintento : undefined,
   );
+}
+
+/** User-agent a ASCII sin cambiarlo en el caso común (casi todos lo son). */
+function encodeURIComponentSafe(value: string): string {
+  return /^[ -~]*$/.test(value) ? value : encodeURIComponent(value);
 }
 
 export function crearCliente(config: OpcionesCliente): Cliente {
@@ -202,6 +265,23 @@ export function crearCliente(config: OpcionesCliente): Cliente {
       });
       if (!res.ok) throw await errorFrom(res);
       return (await res.json()) as { id: string };
+    },
+
+    async registrarVisita(datos, opciones = {}) {
+      const res = await doFetch(`${base}/visitas`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${config.llave}`,
+          'Content-Type': 'application/json',
+          ...(opciones.ip ? { 'X-Visitor-Ip': opciones.ip } : {}),
+          // Los encabezados HTTP son ASCII: el user-agent y la ciudad viajan tal cual o codificados.
+          ...(opciones.ua ? { 'X-Visitor-UA': encodeURIComponentSafe(opciones.ua) } : {}),
+          ...(opciones.country ? { 'X-Visitor-Country': opciones.country } : {}),
+          ...(opciones.city ? { 'X-Visitor-City': encodeURIComponent(opciones.city) } : {}),
+        },
+        body: JSON.stringify(datos),
+      });
+      if (!res.ok) throw await errorFrom(res);
     },
 
     async elemento(modulo: string, slug: string, opciones: OpcionesElemento = {}): Promise<never | null> {

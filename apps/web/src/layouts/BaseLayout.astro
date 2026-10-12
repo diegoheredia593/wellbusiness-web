@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
 import type { Contacto, Marca } from "../lib/content";
 import "../styles/global.css";
+import { scriptVisitas } from "../lib/plataforma/sdk";
 
 /**
  * `marca`/`contacto` vienen del bloque global (Fase 4) — cada página
@@ -89,6 +90,8 @@ const pageTitle = title === marca.nombre ? title : `${title} · ${marca.nombre}`
     </main>
     <Footer marca={marca} contacto={contacto} />
     <WhatsAppFloatingButton whatsapp={contacto.whatsapp} />
+    {/* Métricas de visitas: sin cookies ni almacenamiento (menos de 1 KB; ver /api/visita). */}
+    <script is:inline set:html={scriptVisitas()} />
 
     <script>
       // Progressive enhancement: [data-reveal] elements are plain, visible
